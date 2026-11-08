@@ -1,0 +1,587 @@
+{
+  "passedTests": 698,
+  "skippedTests": [
+    {
+      "test": "TestResolveDownloadID_Remote",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestResolveDownloadID_RemoteStillWorksWhenDBUnavailable",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestResolveDownloadID_StrictRemoteDoesNotFallbackToDBOnRemoteError",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestResolveDownloadID_LocalModeFallsBackToDBWhenRemoteListFails",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestGetRemoteDownloads",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRefreshCommand_ValidatesURLBeforeConnecting",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRefreshCommand_NormalizesURLAndReportsServerErrors",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestPauseAllDownloads",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestResumeAllDownloads",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestActionCommandsRunE_ReturnAmbiguousIDErrors/pause",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestActionCommandsRunE_ReturnAmbiguousIDErrors/resume",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestActionCommandsRunE_ReturnAmbiguousIDErrors/rm",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestPrintDownloads_StrictRemoteEmpty_DoesNotFallbackToDB",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_SuccessAndServerError/success_queued",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_SuccessAndServerError/success_pending_approval",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_SuccessAndServerError/server_error",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendBatchToServer_NormalizesURLs",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_UsesBearerTokenFromEnv",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestGetRemoteDownloads_UsesBearerTokenFromEnv",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestGetRemoteDownloads_NonOKAndInvalidJSON/non-200",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestGetRemoteDownloads_NonOKAndInvalidJSON/invalid-json",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestProcessDownloads_RemoteAndLocal/remote-mode",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestProcessDownloads_RemoteAndLocal/local-mode",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_Success",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_ReturnsListener",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_SkipsOccupiedPorts",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_AllPortsOccupied",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHealthEndpoint",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_Success",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSendToServer_ServerError",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_HealthEndpoint",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_HasCORSHeaders",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_OptionsRequest",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_DownloadEndpoint_MethodNotAllowed",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_DownloadEndpoint_BadRequest",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_DownloadEndpoint_MissingURL",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestStartHTTPServer_NotFoundEndpoint",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_MultipleSequential",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFindAvailablePort_HighPort",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesCompactContentAndOrder",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesArgumentValidation",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesWindowExceedsSourceLeavesNoWork",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesRejects200AndBadContentRange/server_ignores_range_on_data_requests",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesRejects200AndBadContentRange/content-range_total_does_not_match_source",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesEarlyEOFRetriesWithinWindow",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchByteRangesCheckpointAndResume",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchEmbeddedVerificationAndNoClobber",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchIntegrityMismatchPreservesWorkingFile",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFetchInterruptCheckpointsAndResumesOwnedSession",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRemoteFetchTimeoutDoesNotMutateDaemonJobs",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestCLI_DeleteEndpoint_CleansPausedStateAndPartialFile",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_HeadlessMode_AutoApprovesNonDuplicate",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestPostSettingsAppliesDefaultDownloadDirToRunningLifecycle",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestEventsEndpoint_RequiresAuthAndStreamsSSE",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestExecuteAPIAction_SendsIDAsQueryParam",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRemoteSettingsPatchRoundTripAndConflict",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_PathResolution/Windows_Download_Root_Maps_To_Default_Dir",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_PathResolution/Windows_Nested_Path_Maps_Under_Default_Dir",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_PathResolution/Windows_Nested_Path_Relative_Flag_Maps_Under_Default_Dir",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_PathResolution/Unmatched_Windows_Path_Falls_Back_To_Default_Dir",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_SkipApprovalUsesLifecycleEnqueue",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_ForwardsPerTaskOverridesToLifecycle",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHandleDownload_DoesNotUseCancelledHTTPRequestContext",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRemoteClientDoesNotResetOrCreateLocalEngine",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleAllUsesOneLiveSelectionAndPreservesReceipts",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleDoesNotRetryUncertainMutation/OK",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleDoesNotRetryUncertainMutation/Accepted",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleDoesNotRetryUncertainMutation/Service_Unavailable",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleDoesNotRetryUncertainMutation/Not_Found",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleSnapshotFailureNeverMutates",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLifecycleUncertainResultDoesNotRecommendMutationRetry",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestRunLimitCommandSendsEscapedDownloadRequest",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestExecuteLimitRequestBoundsErrorBody",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestLiveEmptyListAndIDResolutionAreAuthoritative",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHistoryFallbackPolicy/unavailable",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHistoryFallbackPolicy/unauthorized",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHistoryFallbackPolicy/forbidden",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHistoryFallbackPolicy/internal_error",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestHistoryFallbackPolicy/invalid_JSON",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListingCancellationReachesHTTPServer",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestFullDownloadIDDoesNotFetchEntireQueue",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestMirrors_CLI_Integration",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Unauthorized",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Forbidden",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Not_Found",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Conflict",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Request_Timeout",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Gateway_Timeout",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Too_Many_Requests",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Bad_Gateway",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Service_Unavailable",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestListRemoteErrorContract/Internal_Server_Error",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestEnsureLocalLifecycle_StartsEventWorker",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestProcessDownloads_RoutesBinFilesToCustomCategory",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestProcessDownloads_UsesLatestSavedCategorySettings",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestProcessDownloads_UsesSharedEnqueueContext",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestGetSettings_LoadError_PopulatesStartupWarnings",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestAddReceiptsPreserveEveryInput",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/empty_receipt",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/missing_id",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/malformed",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/extra_document",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/oversized",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestSubmissionUncertaintyDoesNotRetry/server_failure",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestConfirmedBatchReceipts/approval",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestConfirmedBatchReceipts/invalid_input",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestAddHumanReceiptsAndErrorsUseSeparateStreams",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestAddRequiresInputAndHonorsOutputFailures/partial_receipt_write",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitJSONUsesFullIDsAndOneResult",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/404not_found",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/200{}",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/401secret",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/408secret",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/429secret",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/2001{\"id\":\"other\",\"status\":\"completed\",\"dest_path\":\"/wrong\"}",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/2001{\"id\":\"job\",\"status\":\"completed\"}",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    },
+    {
+      "test": "TestWaitRequiresFinalizedResultCapability/4041secret",
+      "package": "github.com/SurgeDM/Surge/cmd"
+    }
+  ],
+  "failed": [],
+  "skipOutputs": [
+    "    cli_test.go:35: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:77: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:119: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:158: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:202: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:572: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:601: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:655: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:704: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:841: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:841: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:841: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1030: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1101: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1101: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1101: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1141: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1170: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1200: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1230: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1246: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1267: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cli_test.go:1320: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:36: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:55: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:70: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:864: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:893: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:924: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:985: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1030: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1056: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1084: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1113: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1144: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1175: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1357: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    cmd_test.go:1388: tcp listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:170: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:206: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:250: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:275: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:298: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:320: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_byte_ranges_test.go:351: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_test.go:46: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_test.go:73: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_test.go:100: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    fetch_test.go:161: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    get_test.go:74: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    headless_approval_test.go:46: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_api_test.go:99: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_api_test.go:640: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_api_test.go:1009: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_api_test.go:1440: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_handler_test.go:327: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_handler_test.go:486: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    http_handler_test.go:644: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lazy_startup_test.go:26: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:25: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:70: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:70: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:70: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:70: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:96: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    lifecycle_test.go:181: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    limit_test.go:63: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    limit_test.go:95: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:34: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:72: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:72: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:72: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:72: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:72: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:146: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    listing_test.go:182: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    mirrors_integration_test.go:20: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    output_test.go:157: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    root_lifecycle_test.go:163: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    root_lifecycle_test.go:298: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    root_lifecycle_test.go:420: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    root_lifecycle_test.go:535: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:22: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:89: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:121: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:121: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:176: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    submission_test.go:202: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:108: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n",
+    "    wait_test.go:148: tcp4 listener unavailable: listen tcp4 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized.\n"
+  ]
+}

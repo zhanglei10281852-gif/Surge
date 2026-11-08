@@ -42,6 +42,35 @@ promptly. `checkpoint_confirmed: false` means the final checkpoint could not be
 confirmed; recovery uses the last committed state. SIGINT exits 130; SIGTERM exits
 143 where supported. A hard kill provides no final checkpoint guarantee.
 
+## Compact byte-range fetches
+
+`--byte-ranges "start:length,start:length"` downloads selected source windows
+into one compact file, written in list order with no gaps. `start` is a
+zero-based source byte offset and `length` is a positive byte count; both are
+decimal signed 64-bit integers. Windows may be unordered, overlapping, or
+repeated, and every occurrence occupies its own output position, e.g.
+`8:4,0:2,8:4` writes source bytes 8-11, then 0-1, then 8-11 again.
+
+The option requires exactly one local HTTP(S) URL and cannot be combined with
+mirror lists, multiple URLs, an explicit remote `--host`, or `--resume`. The
+source must confirm its total length and prove range support during probing;
+empty lists, malformed entries, negative starts, non-positive lengths,
+overflowing totals, and windows past the source length are rejected before any
+working file or download record exists. Data requests only cover the selected
+windows — the full source is never downloaded and trimmed. A server that
+ignores `Range` (200) or returns a 206 `Content-Range` inconsistent with the
+requested interval or the confirmed source length fails the job without
+publishing an artifact or falling back to a whole-file stream.
+
+Progress totals and the final receipt size describe the compact file:
+repeated source bytes count at each output position, retried positions are not
+counted twice, and completion is never announced while output gaps remain.
+A `--timeout` checkpoint stores the selection plan and per-window remainder;
+a later `surge fetch --resume SESSION_ID` in a new process restores the same
+selection order and reuses confirmed bytes without passing `--byte-ranges`
+again. Ordinary fetches and older sessions keep their whole-file semantics,
+including the single-stream fallback when range support is absent.
+
 An explicit remote host creates daemon-owned jobs. Timeout and interruption detach
 by default and leave them running. `--on-interrupt pause|cancel` sends requests
 only for IDs with confirmed acceptance from this invocation and reports their

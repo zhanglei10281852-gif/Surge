@@ -213,6 +213,9 @@ type DownloadRequest struct {
 	SkipApproval       bool
 	Workers            int
 	MinChunkSize       int64
+	// ByteRanges selects compact byte-range mode when non-empty: the output
+	// file contains only the selected windows in list order.
+	ByteRanges []types.ByteRange
 }
 
 // Enqueue probes and reserves a stable destination before dispatching to the queue layer.
@@ -312,6 +315,10 @@ func enqueueCoalescingKey(req *DownloadRequest) string {
 	}
 
 	fmt.Fprintf(&key, "%t:%t:%d:%d", req.IsExplicitCategory, req.SkipApproval, req.Workers, req.MinChunkSize)
+	fmt.Fprintf(&key, "ranges:%d:", len(req.ByteRanges))
+	for _, r := range req.ByteRanges {
+		fmt.Fprintf(&key, "%d:%d,", r.Start, r.Length)
+	}
 	return key.String()
 }
 
@@ -335,7 +342,14 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
 	}
 
 	probeResult, probeErr := probing.ProbeServerWithProxy(ctx, req.URL, req.Filename, req.Headers, settings.ToRuntimeConfig())
+	compactMode := len(req.ByteRanges) > 0
 	if probeErr != nil {
+		// Compact byte-range fetches cannot start without confirmed metadata:
+		// the selection must be validated against a known source length and
+		// every data request relies on a proven range contract.
+		if compactMode {
+			return "", "", fmt.Errorf("byte-range fetch requires a reachable source with confirmed metadata: %w", probeErr)
+		}
 		// Distinguish between terminal client errors (invalid scheme, etc.) and
 		// server-side rejections or timeouts that we can optimistically ignore.
 		var urlErr *neturl.Error
@@ -362,6 +376,29 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
 		}
 	}
 
+	// Compact mode requires a confirmed source length and proven range support.
+	// Everything below fails before any working file or download record exists.
+	var compactTotal int64
+	if compactMode {
+		if probeResult == nil || !probeResult.SupportsRange || probeResult.FileSize <= 0 {
+			return "", "", fmt.Errorf("byte-range fetch requires a source that reports its total length and supports byte ranges")
+		}
+		for _, selected := range req.ByteRanges {
+			if selected.Start < 0 || selected.Length <= 0 {
+				return "", "", fmt.Errorf("invalid byte range %d:%d", selected.Start, selected.Length)
+			}
+			// Overflow-safe window bound: Start+Length <= FileSize.
+			if selected.Length > probeResult.FileSize || selected.Start > probeResult.FileSize-selected.Length {
+				return "", "", fmt.Errorf("byte range %d:%d exceeds confirmed source length %d", selected.Start, selected.Length, probeResult.FileSize)
+			}
+		}
+		total, compactErr := types.CompactByteRanges(req.ByteRanges)
+		if compactErr != nil {
+			return "", "", compactErr
+		}
+		compactTotal = total
+	}
+
 	isNameActive := mgr.buildIsNameActive()
 
 	for attempt := 0; attempt < maxWorkingFileReservationAttempts; attempt++ {
@@ -386,13 +423,18 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
 		// Known-size disk precheck before reservation so a reject leaves no
 		// exclusive .surge orphan. Resume bypasses enqueueResolved by design.
 		if probeResult != nil && probeResult.FileSize > 0 {
+			requiredSize := probeResult.FileSize
+			if compactMode {
+				// The compact artifact only holds the selected windows.
+				requiredSize = compactTotal
+			}
 			free, freeErr := freeDiskBytes(finalPath)
 			if freeErr != nil {
 				utils.Debug("Lifecycle: free-space query failed for %s: %v (fail-open)", finalPath, freeErr)
 			} else {
 				buffer := settings.ToRuntimeConfig().GetPrecheckSafetyBuffer()
-				if !utils.HasSufficientDiskSpace(probeResult.FileSize, free, buffer) {
-					utils.Debug("Lifecycle: insufficient disk for %s (size=%d free=%d buffer=%d)", finalPath, probeResult.FileSize, free, buffer)
+				if !utils.HasSufficientDiskSpace(requiredSize, free, buffer) {
+					utils.Debug("Lifecycle: insufficient disk for %s (size=%d free=%d buffer=%d)", finalPath, requiredSize, free, buffer)
 					return "", "", types.ErrInsufficientDiskSpace
 				}
 			}
@@ -549,6 +591,19 @@ func (mgr *LifecycleManager) buildDownloadRecord(req *DownloadRequest, requestID
 		}
 	}
 
+	compactTotal, compactErr := types.CompactByteRanges(req.ByteRanges)
+	if compactErr != nil {
+		return nil, compactErr
+	}
+	totalSize := probeResult.FileSize
+	sourceSize := int64(0)
+	if len(req.ByteRanges) > 0 {
+		// In compact mode TotalSize tracks the dense output length; the
+		// confirmed source length is retained for response validation.
+		totalSize = compactTotal
+		sourceSize = probeResult.FileSize
+	}
+
 	cfg := types.DownloadRecord{Artifact: req.Artifact,
 		URL:                req.URL,
 		Mirrors:            req.Mirrors,
@@ -559,7 +614,9 @@ func (mgr *LifecycleManager) buildDownloadRecord(req *DownloadRequest, requestID
 		Runtime:            runtime,
 		Headers:            req.Headers,
 		IsExplicitCategory: req.IsExplicitCategory,
-		TotalSize:          probeResult.FileSize,
+		TotalSize:          totalSize,
+		SourceSize:         sourceSize,
+		ByteRanges:         append([]types.ByteRange(nil), req.ByteRanges...),
 		SupportsRange:      probeResult.SupportsRange,
 		RateLimit:          rateLimit,
 		RateLimitSet:       rateLimitSet,

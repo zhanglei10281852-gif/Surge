@@ -1,0 +1,12 @@
+{
+  "source": "Windows System.Drawing.CopyFromScreen dedicated report terminal client rectangle",
+  "file": "screenshots/01-rubric-comparison.png",
+  "sha256": "51ee7f56bfa8fced84cc0c7c049109f254a0286f0d4d420a553b2571ccbb1364",
+  "width": 2400,
+  "height": 1280,
+  "visuallyReviewed": true,
+  "content": "当前题目完整七项Rubric对比、失败原因与影响、四例原始HTTP头和成功回执、直接代码及正常验证摘要",
+  "unrelatedOverlay": false,
+  "otherImages": [],
+  "productionFilesUnchanged": 546
+}

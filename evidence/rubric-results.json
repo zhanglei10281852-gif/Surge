@@ -1,0 +1,43 @@
+{
+  "completionStatus": "部分完成",
+  "collectionDecision": "收录：长程题",
+  "rubricResults": [
+    {
+      "id": 1,
+      "passed": true,
+      "reason": ""
+    },
+    {
+      "id": 2,
+      "passed": true,
+      "reason": ""
+    },
+    {
+      "id": 3,
+      "passed": true,
+      "reason": ""
+    },
+    {
+      "id": 4,
+      "passed": true,
+      "reason": ""
+    },
+    {
+      "id": 5,
+      "passed": true,
+      "reason": ""
+    },
+    {
+      "id": 6,
+      "passed": false,
+      "reason": "数据响应首次返回200或错误Content-Range后调度器仍重试并发布131072字节成功产物"
+    },
+    {
+      "id": 7,
+      "passed": true,
+      "reason": ""
+    }
+  ],
+  "runResult": "1 通过\n2 通过\n3 通过\n4 通过\n5 通过\n6 未通过 数据响应首次返回200或错误Content-Range后调度器仍重试并发布131072字节成功产物\n7 通过",
+  "artifactResult": "1 通过\n2 通过\n3 通过\n4 通过\n5 通过\n6 未通过 数据响应首次返回200或错误Content-Range后调度器仍重试并发布131072字节成功产物\n7 通过"
+}

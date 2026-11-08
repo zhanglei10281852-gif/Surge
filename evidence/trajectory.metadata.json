@@ -1,0 +1,16 @@
+{
+  "questionId": "surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47e1",
+  "title": "按有序字节窗口下载可恢复的紧凑文件",
+  "repoUrl": "https://github.com/SurgeDM/Surge",
+  "version": "9ac5b74603d0a9451305c52bd5cde99b4d93b77a",
+  "researchDirectory": "F:\\swe\\099926\\project-01",
+  "batchDirectory": "F:\\swe\\099926",
+  "sessionId": "573311172224344:f12525ef07962cfdb0efa21c9425642a_6aefd3614fbada6e450ebef7.6aefd3614fbada6e450ebefa.6aefd3614fbada6e450ebef8:TraeCode CN.3.3.104.no_sid.no_ppe.T(2026/11/8 09:41:53)",
+  "sourceFile": "trae-bridge:bridge_messages",
+  "localFile": "F:\\swe\\099926\\trajectories\\surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47-9ff5de7c\\session-13c3133917accbec.md",
+  "traceFormat": "trae-bridge:bridge_messages",
+  "memorySourceFile": "",
+  "memoryLocalFile": "",
+  "traceUpdatedAt": "2026-11-08T02:56:50.664Z",
+  "archivedAt": "2026-11-08T02:56:52.150Z"
+}

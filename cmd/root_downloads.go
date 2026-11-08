@@ -34,6 +34,7 @@ type DownloadRequest struct {
 	IsExplicitCategory   bool                 `json:"is_explicit_category,omitempty"`
 	Workers              int                  `json:"workers,omitempty"`        // Per-task worker count override (bypasses √size heuristic when >0)
 	MinChunkSize         int64                `json:"min_chunk_size,omitempty"` // Per-task minimum chunk size override
+	ByteRanges           []types.ByteRange    `json:"byte_ranges,omitempty"`   // Compact byte-range fetch windows (foreground fetch only)
 }
 
 type BatchDownloadRequest struct {
@@ -228,6 +229,7 @@ func validateDownloadRequest(req DownloadRequest) (DownloadRequest, error) {
 		IsExplicitCategory:   req.IsExplicitCategory,
 		Workers:              req.Workers,
 		MinChunkSize:         req.MinChunkSize,
+		ByteRanges:           req.ByteRanges,
 	}, nil
 }
 

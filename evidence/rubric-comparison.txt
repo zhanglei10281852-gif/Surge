@@ -1,0 +1,38 @@
+项目 SurgeDM/Surge｜题目 surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47e1
+交付复盘：部分完成｜Trae 144轮（沿用扫描证据）｜Session 6aefd3614fbada6e450ebef7
+Rubric ID：1｜状态：通过｜期望行为：--byte-ranges 按 start:length 列表接收十进制整数；非法或空列表、负起点、非正长度、溢出、越界和不能确认源长度或范围支持的输入均明确失败且不留下已接受记录或工作文件，远程 host、多 URL、镜像和与 --resume 同传的组合在下载前被拒绝。｜实际观察：非法数值、越界、未知源长度、无范围支持及四类互斥组合全部拒绝，输出目录无工作文件。｜直接证据：verification.json的invalid0至invalid9、combination0至2、mirrors、norange、unknown；cmd/byte_ranges.go:17、fetch.go:63及manager.go:380先校验再于:445预留、:485接受。
+
+Rubric ID：2｜状态：通过｜期望行为：单 URL 的乱序、重叠及重复窗口按输入次序生成无空隙的准确字节文件；已有并发配置仍生效，窗口任务拆分或先后完成不改变内容，除元数据探测外的数据请求不越出所选窗口，也不先取整文件再裁切。｜实际观察：乱序、重叠、重复窗口输出8388661字节且哈希与独立拼接一致；数据请求并发且全部位于选窗内。｜直接证据：verification.json的ordered请求/文件哈希；compact/downloader.go:284按列表累计DstOffset，:466按目标坐标WriteAt，:146沿既有InitialConnectionCount创建并发worker。
+
+Rubric ID：3｜状态：通过｜期望行为：运行中进度和最终回执以紧凑输出总长度计数；重复源窗口计入不同输出位置，同一位置重试不使完成字节重复增加，产物未补齐时不报告完成，成功回执大小与实际输出一致。｜实际观察：运行进度显示紧凑总长8.0 MiB；短流及恢复成功回执均为8388661字节，重复窗口计入独立输出位置。｜直接证据：verification.json的ordered.stderr、short.receipt和三次恢复回执；compact/downloader.go:470仅在成功写入后计数并推进游标，:254检查已确认字节等于紧凑总长。
+
+Rubric ID：4｜状态：通过｜期望行为：合法范围响应在窗口内部提前断流后，按现有重试策略继续对应源窗口的剩余内容，最终输出与未断流时一致，其他已写窗口不被错位覆盖且缺失部分不会被当成完成。｜实际观察：首次数据响应实发70001字节后断开，后续请求从原起点加70001继续；输出哈希与未断流结果相同。｜直接证据：verification.json的short请求带short=true、sent=70001及精确剩余Range；compact/downloader.go:321、:405保留源和目标双游标并按原策略重试。
+
+Rubric ID：5｜状态：通过｜期望行为：选择任务在窗口内部分写入后因 --timeout 保存并退出，新进程仅用会话 ID 恢复即可复用已确认内容并继续原窗口剩余部分；源内容不变时，乱序或重复窗口的最终字节、总长度和进度与一次完成相同。｜实际观察：三次超时各确认393216字节且无最终文件；不同PID仅用会话ID恢复，各仅传7995445剩余字节并生成相同产物。｜直接证据：verification.json的resume1至3回执、PID和请求字节；compact/downloader.go:225等待worker后:492保存任务，store/state.go:108保留映射，pause_resume.go:495重建选择。
+
+Rubric ID：6｜状态：未通过｜期望行为：选择模式遇到数据请求被忽略而返回 200，或 206 的 Content-Range 起止位置或源总长度不符时，明确失败且不发布最终文件、不返回成功产物，也不启动整文件回退；部分窗口此前已完成也不能掩盖该失败。｜实际观察：四例先完成65536字节窗口，再分别返回200或起点、终点、总长错误的206；后续合法重试均退出0、ok=true并发布131072字节文件。｜直接证据：verification-once.json四例真实HTTP头、重试请求、成功回执及最终文件哈希；compact/downloader.go:357退出worker内重试，scheduler/scheduler.go:1093未排除ErrRangeContract，:926重新入队。｜原因：数据响应首次返回200或错误Content-Range后调度器仍重试并发布131072字节成功产物｜影响：违反范围响应契约后仍返回成功并发布最终文件，调用方得到本应被拒绝的成功产物回执。｜证据位置：evidence/verification-once.json；internal/strategy/compact/downloader.go:357、:432、:448；internal/scheduler/scheduler.go:926、:1093。
+
+Rubric ID：7｜状态：通过｜期望行为：不带新选项的普通整文件 fetch 和旧检查点恢复保持原语义；服务器不支持范围时仍能按原策略单流下载，原有 SHA-256 正确及不匹配处理和目标文件防覆盖行为不回归。｜实际观察：整文件、无Range单流、正确SHA及旧版本检查点恢复均成功；错误SHA和已存在目标均退出7，目标哨兵原样保留。｜直接证据：verification.json的whole、fallback、sha-correct、sha-wrong、protect及current-resumes-old；types/models.go:31接受旧16字节任务，scheduler/manager.go:210保留默认路径，events.go:352发布后才记完成。
+
+原始协议失败交错：窗口1 bytes=1024-66559 正常206完成；窗口2请求 bytes=8388608-8454143。
+bad200-once: HTTP 200; Content-Range=<none>; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badstart-once: HTTP 206; Content-Range=bytes 8388609-8454143/16777216; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badend-once: HTTP 206; Content-Range=bytes 8388608-8454144/16777216; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badtotal-once: HTTP 206; Content-Range=bytes 8388608-8454143/16777217; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+bad200-once 原始stdout回执（仅压缩JSON空白）：{"schema_version":1,"operation":"fetch","ok":true,"items":[{"checkpoint_bytes":"0","id":"5218f6db-df43-4d48-981b-f98280b9d933","status":"completed","downloaded_bytes":"131072","total_bytes":"131072","artifact":{"location":"local","path":"F:\\swe\\work\\surge-delivery-review\\fixtures-contract\\bad200-once\\downloads\\result.bin","size_bytes":"131072","verification":"not_requested"},"input_index":1,"reused_bytes_exact":true,"reused_bytes":"0","duration_seconds":1.5183624,"average_bytes_per_second":86324.58232632736}],"session_id":"8ab8d311-ab41-42a4-89c3-a7eef5b380ab","checkpoint_confirmed":true}
+badstart-once 原始stdout回执（仅压缩JSON空白）：{"schema_version":1,"operation":"fetch","ok":true,"items":[{"checkpoint_bytes":"0","id":"049a8e7e-0e5b-423e-8400-6eaf62015ffc","status":"completed","downloaded_bytes":"131072","total_bytes":"131072","artifact":{"location":"local","path":"F:\\swe\\work\\surge-delivery-review\\fixtures-contract\\badstart-once\\downloads\\result.bin","size_bytes":"131072","verification":"not_requested"},"input_index":1,"reused_bytes_exact":true,"reused_bytes":"0","duration_seconds":1.5122925999999999,"average_bytes_per_second":86671.058233043}],"session_id":"11850bfe-34b3-4298-9559-c656a880da6d","checkpoint_confirmed":true}
+badend-once 原始stdout回执（仅压缩JSON空白）：{"schema_version":1,"operation":"fetch","ok":true,"items":[{"checkpoint_bytes":"0","id":"3314034d-3252-4fb9-a532-c688b6b46de2","status":"completed","downloaded_bytes":"131072","total_bytes":"131072","artifact":{"location":"local","path":"F:\\swe\\work\\surge-delivery-review\\fixtures-contract\\badend-once\\downloads\\result.bin","size_bytes":"131072","verification":"not_requested"},"input_index":1,"reused_bytes_exact":true,"reused_bytes":"0","duration_seconds":1.5121571,"average_bytes_per_second":86678.82457451014}],"session_id":"6456675d-2a68-4ab7-94ef-a1864ac38426","checkpoint_confirmed":true}
+badtotal-once 原始stdout回执（仅压缩JSON空白）：{"schema_version":1,"operation":"fetch","ok":true,"items":[{"checkpoint_bytes":"0","id":"5b929572-babb-42bd-8d0f-741262eb7ac8","status":"completed","downloaded_bytes":"131072","total_bytes":"131072","artifact":{"location":"local","path":"F:\\swe\\work\\surge-delivery-review\\fixtures-contract\\badtotal-once\\downloads\\result.bin","size_bytes":"131072","verification":"not_requested"},"input_index":1,"reused_bytes_exact":true,"reused_bytes":"0","duration_seconds":1.512337,"average_bytes_per_second":86668.51369767453}],"session_id":"06f3e715-dc1e-46dd-acfb-260f1c65efc1","checkpoint_confirmed":true}
+断言 mustRejectAfterAnyContractViolation：四例均 FAILED；本复现直接证明 Rubric 6 未通过。
+实际调用路径与直接代码（以下为当前文件原文）：
+internal/strategy/compact/downloader.go:357 if errors.Is(lastErr, ErrRangeContract) || types.IsPermanentHTTPError(lastErr) {
+internal/strategy/compact/downloader.go:432 return fmt.Errorf("server ignored Range and returned 200 for bytes=%d-%d: %w", reqSrc, reqSrc+reqLen-1, ErrRangeContract)
+internal/strategy/compact/downloader.go:448 if rangeStart != reqSrc || rangeEnd != reqSrc+reqLen-1 || rangeTotal != sourceSize {
+internal/scheduler/scheduler.go:926 if shouldRetryFailedDownload(p.isShuttingDown, err, qt.retries) && !slotTaken && !foreignActive {
+internal/scheduler/scheduler.go:927 qt.retries++
+internal/scheduler/scheduler.go:1093 func shouldRetryFailedDownload(isShuttingDown bool, err error, retries int) bool {
+internal/scheduler/scheduler.go:1112 return retries < 10
+代码审计闭环：ErrRangeContract返回后进入调度器重试分支，恢复快照继续窗口；再次下载成功发EventComplete，事件worker发布文件并持久化completed。
+范围核对：本次新增选择模式必须在协议错误后失败；默认整文件既有重试行为不作为本题缺陷。四例最终文件内容正确，失败点是协议错误后的发布和成功回执。
+
+正常与兼容验证：95/95检查通过；Go相关六包698个测试项通过、117个项跳过，网络跳过不计通过证据；使用Node HTTP与真实二进制补验。

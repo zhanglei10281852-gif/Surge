@@ -1,0 +1,16 @@
+原始协议失败交错：窗口1 bytes=1024-66559 正常206完成；窗口2请求 bytes=8388608-8454143。
+bad200-once: HTTP 200; Content-Range=<none>; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badstart-once: HTTP 206; Content-Range=bytes 8388609-8454143/16777216; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badend-once: HTTP 206; Content-Range=bytes 8388608-8454144/16777216; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+badtotal-once: HTTP 206; Content-Range=bytes 8388608-8454143/16777217; retry=bytes=8388608-8454143; exit=0; ok=true; size=131072; finalFile=true
+断言 mustRejectAfterAnyContractViolation：四例均 FAILED；本复现直接证明 Rubric 6 未通过。
+实际调用路径与直接代码（以下为当前文件原文）：
+internal/strategy/compact/downloader.go:357 if errors.Is(lastErr, ErrRangeContract) || types.IsPermanentHTTPError(lastErr) {
+internal/strategy/compact/downloader.go:432 return fmt.Errorf("server ignored Range and returned 200 for bytes=%d-%d: %w", reqSrc, reqSrc+reqLen-1, ErrRangeContract)
+internal/strategy/compact/downloader.go:448 if rangeStart != reqSrc || rangeEnd != reqSrc+reqLen-1 || rangeTotal != sourceSize {
+internal/scheduler/scheduler.go:926 if shouldRetryFailedDownload(p.isShuttingDown, err, qt.retries) && !slotTaken && !foreignActive {
+internal/scheduler/scheduler.go:927 qt.retries++
+internal/scheduler/scheduler.go:1093 func shouldRetryFailedDownload(isShuttingDown bool, err error, retries int) bool {
+internal/scheduler/scheduler.go:1112 return retries < 10
+代码审计闭环：ErrRangeContract返回后进入调度器重试分支，恢复快照继续窗口；再次下载成功发EventComplete，事件worker发布文件并持久化completed。
+范围核对：本次新增选择模式必须在协议错误后失败；默认整文件既有重试行为不作为本题缺陷。四例最终文件内容正确，失败点是协议错误后的发布和成功回执。

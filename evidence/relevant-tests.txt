@@ -1,0 +1,6 @@
+ok  	github.com/SurgeDM/Surge/cmd	17.950s
+ok  	github.com/SurgeDM/Surge/internal/strategy/compact	0.733s
+ok  	github.com/SurgeDM/Surge/internal/orchestrator	1.840s
+ok  	github.com/SurgeDM/Surge/internal/scheduler	37.025s
+ok  	github.com/SurgeDM/Surge/internal/store	1.905s
+ok  	github.com/SurgeDM/Surge/internal/types	0.719s
