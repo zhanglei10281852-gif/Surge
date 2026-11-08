@@ -1,0 +1,27 @@
+{
+  "fixture": "Generated entirely in memory by the delivered Node scripts; 16MiB deterministic byte vector, no external fixture or distribution lookup",
+  "sourceSha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3",
+  "compactSha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db",
+  "modelBinarySha256": "37c3b881a993879f07efa3d999779e5a576dcb59fd75b993412d20ad7c5890cc",
+  "baselineBinarySha256": "08e73541da5b189a79af71eb84fdcdc7b091681c34d628af2b3a758cd0567b28",
+  "files": {
+    "fork-check.json": "2504893460785bf89f7101d3640b9df09a0913b7d6ca73c72571e2e499d9bcde",
+    "go-tests-final.jsonl": "2613892835eebc48edfa48388029735b62af3875ed8e4ca9244f273bc3d75eb7",
+    "go-tests.jsonl": "56ae22d1ae4065497f1a9904f0408fd74ad91b16b6fbf959238b69a445c26c16",
+    "materials-manifest.json": "d54c954021ed2f0373e9b1960e788951f6e2c448c7e30ef6d5b5ed456990f686",
+    "model-build-info.txt": "342e58fdcace42327d7cb9680b7c7407fa392dd77c8405237971572276320e1c",
+    "network-contract.json": "b272d71770bca8600e2e548eb5c370c72bce12fcb625f426ba31806eff38a094",
+    "network-restriction.json": "9972a92e8dc9416cdd20ca49cf430318a0a6339caa25aac1fbbef2953fe7a946",
+    "precheck-refresh.json": "f31e8bd54f339e722487ac77af53ffc928da180988cb6825136b4a1e126c8dc5",
+    "README.md": "58f3f9bc5d48bbb57f6c3fca10241ce43061edca46ad9a92501ca5b59316f57a",
+    "session-duration.json": "05aaadb5a71d9fd15d8f4db53077ecdb89a78feec2af1e8667f132fb99d80a86",
+    "static-gates.json": "6c0cc3f6f5278529879c1a79612550f0f1a8cb5c92b6646ea92962ef0983f6e2",
+    "verification-once.json": "efa248dbee51402f10790e4cd1bdd494062148922d47897cf1e3f525c71ebcb0",
+    "verification-summary.json": "fc853dbe0e3adedcbe33ccbb1c89115a414a2455653c9461b2d143ed98b2da8f",
+    "verification-summary.txt": "240cf1ab3369d0d18617ae35cc3251acbfc3695612c24fe3ca60db47b7388999",
+    "verification.json": "efb37725692ee7ddf20ac461d833b0371e8427c7d1f9303cd74c9cea138a9541",
+    "verify-once.mjs": "0b2b23b762384d2302d0bfbe450efd2d78ce4e259e31fb366d0702d87fc14b59",
+    "verify-rubric.yaml": "bc56fcd4f76c9e7af9941e0f10ae5cc81bd4cffbeb4bf92817bc0deca6ab8957",
+    "verify.mjs": "97e28ef86c2f050efb055087c013fd223f08c08343051276fcc14f3367ad8c11"
+  }
+}

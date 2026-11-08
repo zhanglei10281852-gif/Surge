@@ -1,0 +1,74 @@
+{
+  "id": "surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47e1",
+  "syncRevision": 7,
+  "workflowStage": "delivery_qc",
+  "checks": [
+    {
+      "name": "scanEvidence",
+      "ok": true
+    },
+    {
+      "name": "duration",
+      "ok": true
+    },
+    {
+      "name": "strictYaml",
+      "ok": true
+    },
+    {
+      "name": "threeResultsAndReport",
+      "ok": true
+    },
+    {
+      "name": "scenarioNarrative",
+      "ok": true
+    },
+    {
+      "name": "precheck",
+      "ok": true
+    },
+    {
+      "name": "productionUnchanged",
+      "ok": true
+    },
+    {
+      "name": "patchBaselineAndBinary",
+      "ok": true
+    },
+    {
+      "name": "screenshot",
+      "ok": true
+    },
+    {
+      "name": "actualInterfaceFields",
+      "ok": true
+    }
+  ],
+  "ok": true,
+  "failures": [],
+  "sourceCommit": "https://github.com/zhanglei10281852-gif/Surge/commit/0830c1c785e33d0c6adf13d07eda1dab171515e9",
+  "generatedYamlSha256": "bc56fcd4f76c9e7af9941e0f10ae5cc81bd4cffbeb4bf92817bc0deca6ab8957",
+  "sourceFiles": {
+    "trajectory": "F:\\swe\\099926\\trajectories\\surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47-9ff5de7c\\session-13c3133917accbec.md",
+    "modelPatch": "F:/swe/099926/project-01/evidence/model.patch",
+    "screenshotsDirectory": "F:\\swe\\099926\\project-01\\evidence\\screenshots",
+    "screenshots": [
+      {
+        "name": "01-rubric-comparison.png",
+        "parentPath": "F:\\swe\\099926\\project-01\\evidence\\screenshots",
+        "extension": ".png",
+        "validImage": true
+      }
+    ],
+    "screenshotCandidates": [
+      {
+        "name": "01-rubric-comparison.png",
+        "parentPath": "F:\\swe\\099926\\project-01\\evidence\\screenshots",
+        "extension": ".png",
+        "validImage": true
+      }
+    ],
+    "screenshotDirectoryIsCanonical": true,
+    "harness": "Trae"
+  }
+}

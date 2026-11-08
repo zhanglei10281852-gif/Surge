@@ -1,0 +1,456 @@
+{
+  "results": [
+    {
+      "name": "bad200-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55349/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-contract-v1/bad200-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 25544,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"6da15cbc-02e4-45a4-8d54-1a3602bf69da\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-contract-v1\\\\bad200-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5128279,\n      \"average_bytes_per_second\": 86640.39048988983\n    }\n  ],\n  \"session_id\": \"ea4cea13-f8ad-4a82-8fab-ba4b99a5a05d\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "6da15cbc-02e4-45a4-8d54-1a3602bf69da",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-contract-v1\\bad200-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5128279,
+            "average_bytes_per_second": 86640.39048988983
+          }
+        ],
+        "session_id": "ea4cea13-f8ad-4a82-8fab-ba4b99a5a05d",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:28:14.858Z",
+      "ended": "2026-11-08T03:28:16.445Z",
+      "requests": [
+        {
+          "seq": 1,
+          "mode": "bad200",
+          "at": "2026-11-08T03:28:14.925Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 2,
+          "mode": "bad200",
+          "at": "2026-11-08T03:28:14.944Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-08T03:28:14.945Z"
+        },
+        {
+          "seq": 3,
+          "mode": "bad200",
+          "at": "2026-11-08T03:28:14.945Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 16777216,
+          "status": 200,
+          "contentRange": null,
+          "closed": "2026-11-08T03:28:15.154Z"
+        },
+        {
+          "seq": 4,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:16.183Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-08T03:28:16.184Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badstart-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55349/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-contract-v1/badstart-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 2644,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"4d19dfee-eb87-4edb-9af8-2fbc576ba017\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-contract-v1\\\\badstart-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5137749,\n      \"average_bytes_per_second\": 86586.18926763814\n    }\n  ],\n  \"session_id\": \"9e9ae51b-b19d-4d58-89a8-5d1ce50dbc66\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "4d19dfee-eb87-4edb-9af8-2fbc576ba017",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-contract-v1\\badstart-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5137749,
+            "average_bytes_per_second": 86586.18926763814
+          }
+        ],
+        "session_id": "9e9ae51b-b19d-4d58-89a8-5d1ce50dbc66",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:28:16.446Z",
+      "ended": "2026-11-08T03:28:18.024Z",
+      "requests": [
+        {
+          "seq": 5,
+          "mode": "badstart",
+          "at": "2026-11-08T03:28:16.503Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 6,
+          "mode": "badstart",
+          "at": "2026-11-08T03:28:16.525Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-08T03:28:16.525Z"
+        },
+        {
+          "seq": 7,
+          "mode": "badstart",
+          "at": "2026-11-08T03:28:16.525Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388609-8454143/16777216",
+          "closed": "2026-11-08T03:28:16.738Z"
+        },
+        {
+          "seq": 8,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:17.763Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-08T03:28:17.764Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badend-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55349/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-contract-v1/badend-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 39732,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"dd5ba7f2-a776-4876-b83a-4bc4bed8ed3c\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-contract-v1\\\\badend-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5114396,\n      \"average_bytes_per_second\": 86719.97213782145\n    }\n  ],\n  \"session_id\": \"1b300a19-a53f-4ded-a2b9-feda5cc17a27\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "dd5ba7f2-a776-4876-b83a-4bc4bed8ed3c",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-contract-v1\\badend-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5114396,
+            "average_bytes_per_second": 86719.97213782145
+          }
+        ],
+        "session_id": "1b300a19-a53f-4ded-a2b9-feda5cc17a27",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:28:18.025Z",
+      "ended": "2026-11-08T03:28:19.599Z",
+      "requests": [
+        {
+          "seq": 9,
+          "mode": "badend",
+          "at": "2026-11-08T03:28:18.082Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 10,
+          "mode": "badend",
+          "at": "2026-11-08T03:28:18.097Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-08T03:28:18.097Z"
+        },
+        {
+          "seq": 11,
+          "mode": "badend",
+          "at": "2026-11-08T03:28:18.097Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454144/16777216",
+          "closed": "2026-11-08T03:28:18.310Z"
+        },
+        {
+          "seq": 12,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:19.333Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-08T03:28:19.334Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badtotal-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55349/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-contract-v1/badtotal-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 5452,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"dd7f084b-5792-47fe-b9c7-b1c3615d5906\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-contract-v1\\\\badtotal-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5147773,\n      \"average_bytes_per_second\": 86528.89107857637\n    }\n  ],\n  \"session_id\": \"c8b4ba7c-f851-4a82-ab1d-41d0974f2167\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "dd7f084b-5792-47fe-b9c7-b1c3615d5906",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-contract-v1\\badtotal-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5147773,
+            "average_bytes_per_second": 86528.89107857637
+          }
+        ],
+        "session_id": "c8b4ba7c-f851-4a82-ab1d-41d0974f2167",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:28:19.600Z",
+      "ended": "2026-11-08T03:28:21.189Z",
+      "requests": [
+        {
+          "seq": 13,
+          "mode": "badtotal",
+          "at": "2026-11-08T03:28:19.669Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 14,
+          "mode": "badtotal",
+          "at": "2026-11-08T03:28:19.692Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-08T03:28:19.693Z"
+        },
+        {
+          "seq": 15,
+          "mode": "badtotal",
+          "at": "2026-11-08T03:28:19.711Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777217",
+          "closed": "2026-11-08T03:28:19.912Z"
+        },
+        {
+          "seq": 16,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:20.939Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-08T03:28:20.939Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}

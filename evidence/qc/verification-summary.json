@@ -1,0 +1,130 @@
+{
+  "id": "surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47e1",
+  "sourceCommit": "0830c1c785e33d0c6adf13d07eda1dab171515e9",
+  "fixedBaseline": "9ac5b74603d0a9451305c52bd5cde99b4d93b77a",
+  "buildExitCode": 0,
+  "go": {
+    "command": "go test -count=1 -json ./cmd ./internal/strategy/compact ./internal/scheduler ./internal/orchestrator ./internal/store ./internal/types",
+    "exitCode": 0,
+    "testEvents": {
+      "pass": 698,
+      "skip": 117,
+      "fail": 0
+    },
+    "packages": [
+      {
+        "Time": "2026-11-08T11:28:50.0408904+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/internal/types",
+        "Elapsed": 0.951
+      },
+      {
+        "Time": "2026-11-08T11:28:50.1252254+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/internal/strategy/compact",
+        "Elapsed": 1.062
+      },
+      {
+        "Time": "2026-11-08T11:28:50.6970202+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/internal/orchestrator",
+        "Elapsed": 1.634
+      },
+      {
+        "Time": "2026-11-08T11:28:51.2700854+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/internal/store",
+        "Elapsed": 2.181
+      },
+      {
+        "Time": "2026-11-08T11:29:06.9482936+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/cmd",
+        "Elapsed": 17.953
+      },
+      {
+        "Time": "2026-11-08T11:29:26.0298349+08:00",
+        "Action": "pass",
+        "Package": "github.com/SurgeDM/Surge/internal/scheduler",
+        "Elapsed": 36.967
+      }
+    ]
+  },
+  "cli": {
+    "exitCode": 0,
+    "processCount": 33,
+    "checks": 81,
+    "passed": 81,
+    "failures": [],
+    "sourceSha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3",
+    "compactSha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db",
+    "resumeTrials": [
+      {
+        "name": "resume1-new-process",
+        "pid": 11252,
+        "reused": 393216,
+        "transferred": 7995445
+      },
+      {
+        "name": "resume2-new-process",
+        "pid": 37252,
+        "reused": 393216,
+        "transferred": 7995445
+      },
+      {
+        "name": "resume3-new-process",
+        "pid": 25388,
+        "reused": 393216,
+        "transferred": 7995445
+      }
+    ]
+  },
+  "contract": {
+    "driverExitCode": 0,
+    "assertionFailures": 4,
+    "meaning": "Driver stores four failed Rubric6 assertions without changing its own exitCode; these are model contract failures, not passing behavior",
+    "cases": [
+      {
+        "name": "bad200-once",
+        "exitCode": 0,
+        "ok": true,
+        "size": "131072",
+        "finalFile": true,
+        "hashCorrect": true
+      },
+      {
+        "name": "badstart-once",
+        "exitCode": 0,
+        "ok": true,
+        "size": "131072",
+        "finalFile": true,
+        "hashCorrect": true
+      },
+      {
+        "name": "badend-once",
+        "exitCode": 0,
+        "ok": true,
+        "size": "131072",
+        "finalFile": true,
+        "hashCorrect": true
+      },
+      {
+        "name": "badtotal-once",
+        "exitCode": 0,
+        "ok": true,
+        "size": "131072",
+        "finalFile": true,
+        "hashCorrect": true
+      }
+    ]
+  },
+  "completionStatus": "部分完成",
+  "collectionDecision": "收录：长程题",
+  "rounds": 144,
+  "roundsRecounted": false,
+  "durationSeconds": 3044,
+  "exceededTwoHours": "否",
+  "screenshotVisualReview": "Opened current sole final image; contains all seven frozen rubrics, failure reason/impact and raw HTTP/receipt/code evidence; no unrelated application UI",
+  "productionChanges": "None; all 546 original non-evidence file hashes match original model output",
+  "initialVerificationCorrection": "Initial Go command used nonexistent internal/lifecycle; rerun used actual internal/orchestrator and completed all six packages. Initial static checker expected root instruction.md; corrected to exact original User message plus frozen review-inputs, metadata and source-trajectory hashes. No Prompt or Rubric changes."
+}

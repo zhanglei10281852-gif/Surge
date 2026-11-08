@@ -1,0 +1,2788 @@
+{
+  "sourceSize": 16777216,
+  "sourceSha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3",
+  "spec": "8388625:3145751,1024:2097159,8388625:3145751",
+  "compactSize": 8388661,
+  "compactSha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db",
+  "results": [
+    {
+      "name": "deny-public-http",
+      "args": [
+        "fetch",
+        "http://example.com/qc-public-denial",
+        "--json",
+        "--byte-ranges",
+        "0:2",
+        "--timeout",
+        "2s"
+      ],
+      "pid": 9144,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"fcc329ac-8b0f-401c-82d4-acd614d0c198\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0069988,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"ebd2123f-03de-4c05-b6a6-5074dc75fc80\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "fcc329ac-8b0f-401c-82d4-acd614d0c198",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0069988,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "ebd2123f-03de-4c05-b6a6-5074dc75fc80",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:37.843Z",
+      "ended": "2026-11-08T03:27:38.104Z",
+      "requests": [],
+      "checks": {
+        "realChildPublicDenied": {
+          "ok": true,
+          "detail": "[{\"method\":\"GET\",\"url\":\"http://example.com/qc-public-denial\",\"status\":403},{\"method\":\"GET\",\"url\":\"http://example.com/qc-public-denial\",\"status\":403}]"
+        }
+      }
+    },
+    {
+      "name": "deny-public-https",
+      "args": [
+        "fetch",
+        "https://example.com/qc-public-denial",
+        "--json",
+        "--byte-ranges",
+        "0:2",
+        "--timeout",
+        "2s"
+      ],
+      "pid": 14304,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"2409476a-241c-4873-a70f-8902e5c99e31\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.9990258,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"acef78e4-28a3-48a6-adcd-8faa3e8a3b5d\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "2409476a-241c-4873-a70f-8902e5c99e31",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.9990258,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "acef78e4-28a3-48a6-adcd-8faa3e8a3b5d",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:38.105Z",
+      "ended": "2026-11-08T03:27:40.159Z",
+      "requests": [],
+      "checks": {
+        "realChildPublicDenied": {
+          "ok": true,
+          "detail": "[{\"method\":\"CONNECT\",\"url\":\"example.com:443\",\"status\":403},{\"method\":\"CONNECT\",\"url\":\"example.com:443\",\"status\":403}]"
+        }
+      }
+    },
+    {
+      "name": "ordered",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/ordered/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751"
+      ],
+      "pid": 6332,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"a460b282-8bc9-4e63-bca4-17853b6591c4\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\ordered\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 10.5288543,\n      \"average_bytes_per_second\": 796730.656629943\n    }\n  ],\n  \"session_id\": \"18216dc3-5bec-4af9-8eb0-f637fb0870aa\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\nresult.bin  downloading  54.2%  4.34 MiB / 8.00 MiB  846.71 KiB/s  ETA ~4s  connections 3/16\nresult.bin  downloading  100.0%  8.00 MiB / 8.00 MiB  799.05 KiB/s  ETA ~0s  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "a460b282-8bc9-4e63-bca4-17853b6591c4",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\ordered\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 10.5288543,
+            "average_bytes_per_second": 796730.656629943
+          }
+        ],
+        "session_id": "18216dc3-5bec-4af9-8eb0-f637fb0870aa",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:40.159Z",
+      "ended": "2026-11-08T03:27:50.752Z",
+      "requests": [
+        {
+          "seq": 1,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:40.217Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 2,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:40.240Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:41.550Z"
+        },
+        {
+          "seq": 3,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:40.241Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:49.580Z"
+        },
+        {
+          "seq": 4,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:40.242Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 2097159,
+          "closed": "2026-11-08T03:27:47.426Z"
+        },
+        {
+          "seq": 5,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:41.339Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:50.657Z"
+        },
+        {
+          "seq": 6,
+          "mode": "slow",
+          "at": "2026-11-08T03:27:47.211Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:48.504Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "concurrent": {
+          "ok": true,
+          "detail": ""
+        },
+        "liveProgress": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "maxConcurrentDataRequests": 4
+    },
+    {
+      "name": "short",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/short/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751"
+      ],
+      "pid": 5108,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"932ee226-74d9-4765-aa1a-852a3f8d5ada\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\short\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.7613255,\n      \"average_bytes_per_second\": 11018494.717436891\n    }\n  ],\n  \"session_id\": \"57207c58-89fa-419d-8f61-815d28ef46d9\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  67.5%  5.40 MiB / 8.00 MiB  22.92 MiB/s  ETA ~0s  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "932ee226-74d9-4765-aa1a-852a3f8d5ada",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\short\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.7613255,
+            "average_bytes_per_second": 11018494.717436891
+          }
+        ],
+        "session_id": "57207c58-89fa-419d-8f61-815d28ef46d9",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:50.763Z",
+      "ended": "2026-11-08T03:27:51.655Z",
+      "requests": [
+        {
+          "seq": 7,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.888Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 8,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.912Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 70001,
+          "short": true,
+          "closed": "2026-11-08T03:27:50.964Z"
+        },
+        {
+          "seq": 9,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.914Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 2097159,
+          "closed": "2026-11-08T03:27:50.915Z"
+        },
+        {
+          "seq": 10,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.915Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:50.915Z"
+        },
+        {
+          "seq": 11,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.923Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:50.923Z"
+        },
+        {
+          "seq": 12,
+          "mode": "short",
+          "at": "2026-11-08T03:27:50.924Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:50.924Z"
+        },
+        {
+          "seq": 13,
+          "mode": "short",
+          "at": "2026-11-08T03:27:51.364Z",
+          "range": "bytes=8458626-11182096",
+          "a": 8458626,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2723471,
+          "closed": "2026-11-08T03:27:51.365Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "shortActuallyTriggered": {
+          "ok": true,
+          "detail": ""
+        },
+        "retryOnlyRemaining": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume1-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/resume1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 36208,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"03535ad9-e00d-4475-86a6-2b3a2a8a49f9\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3072468,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"e91ed5d6-f634-400b-b895-dc69344c228b\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "03535ad9-e00d-4475-86a6-2b3a2a8a49f9",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3072468,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "e91ed5d6-f634-400b-b895-dc69344c228b",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:51.666Z",
+      "ended": "2026-11-08T03:27:53.046Z",
+      "requests": [
+        {
+          "seq": 14,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:51.732Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 15,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:51.753Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:52.930Z"
+        },
+        {
+          "seq": 16,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:51.754Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:52.930Z"
+        },
+        {
+          "seq": 17,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:51.755Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:52.930Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume1-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "e91ed5d6-f634-400b-b895-dc69344c228b",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 11252,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"03535ad9-e00d-4475-86a6-2b3a2a8a49f9\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\resume1\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.263909,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"e91ed5d6-f634-400b-b895-dc69344c228b\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  downloading  4.7%  384.00 KiB / 8.00 MiB  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "03535ad9-e00d-4475-86a6-2b3a2a8a49f9",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\resume1\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.263909,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "e91ed5d6-f634-400b-b895-dc69344c228b",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:53.046Z",
+      "ended": "2026-11-08T03:27:53.408Z",
+      "requests": [
+        {
+          "seq": 18,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:53.157Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:53.158Z"
+        },
+        {
+          "seq": 19,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:53.158Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-08T03:27:53.159Z"
+        },
+        {
+          "seq": 20,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:53.159Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:53.159Z"
+        },
+        {
+          "seq": 21,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:53.165Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-08T03:27:53.166Z"
+        },
+        {
+          "seq": 22,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:53.166Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-08T03:27:53.168Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "resume2-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/resume2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 27068,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"c5250cf9-5070-4f09-b209-f21ec53371dc\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3042261,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"295f156c-8933-4af5-b6d6-9643bcff6052\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "c5250cf9-5070-4f09-b209-f21ec53371dc",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3042261,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "295f156c-8933-4af5-b6d6-9643bcff6052",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:53.419Z",
+      "ended": "2026-11-08T03:27:54.790Z",
+      "requests": [
+        {
+          "seq": 23,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:53.482Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 24,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:53.506Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:54.679Z"
+        },
+        {
+          "seq": 25,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:53.507Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:54.679Z"
+        },
+        {
+          "seq": 26,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:53.507Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:54.679Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume2-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "295f156c-8933-4af5-b6d6-9643bcff6052",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 37252,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"c5250cf9-5070-4f09-b209-f21ec53371dc\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\resume2\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.2581916,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"295f156c-8933-4af5-b6d6-9643bcff6052\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "c5250cf9-5070-4f09-b209-f21ec53371dc",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\resume2\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.2581916,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "295f156c-8933-4af5-b6d6-9643bcff6052",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:54.790Z",
+      "ended": "2026-11-08T03:27:55.113Z",
+      "requests": [
+        {
+          "seq": 27,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:54.859Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:54.860Z"
+        },
+        {
+          "seq": 28,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:54.860Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-08T03:27:54.860Z"
+        },
+        {
+          "seq": 29,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:54.860Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:54.861Z"
+        },
+        {
+          "seq": 30,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:54.871Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-08T03:27:54.872Z"
+        },
+        {
+          "seq": 31,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:54.872Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-08T03:27:54.873Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "resume3-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/resume3/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 2880,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"ff5fa796-bf33-4858-a33f-24e0fdd7670e\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3043125,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"032ef584-3669-4a39-9341-625c5bca045a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "ff5fa796-bf33-4858-a33f-24e0fdd7670e",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3043125,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "032ef584-3669-4a39-9341-625c5bca045a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:55.123Z",
+      "ended": "2026-11-08T03:27:56.505Z",
+      "requests": [
+        {
+          "seq": 32,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:55.197Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 33,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:55.219Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:56.393Z"
+        },
+        {
+          "seq": 34,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:55.220Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:56.393Z"
+        },
+        {
+          "seq": 35,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:55.221Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:27:56.393Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume3-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "032ef584-3669-4a39-9341-625c5bca045a",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 25388,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"ff5fa796-bf33-4858-a33f-24e0fdd7670e\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\resume3\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.261071,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"032ef584-3669-4a39-9341-625c5bca045a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "ff5fa796-bf33-4858-a33f-24e0fdd7670e",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\resume3\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.261071,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "032ef584-3669-4a39-9341-625c5bca045a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:56.505Z",
+      "ended": "2026-11-08T03:27:56.831Z",
+      "requests": [
+        {
+          "seq": 36,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:56.578Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-08T03:27:56.578Z"
+        },
+        {
+          "seq": 37,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:56.578Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-08T03:27:56.579Z"
+        },
+        {
+          "seq": 38,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:56.579Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-08T03:27:56.580Z"
+        },
+        {
+          "seq": 39,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:56.586Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-08T03:27:56.587Z"
+        },
+        {
+          "seq": 40,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:56.589Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-08T03:27:56.590Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "invalid0",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid0/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        ""
+      ],
+      "pid": 8516,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges requires a non-empty comma-separated start:length list\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges requires a non-empty comma-separated start:length list",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:56.841Z",
+      "ended": "2026-11-08T03:27:56.902Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid1",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "x:2"
+      ],
+      "pid": 25044,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range start \\\"x\\\": strconv.ParseInt: parsing \\\"x\\\": invalid syntax\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range start \"x\": strconv.ParseInt: parsing \"x\": invalid syntax",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:56.903Z",
+      "ended": "2026-11-08T03:27:56.980Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid2",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "-1:2"
+      ],
+      "pid": 3776,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range start must not be negative: -1:2\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range start must not be negative: -1:2",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:56.980Z",
+      "ended": "2026-11-08T03:27:57.035Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid3",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid3/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:0"
+      ],
+      "pid": 31308,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range length must be positive: 0:0\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range length must be positive: 0:0",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.036Z",
+      "ended": "2026-11-08T03:27:57.093Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid4",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid4/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:-1"
+      ],
+      "pid": 21988,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range length must be positive: 0:-1\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range length must be positive: 0:-1",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.094Z",
+      "ended": "2026-11-08T03:27:57.149Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid5",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid5/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:9223372036854775808"
+      ],
+      "pid": 25620,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range length \\\"9223372036854775808\\\": strconv.ParseInt: parsing \\\"9223372036854775808\\\": value out of range\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range length \"9223372036854775808\": strconv.ParseInt: parsing \"9223372036854775808\": value out of range",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.150Z",
+      "ended": "2026-11-08T03:27:57.224Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid6",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid6/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "9223372036854775808:1"
+      ],
+      "pid": 38040,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range start \\\"9223372036854775808\\\": strconv.ParseInt: parsing \\\"9223372036854775808\\\": value out of range\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range start \"9223372036854775808\": strconv.ParseInt: parsing \"9223372036854775808\": value out of range",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.225Z",
+      "ended": "2026-11-08T03:27:57.282Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid7",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid7/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:9223372036854775807,0:1"
+      ],
+      "pid": 17784,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"compact output length overflows int64 at byte range 0:1\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "compact output length overflows int64 at byte range 0:1",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.283Z",
+      "ended": "2026-11-08T03:27:57.340Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid8",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid8/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:1,"
+      ],
+      "pid": 36348,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"empty entry in --byte-ranges: \\\"0:1,\\\"\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "empty entry in --byte-ranges: \"0:1,\"",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.340Z",
+      "ended": "2026-11-08T03:27:57.399Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid9",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/invalid9/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "16777215:2"
+      ],
+      "pid": 6196,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"ad2efe11-9be0-41ea-a88b-111bdc24542f\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0022683,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"a958265f-033a-4c76-8a56-7b761fc2943f\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "ad2efe11-9be0-41ea-a88b-111bdc24542f",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0022683,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "a958265f-033a-4c76-8a56-7b761fc2943f",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:57.400Z",
+      "ended": "2026-11-08T03:27:57.487Z",
+      "requests": [
+        {
+          "seq": 41,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:57.481Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination0",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/combination0/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "--host",
+        "http://127.0.0.1:1"
+      ],
+      "pid": 35688,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges only supports an embedded local fetch; remove the explicit remote host.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges only supports an embedded local fetch; remove the explicit remote host.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.487Z",
+      "ended": "2026-11-08T03:27:57.553Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination1",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/combination1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "http://127.0.0.1:55237/source.bin"
+      ],
+      "pid": 17292,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.554Z",
+      "ended": "2026-11-08T03:27:57.614Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination2",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/combination2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "--resume",
+        "12345678-1234-1234-1234-123456789012"
+      ],
+      "pid": 18224,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.615Z",
+      "ended": "2026-11-08T03:27:57.702Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "mirrors",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin,http://127.0.0.1:55237/source.bin",
+        "--byte-ranges",
+        "0:2",
+        "--json"
+      ],
+      "pid": 25476,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-08T03:27:57.702Z",
+      "ended": "2026-11-08T03:27:57.769Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "norange",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/norange/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "4:8"
+      ],
+      "pid": 16112,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"5fdb494e-59bc-449c-af4a-7a27d1e656fb\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0052673,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"b7383ee8-9de6-4d05-ac50-49b6af51f668\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "5fdb494e-59bc-449c-af4a-7a27d1e656fb",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0052673,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "b7383ee8-9de6-4d05-ac50-49b6af51f668",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:57.770Z",
+      "ended": "2026-11-08T03:27:57.855Z",
+      "requests": [
+        {
+          "seq": 42,
+          "mode": "norange",
+          "at": "2026-11-08T03:27:57.848Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 16777216
+        }
+      ],
+      "checks": {
+        "probeRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "unknown",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/unknown/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "4:8"
+      ],
+      "pid": 9044,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"68f6cceb-26c4-4f93-a634-ca0f0ce48a62\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.002139,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"a7b17e51-3442-4d6d-aa29-c0ebf99f6bf5\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "68f6cceb-26c4-4f93-a634-ca0f0ce48a62",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.002139,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "a7b17e51-3442-4d6d-aa29-c0ebf99f6bf5",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:57.856Z",
+      "ended": "2026-11-08T03:27:57.917Z",
+      "requests": [
+        {
+          "seq": 43,
+          "mode": "unknown",
+          "at": "2026-11-08T03:27:57.912Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "probeRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "whole",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/whole/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 27516,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"0458d6d9-ef02-44c2-8229-3544f3c2d9b5\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\whole\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2574188,\n      \"average_bytes_per_second\": 65174789.09854292\n    }\n  ],\n  \"session_id\": \"340f175f-30ce-4daa-abe4-49ca82c5b6ca\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "0458d6d9-ef02-44c2-8229-3544f3c2d9b5",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\whole\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2574188,
+            "average_bytes_per_second": 65174789.09854292
+          }
+        ],
+        "session_id": "340f175f-30ce-4daa-abe4-49ca82c5b6ca",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:57.917Z",
+      "ended": "2026-11-08T03:27:58.261Z",
+      "requests": [
+        {
+          "seq": 44,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.000Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 45,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.004Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 46,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.016Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.017Z"
+        },
+        {
+          "seq": 47,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.018Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.019Z"
+        },
+        {
+          "seq": 48,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.019Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.020Z"
+        },
+        {
+          "seq": 49,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.020Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.021Z"
+        },
+        {
+          "seq": 50,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.021Z",
+          "range": "bytes=10485760-12582911",
+          "a": 10485760,
+          "b": 12582911,
+          "probe": false,
+          "sent": 2097152,
+          "closed": "2026-11-08T03:27:58.022Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "fallback",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/fallback/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 40784,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"9c7d115f-53d4-4ec2-bf7b-c3ce6906c6a6\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\fallback\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2622261,\n      \"average_bytes_per_second\": 63979962.33021808\n    }\n  ],\n  \"session_id\": \"f6c21fc1-2e8e-4264-a821-cc2142b9c069\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "9c7d115f-53d4-4ec2-bf7b-c3ce6906c6a6",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\fallback\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2622261,
+            "average_bytes_per_second": 63979962.33021808
+          }
+        ],
+        "session_id": "f6c21fc1-2e8e-4264-a821-cc2142b9c069",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:58.283Z",
+      "ended": "2026-11-08T03:27:58.607Z",
+      "requests": [
+        {
+          "seq": 51,
+          "mode": "norange",
+          "at": "2026-11-08T03:27:58.343Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 16777216
+        },
+        {
+          "seq": 52,
+          "mode": "norange",
+          "at": "2026-11-08T03:27:58.352Z",
+          "range": null,
+          "a": 0,
+          "b": 16777215,
+          "probe": null,
+          "sent": 16777216,
+          "closed": "2026-11-08T03:27:58.355Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "singleStreamFallback": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "sha-correct",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/sha-correct/downloads",
+        "--filename",
+        "result.bin",
+        "--sha256",
+        "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      ],
+      "pid": 12704,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"3a935c7c-b208-4d85-bd06-a810a64901ca\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\sha-correct\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"verified\",\n        \"sha256\": \"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2574374,\n      \"average_bytes_per_second\": 65170080.18259974\n    }\n  ],\n  \"session_id\": \"6c1d2ba9-9555-46b4-899b-71bdd4b96b45\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "3a935c7c-b208-4d85-bd06-a810a64901ca",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\sha-correct\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "verified",
+              "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2574374,
+            "average_bytes_per_second": 65170080.18259974
+          }
+        ],
+        "session_id": "6c1d2ba9-9555-46b4-899b-71bdd4b96b45",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:58.636Z",
+      "ended": "2026-11-08T03:27:58.964Z",
+      "requests": [
+        {
+          "seq": 53,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.700Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 54,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.705Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 55,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.718Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.720Z"
+        },
+        {
+          "seq": 56,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.720Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.721Z"
+        },
+        {
+          "seq": 57,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.721Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.722Z"
+        },
+        {
+          "seq": 58,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:58.722Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:58.724Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "sha-wrong",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/sha-wrong/downloads",
+        "--filename",
+        "result.bin",
+        "--sha256",
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "pid": 33444,
+      "code": 7,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"e6620775-dd6d-4803-85e4-9f6e6b931fad\",\n      \"status\": \"error\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"error\": {\n        \"code\": \"conflict\",\n        \"message\": \"Artifact verification failed; working data was retained for inspection.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2598645,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"conflict\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"03bfb7c3-3c25-4e38-a789-353265e9bc42\",\n  \"checkpoint_confirmed\": false\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "e6620775-dd6d-4803-85e4-9f6e6b931fad",
+            "status": "error",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "error": {
+              "code": "conflict",
+              "message": "Artifact verification failed; working data was retained for inspection.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2598645,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "conflict",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "03bfb7c3-3c25-4e38-a789-353265e9bc42",
+        "checkpoint_confirmed": false
+      },
+      "started": "2026-11-08T03:27:58.983Z",
+      "ended": "2026-11-08T03:27:59.306Z",
+      "requests": [
+        {
+          "seq": 59,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.043Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 60,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.051Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 61,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.064Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:59.066Z"
+        },
+        {
+          "seq": 62,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.066Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:59.068Z"
+        },
+        {
+          "seq": 63,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.068Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:59.069Z"
+        },
+        {
+          "seq": 64,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.069Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-08T03:27:59.070Z"
+        }
+      ],
+      "checks": {
+        "hashFailureUnpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "protect",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/protect/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 31184,
+      "code": 7,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"1b350581-ffb9-43e1-b468-3c304390e68e\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"conflict\",\n        \"message\": \"failed to resolve destination: destination already exists; choose a new destination or resume the saved session\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0026011,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"conflict\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"d2ee3dd8-66e4-4721-8de4-d9310cff6f4f\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "1b350581-ffb9-43e1-b468-3c304390e68e",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "conflict",
+              "message": "failed to resolve destination: destination already exists; choose a new destination or resume the saved session",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0026011,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "conflict",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "d2ee3dd8-66e4-4721-8de4-d9310cff6f4f",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:59.307Z",
+      "ended": "2026-11-08T03:27:59.369Z",
+      "requests": [
+        {
+          "seq": 65,
+          "mode": "normal",
+          "at": "2026-11-08T03:27:59.365Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "sentinelPreserved": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "baseline-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55237/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/work/surge-delivery-qc/qc-fixtures-v1/old-checkpoint/downloads",
+        "--filename",
+        "result.bin",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 11900,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"300b567a-3bf0-4868-bd3d-cc6c99b1a359\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"524288\",\n      \"total_bytes\": \"16777216\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3066487,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"2c95d1cb-0398-4c2a-a09c-369d959bb19a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 16.00 MiB  0 B/s  ETA --  connections 4/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "300b567a-3bf0-4868-bd3d-cc6c99b1a359",
+            "status": "paused",
+            "downloaded_bytes": "524288",
+            "total_bytes": "16777216",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3066487,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "2c95d1cb-0398-4c2a-a09c-369d959bb19a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:27:59.370Z",
+      "ended": "2026-11-08T03:28:00.753Z",
+      "requests": [
+        {
+          "seq": 66,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.428Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 67,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.433Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 68,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.445Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:28:00.627Z"
+        },
+        {
+          "seq": 69,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.446Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:28:00.627Z"
+        },
+        {
+          "seq": 70,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.446Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:28:00.627Z"
+        },
+        {
+          "seq": 71,
+          "mode": "blocked",
+          "at": "2026-11-08T03:27:59.447Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-08T03:28:00.627Z"
+        }
+      ],
+      "checks": {
+        "oldCheckpoint": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "current-resumes-old",
+      "args": [
+        "fetch",
+        "--resume",
+        "2c95d1cb-0398-4c2a-a09c-369d959bb19a",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 26728,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"524288\",\n      \"id\": \"300b567a-3bf0-4868-bd3d-cc6c99b1a359\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\work\\\\surge-delivery-qc\\\\qc-fixtures-v1\\\\old-checkpoint\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"524288\",\n      \"duration_seconds\": 0.2600394,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"2c95d1cb-0398-4c2a-a09c-369d959bb19a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "524288",
+            "id": "300b567a-3bf0-4868-bd3d-cc6c99b1a359",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\work\\surge-delivery-qc\\qc-fixtures-v1\\old-checkpoint\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "524288",
+            "duration_seconds": 0.2600394,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "2c95d1cb-0398-4c2a-a09c-369d959bb19a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-08T03:28:00.753Z",
+      "ended": "2026-11-08T03:28:01.119Z",
+      "requests": [
+        {
+          "seq": 72,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:00.855Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 73,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:00.869Z",
+          "range": "bytes=12713984-16777215",
+          "a": 12713984,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-08T03:28:00.871Z"
+        },
+        {
+          "seq": 74,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:00.872Z",
+          "range": "bytes=131072-4194303",
+          "a": 131072,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-08T03:28:00.873Z"
+        },
+        {
+          "seq": 75,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:00.873Z",
+          "range": "bytes=4325376-8388607",
+          "a": 4325376,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-08T03:28:00.874Z"
+        },
+        {
+          "seq": 76,
+          "mode": "normal",
+          "at": "2026-11-08T03:28:00.875Z",
+          "range": "bytes=8519680-12582911",
+          "a": 8519680,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-08T03:28:00.876Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "legacyReusesBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}
