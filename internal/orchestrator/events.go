@@ -55,6 +55,22 @@ func isTaskBackedResumeSnapshot(rec types.DownloadRecord) bool {
 	if len(rec.Tasks) == 0 || rec.TotalSize <= 0 {
 		return false
 	}
+	// Compact byte-range snapshots key HTTP requests at source offsets but
+	// write at independent output offsets, which are validated separately.
+	if len(rec.ByteRanges) > 0 {
+		for _, task := range rec.Tasks {
+			if task.Offset < 0 || task.DstOffset < 0 || task.Length <= 0 {
+				return false
+			}
+			if task.Length > rec.SourceSize || task.Offset > rec.SourceSize-task.Length {
+				return false
+			}
+			if task.Length > rec.TotalSize || task.DstOffset > rec.TotalSize-task.Length {
+				return false
+			}
+		}
+		return true
+	}
 	for _, task := range rec.Tasks {
 		if task.Offset < 0 || task.Length <= 0 {
 			return false

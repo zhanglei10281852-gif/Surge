@@ -3,6 +3,7 @@ package types
 import (
 	"encoding/binary"
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -10,12 +11,20 @@ import (
 type Task struct {
 	Offset int64 `json:"offset"`
 	Length int64 `json:"length"`
+	// DstOffset is the write position in the local output file. It is zero
+	// for whole-file downloads, where Offset and DstOffset coincide. Compact
+	// byte-range fetches carry an explicit destination offset so overlapping
+	// or repeated source windows keep independent output positions.
+	DstOffset int64 `json:"dst_offset,omitempty"`
 }
 
+// GobEncode preserves the historical 16-byte layout for whole-file tasks and
+// appends DstOffset as a third little-endian uint64. GobDecode accepts both.
 func (t *Task) GobEncode() ([]byte, error) {
-	b := make([]byte, 16)
+	b := make([]byte, 24)
 	binary.LittleEndian.PutUint64(b[0:8], uint64(t.Offset))
 	binary.LittleEndian.PutUint64(b[8:16], uint64(t.Length))
+	binary.LittleEndian.PutUint64(b[16:24], uint64(t.DstOffset))
 	return b, nil
 }
 
@@ -24,11 +33,41 @@ func (t *Task) GobDecode(data []byte) error {
 		return nil
 	}
 	if len(data) < 16 {
-		return fmt.Errorf("corrupt task data: expected 16 bytes, got %d", len(data))
+		return fmt.Errorf("corrupt task data: expected at least 16 bytes, got %d", len(data))
 	}
 	t.Offset = int64(binary.LittleEndian.Uint64(data[0:8]))
 	t.Length = int64(binary.LittleEndian.Uint64(data[8:16]))
+	if len(data) >= 24 {
+		t.DstOffset = int64(binary.LittleEndian.Uint64(data[16:24]))
+	}
 	return nil
+}
+
+// ByteRange selects one source window for a compact byte-range fetch. Start
+// is a zero-based source byte offset and Length is the number of bytes to copy.
+type ByteRange struct {
+	Start  int64 `json:"start"`
+	Length int64 `json:"length"`
+}
+
+// CompactByteRanges returns the total compact output length of the selected
+// windows, rejecting sums that overflow a signed 64-bit integer. Each window
+// occurrence contributes its full Length, including repeated selections.
+func CompactByteRanges(ranges []ByteRange) (int64, error) {
+	var total int64
+	for _, r := range ranges {
+		if r.Length <= 0 {
+			return 0, fmt.Errorf("byte range length must be positive: %d:%d", r.Start, r.Length)
+		}
+		if r.Start < 0 {
+			return 0, fmt.Errorf("byte range start must not be negative: %d:%d", r.Start, r.Length)
+		}
+		if total > math.MaxInt64-r.Length {
+			return 0, fmt.Errorf("compact output length overflows int64 for byte range %d:%d", r.Start, r.Length)
+		}
+		total += r.Length
+	}
+	return total, nil
 }
 
 // DownloadRecord is the canonical representation of a download's static configuration,
@@ -49,6 +88,12 @@ type DownloadRecord struct {
 	DestPath   string `json:"dest_path"`
 	TotalSize  int64  `json:"total_size"`
 	Downloaded int64  `json:"downloaded"`
+
+	// ByteRanges non-empty selects compact byte-range fetch mode: TotalSize is
+	// then the compact output length and SourceSize is the confirmed source
+	// length used to validate every partial response.
+	ByteRanges []ByteRange `json:"byte_ranges,omitempty"`
+	SourceSize int64       `json:"source_size,omitempty"`
 
 	// Status
 	Status string `json:"status"`

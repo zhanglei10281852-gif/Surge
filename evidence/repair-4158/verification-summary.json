@@ -1,0 +1,174 @@
+{
+  "go": {
+    "command": "go test -count=1 -json ./cmd ./internal/strategy/compact ./internal/orchestrator ./internal/scheduler ./internal/store ./internal/types",
+    "passed": 698,
+    "skipped": 117,
+    "failed": 0
+  },
+  "cli": {
+    "cases": 33,
+    "passed": 81,
+    "failed": []
+  },
+  "resumes": [
+    {
+      "name": "resume1-new-process",
+      "previousDownloaded": 393216,
+      "transferred": 7995445,
+      "size": 8388661,
+      "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+    },
+    {
+      "name": "resume2-new-process",
+      "previousDownloaded": 393216,
+      "transferred": 7995445,
+      "size": 8388661,
+      "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+    },
+    {
+      "name": "resume3-new-process",
+      "previousDownloaded": 393216,
+      "transferred": 7995445,
+      "size": 8388661,
+      "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+    }
+  ],
+  "r6": [
+    {
+      "name": "bad200-once",
+      "code": 0,
+      "ok": true,
+      "artifactSize": "131072",
+      "finalFileExists": true,
+      "requiredRejection": false,
+      "badResponse": {
+        "seq": 3,
+        "mode": "bad200",
+        "at": "2026-11-12T04:26:03.103Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 16777216,
+        "status": 200,
+        "contentRange": null,
+        "closed": "2026-11-12T04:26:03.318Z"
+      },
+      "retry": {
+        "seq": 4,
+        "mode": "normal",
+        "at": "2026-11-12T04:26:04.332Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454143/16777216",
+        "closed": "2026-11-12T04:26:04.333Z"
+      }
+    },
+    {
+      "name": "badstart-once",
+      "code": 0,
+      "ok": true,
+      "artifactSize": "131072",
+      "finalFileExists": true,
+      "requiredRejection": false,
+      "badResponse": {
+        "seq": 7,
+        "mode": "badstart",
+        "at": "2026-11-12T04:26:04.705Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388609-8454143/16777216",
+        "closed": "2026-11-12T04:26:04.912Z"
+      },
+      "retry": {
+        "seq": 8,
+        "mode": "normal",
+        "at": "2026-11-12T04:26:05.931Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454143/16777216",
+        "closed": "2026-11-12T04:26:05.931Z"
+      }
+    },
+    {
+      "name": "badend-once",
+      "code": 0,
+      "ok": true,
+      "artifactSize": "131072",
+      "finalFileExists": true,
+      "requiredRejection": false,
+      "badResponse": {
+        "seq": 11,
+        "mode": "badend",
+        "at": "2026-11-12T04:26:06.331Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454144/16777216",
+        "closed": "2026-11-12T04:26:06.547Z"
+      },
+      "retry": {
+        "seq": 12,
+        "mode": "normal",
+        "at": "2026-11-12T04:26:07.567Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454143/16777216",
+        "closed": "2026-11-12T04:26:07.567Z"
+      }
+    },
+    {
+      "name": "badtotal-once",
+      "code": 0,
+      "ok": true,
+      "artifactSize": "131072",
+      "finalFileExists": true,
+      "requiredRejection": false,
+      "badResponse": {
+        "seq": 15,
+        "mode": "badtotal",
+        "at": "2026-11-12T04:26:07.953Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454143/16777217",
+        "closed": "2026-11-12T04:26:08.167Z"
+      },
+      "retry": {
+        "seq": 16,
+        "mode": "normal",
+        "at": "2026-11-12T04:26:09.188Z",
+        "range": "bytes=8388608-8454143",
+        "a": 8388608,
+        "b": 8454143,
+        "probe": false,
+        "sent": 65536,
+        "status": 206,
+        "contentRange": "bytes 8388608-8454143/16777216",
+        "closed": "2026-11-12T04:26:09.189Z"
+      }
+    }
+  ]
+}

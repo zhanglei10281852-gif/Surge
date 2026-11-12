@@ -1,0 +1,456 @@
+{
+  "results": [
+    {
+      "name": "bad200-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55119/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-contract/qc-contract-v1/bad200-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 35664,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"dfd2eb8f-96b4-4639-9e70-556fec3f89c0\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-contract\\\\qc-contract-v1\\\\bad200-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5161946,\n      \"average_bytes_per_second\": 86448.00608048598\n    }\n  ],\n  \"session_id\": \"63e49d70-b2f5-4167-9a57-38085056b8dc\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  100.0%  128.00 KiB / 128.00 KiB  5.15 MiB/s  ETA ~0s  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "dfd2eb8f-96b4-4639-9e70-556fec3f89c0",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-contract\\qc-contract-v1\\bad200-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5161946,
+            "average_bytes_per_second": 86448.00608048598
+          }
+        ],
+        "session_id": "63e49d70-b2f5-4167-9a57-38085056b8dc",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:02.762Z",
+      "ended": "2026-11-12T04:26:04.602Z",
+      "requests": [
+        {
+          "seq": 1,
+          "mode": "bad200",
+          "at": "2026-11-12T04:26:03.082Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 2,
+          "mode": "bad200",
+          "at": "2026-11-12T04:26:03.103Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-12T04:26:03.103Z"
+        },
+        {
+          "seq": 3,
+          "mode": "bad200",
+          "at": "2026-11-12T04:26:03.103Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 16777216,
+          "status": 200,
+          "contentRange": null,
+          "closed": "2026-11-12T04:26:03.318Z"
+        },
+        {
+          "seq": 4,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:04.332Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-12T04:26:04.333Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badstart-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55119/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-contract/qc-contract-v1/badstart-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 33884,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"20a32756-dc0b-4371-bef4-73761ea63bf4\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-contract\\\\qc-contract-v1\\\\badstart-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5105002,\n      \"average_bytes_per_second\": 86773.90443245224\n    }\n  ],\n  \"session_id\": \"ab017452-e35f-4f24-8f54-8ccaf50460f5\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  100.0%  128.00 KiB / 128.00 KiB  3.90 MiB/s  ETA ~0s  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "20a32756-dc0b-4371-bef4-73761ea63bf4",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-contract\\qc-contract-v1\\badstart-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5105002,
+            "average_bytes_per_second": 86773.90443245224
+          }
+        ],
+        "session_id": "ab017452-e35f-4f24-8f54-8ccaf50460f5",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:04.604Z",
+      "ended": "2026-11-12T04:26:06.204Z",
+      "requests": [
+        {
+          "seq": 5,
+          "mode": "badstart",
+          "at": "2026-11-12T04:26:04.688Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 6,
+          "mode": "badstart",
+          "at": "2026-11-12T04:26:04.704Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-12T04:26:04.705Z"
+        },
+        {
+          "seq": 7,
+          "mode": "badstart",
+          "at": "2026-11-12T04:26:04.705Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388609-8454143/16777216",
+          "closed": "2026-11-12T04:26:04.912Z"
+        },
+        {
+          "seq": 8,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:05.931Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-12T04:26:05.931Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badend-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55119/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-contract/qc-contract-v1/badend-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 16252,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"26571d6e-7e07-4b50-996d-db9a62a88864\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-contract\\\\qc-contract-v1\\\\badend-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.5114466,\n      \"average_bytes_per_second\": 86719.57050947087\n    }\n  ],\n  \"session_id\": \"11e12aa9-0ab4-4f12-ae14-9d7056c5c96e\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "26571d6e-7e07-4b50-996d-db9a62a88864",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-contract\\qc-contract-v1\\badend-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.5114466,
+            "average_bytes_per_second": 86719.57050947087
+          }
+        ],
+        "session_id": "11e12aa9-0ab4-4f12-ae14-9d7056c5c96e",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:06.207Z",
+      "ended": "2026-11-12T04:26:07.826Z",
+      "requests": [
+        {
+          "seq": 9,
+          "mode": "badend",
+          "at": "2026-11-12T04:26:06.307Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 10,
+          "mode": "badend",
+          "at": "2026-11-12T04:26:06.330Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-12T04:26:06.331Z"
+        },
+        {
+          "seq": 11,
+          "mode": "badend",
+          "at": "2026-11-12T04:26:06.331Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454144/16777216",
+          "closed": "2026-11-12T04:26:06.547Z"
+        },
+        {
+          "seq": 12,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:07.567Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-12T04:26:07.567Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "badtotal-once",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55119/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-contract/qc-contract-v1/badtotal-once/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "1024:65536,8388608:65536"
+      ],
+      "pid": 1944,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"1c3da9d4-a849-416d-8640-0a534910af12\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"131072\",\n      \"total_bytes\": \"131072\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-contract\\\\qc-contract-v1\\\\badtotal-once\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"131072\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.509482,\n      \"average_bytes_per_second\": 86832.43655770655\n    }\n  ],\n  \"session_id\": \"ea46416b-da56-4000-a366-4a5ee92a9ef7\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  retrying  0 B\nresult.bin  downloading  50.0%  64.00 KiB / 128.00 KiB  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "1c3da9d4-a849-416d-8640-0a534910af12",
+            "status": "completed",
+            "downloaded_bytes": "131072",
+            "total_bytes": "131072",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-contract\\qc-contract-v1\\badtotal-once\\downloads\\result.bin",
+              "size_bytes": "131072",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.509482,
+            "average_bytes_per_second": 86832.43655770655
+          }
+        ],
+        "session_id": "ea46416b-da56-4000-a366-4a5ee92a9ef7",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:07.829Z",
+      "ended": "2026-11-12T04:26:09.443Z",
+      "requests": [
+        {
+          "seq": 13,
+          "mode": "badtotal",
+          "at": "2026-11-12T04:26:07.928Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1,
+          "status": 206,
+          "contentRange": "bytes 0-0/16777216"
+        },
+        {
+          "seq": 14,
+          "mode": "badtotal",
+          "at": "2026-11-12T04:26:07.952Z",
+          "range": "bytes=1024-66559",
+          "a": 1024,
+          "b": 66559,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 1024-66559/16777216",
+          "closed": "2026-11-12T04:26:07.953Z"
+        },
+        {
+          "seq": 15,
+          "mode": "badtotal",
+          "at": "2026-11-12T04:26:07.953Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777217",
+          "closed": "2026-11-12T04:26:08.167Z"
+        },
+        {
+          "seq": 16,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:09.188Z",
+          "range": "bytes=8388608-8454143",
+          "a": 8388608,
+          "b": 8454143,
+          "probe": false,
+          "sent": 65536,
+          "status": 206,
+          "contentRange": "bytes 8388608-8454143/16777216",
+          "closed": "2026-11-12T04:26:09.189Z"
+        }
+      ],
+      "finalFileExists": true,
+      "finalHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "expectedHash": "93632a2de2183617d30dfa0d7f55e2641ac2de2a73604bc32a569f89ad02edd5",
+      "checks": {
+        "mustRejectAfterAnyContractViolation": {
+          "ok": false,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}

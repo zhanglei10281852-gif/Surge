@@ -72,6 +72,11 @@ func hydrateConfigFromDisk(cfg *types.DownloadRecord) {
 	if saved.TotalSize > 0 {
 		cfg.TotalSize = saved.TotalSize
 	}
+	if len(saved.ByteRanges) > 0 {
+		cfg.ByteRanges = append([]types.ByteRange(nil), saved.ByteRanges...)
+		cfg.SourceSize = saved.SourceSize
+		cfg.SupportsRange = true
+	}
 	if len(saved.Tasks) > 0 {
 		cfg.SupportsRange = true
 		cfg.Tasks = saved.Tasks
@@ -485,6 +490,12 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
 	if entry != nil && entry.Artifact != (types.ArtifactPolicy{}) {
 		artifact = entry.Artifact
 	}
+	var byteRanges []types.ByteRange
+	var sourceSize int64
+	if savedState != nil && len(savedState.ByteRanges) > 0 {
+		byteRanges = append([]types.ByteRange(nil), savedState.ByteRanges...)
+		sourceSize = savedState.SourceSize
+	}
 	return types.DownloadRecord{Artifact: artifact,
 		URL:             url,
 		OutputPath:      outputPath,
@@ -492,7 +503,7 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
 		ID:              id,
 		Filename:        filename,
 		TotalSize:       totalSize,
-		SupportsRange:   savedState != nil && len(savedState.Tasks) > 0,
+		SupportsRange:   (savedState != nil && (len(savedState.Tasks) > 0 || len(savedState.ByteRanges) > 0)),
 		IsResume:        true,
 		ProgressState:   dmState,
 		Runtime:         runtime,
@@ -503,5 +514,7 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
 		Tasks:           tasks,
 		ChunkBitmap:     chunkBitmap,
 		ActualChunkSize: actualChunkSize,
+		ByteRanges:      byteRanges,
+		SourceSize:      sourceSize,
 	}
 }

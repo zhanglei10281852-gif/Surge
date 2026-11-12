@@ -1,0 +1,8 @@
+{
+  "mechanism": "Production HTTP transport ProxyFromEnvironment; deny-only loopback proxy returns HTTP403 and rejects HTTPS CONNECT, no forwarding; NO_PROXY permits only loopback fixture",
+  "proxy": "http://127.0.0.1:55118",
+  "denied": [],
+  "cacheIsolation": "Per case empty APPDATA/XDG_CONFIG_HOME/XDG_STATE_HOME/XDG_RUNTIME_DIR; no author settings or checkpoints",
+  "fixture": "Deterministic 16MiB generated in memory from surge-independent-review SHA256; no external distributions",
+  "scope": "Every spawned current and baseline fetch child inherits restrictedEnv; source uses loopback HTTP only"
+}

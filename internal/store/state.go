@@ -68,6 +68,8 @@ type persistedDetailRecord struct {
 	Workers         int
 	MinChunkSize    int64
 	Headers         map[string]string
+	ByteRanges      []types.ByteRange
+	SourceSize      int64
 }
 
 func toPersistedDetail(state *types.DownloadRecord) *persistedDetailRecord {
@@ -103,6 +105,8 @@ func toPersistedDetail(state *types.DownloadRecord) *persistedDetailRecord {
 		Workers:         state.Workers,
 		MinChunkSize:    state.MinChunkSize,
 		Headers:         maps.Clone(state.Headers),
+		ByteRanges:      append([]types.ByteRange(nil), state.ByteRanges...),
+		SourceSize:      state.SourceSize,
 	}
 }
 
@@ -139,6 +143,8 @@ func fromPersistedDetail(state *persistedDetailRecord) *types.DownloadRecord {
 		Workers:         state.Workers,
 		MinChunkSize:    state.MinChunkSize,
 		Headers:         maps.Clone(state.Headers),
+		ByteRanges:      append([]types.ByteRange(nil), state.ByteRanges...),
+		SourceSize:      state.SourceSize,
 	}
 }
 

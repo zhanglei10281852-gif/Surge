@@ -13,6 +13,7 @@ import (
 	"github.com/SurgeDM/Surge/internal/probe"
 	"github.com/SurgeDM/Surge/internal/progress"
 	"github.com/SurgeDM/Surge/internal/store"
+	"github.com/SurgeDM/Surge/internal/strategy/compact"
 	"github.com/SurgeDM/Surge/internal/strategy/concurrent"
 	"github.com/SurgeDM/Surge/internal/strategy/single"
 	"github.com/SurgeDM/Surge/internal/types"
@@ -191,9 +192,22 @@ func RunDownload(ctx context.Context, cfg *types.DownloadRecord) error {
 	// Choose downloader based on probe results. Range-capable transfers stay in
 	// the range pipeline even with one worker so fresh downloads remain resumable.
 	var downloadErr error
+	compactMode := len(cfg.ByteRanges) > 0
 	useConcurrent := cfg.SupportsRange
 
-	if useConcurrent {
+	if compactMode {
+		// Compact byte-range fetch: strict partial-response contract, dense
+		// output file, no whole-file fallback and no single-stream restart.
+		utils.Debug("Using compact byte-range downloader")
+		d := compact.NewDownloader(cfg.ID, cfg.ProgressCh, progState, cfg.Runtime)
+		d.Headers = cfg.Headers
+		d.Limiter = cfg.Limiter
+		downloadErr = d.Download(ctx, cfg.URL, finalDestPath, cfg.ByteRanges, cfg.SourceSize, effectiveTotalSize,
+			cfg.Tasks, cfg.ChunkBitmap, cfg.ActualChunkSize, isResume)
+		if progState != nil {
+			effectiveTotalSize = cfg.TotalSize
+		}
+	} else if useConcurrent {
 		utils.Debug("Using concurrent downloader")
 
 		// We probe all candidate mirrors (mirrors) to filter out invalid ones
@@ -281,7 +295,7 @@ func RunDownload(ctx context.Context, cfg *types.DownloadRecord) error {
 		}
 	}
 
-	if !useConcurrent {
+	if !useConcurrent && !compactMode {
 		// Fallback to single-threaded downloader
 		utils.Debug("Using single-threaded downloader")
 		d := single.NewSingleDownloader(cfg.ID, cfg.ProgressCh, progState, cfg.Runtime)

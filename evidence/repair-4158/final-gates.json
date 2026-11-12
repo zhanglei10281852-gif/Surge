@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-11-12T04:30:28.959Z",
+  "id": "surgedm-surge-8ba94984-a429-44ce-b14f-dc3285db47e1",
+  "syncRevision": 10,
+  "ok": true,
+  "checks": {
+    "frozenPrompt": true,
+    "frozenStrictYaml": true,
+    "scanEvidence144": true,
+    "sameSessionAndTrajectory": true,
+    "resultR6Only": true,
+    "registeredForkParentAndWrite": true,
+    "publicFinalSource15Files": true,
+    "patchAppliesToRegisteredBase": true,
+    "all546SourceFilesMatch": true,
+    "modelUnmodified": true,
+    "screenshotVisuallyInspected": true,
+    "offlineCoreCliWithIsolatedState": true,
+    "localInterfaceFields": true
+  },
+  "patch": {
+    "bytes": 75752,
+    "sha256": "217a292e9313f472c4a4062505d24317ac2d198a242920b0f3ef678a8d2d88fa",
+    "files": 15,
+    "evidencePaths": 0,
+    "binaryChanges": 0
+  },
+  "trajectorySha256": "72e3425318430133d7321643f4c3c425e7a0eaad38a10cb873ba9400322461d5",
+  "screenshotSha256": "51ee7f56bfa8fced84cc0c7c049109f254a0286f0d4d420a553b2571ccbb1364",
+  "rubricSha256": "bc56fcd4f76c9e7af9941e0f10ae5cc81bd4cffbeb4bf92817bc0deca6ab8957",
+  "precheck": {
+    "status": "PRECHECK_PASSED",
+    "item": "9950",
+    "fingerprint": "4f6262e0202af0821d786f810aae6c3b316b54effda618a011f00a2b45cba4fc"
+  },
+  "completion": "部分完成",
+  "rounds": 144,
+  "results": "1 通过\n2 通过\n3 通过\n4 通过\n5 通过\n6 未通过 数据响应首次返回200或错误Content-Range后调度器仍重试并发布131072字节成功产物\n7 通过"
+}

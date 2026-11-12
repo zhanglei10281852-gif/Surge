@@ -59,6 +59,24 @@ func newFetchCommand() *cobra.Command {
 			if opts.timeout < 0 {
 				return usageError("--timeout must be nonnegative.")
 			}
+			var byteRanges []types.ByteRange
+			if cmd.Flags().Changed("byte-ranges") {
+				spec, _ := cmd.Flags().GetString("byte-ranges")
+				parsed, parseErr := parseByteRanges(spec)
+				if parseErr != nil {
+					return usageError(parseErr.Error())
+				}
+				byteRanges = parsed
+				if opts.resume != "" {
+					return usageError("--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.")
+				}
+				if resolveHostTarget() != "" {
+					return usageError("--byte-ranges only supports an embedded local fetch; remove the explicit remote host.")
+				}
+				if len(args) != 1 {
+					return usageError("--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.")
+				}
+			}
 			if opts.resume != "" {
 				if len(args) > 0 || resolveHostTarget() != "" || filename != "" || digest != "" || cmd.Flags().Changed("output") || cmd.Flags().Changed("on-exists") {
 					return usageError("--resume accepts only a local session ID and observation/output options.")
@@ -76,17 +94,20 @@ func newFetchCommand() *cobra.Command {
 				return usageError("Embedded fetch pauses on interruption; detach/cancel overrides require an explicit remote host.")
 			}
 			requests := make([]DownloadRequest, 0, len(args))
-			for _, input := range args {
-				url, mirrors, err := parseAndNormalizeURLArg(input)
-				if err != nil || url == "" {
-					return usageError("Each input must be an HTTP or HTTPS download URL.")
-				}
-				request, err := validateDownloadRequest(DownloadRequest{URL: url, Mirrors: mirrors, Path: output, Filename: filename, SkipApproval: true, SkipDuplicateWarning: true, IsExplicitCategory: true, Artifact: types.ArtifactPolicy{OnExists: onExists, ExpectedSHA256: digest}})
-				if err != nil {
-					return usageError("Invalid filename, destination policy, or expected SHA-256.")
-				}
-				requests = append(requests, request)
+		for _, input := range args {
+			url, mirrors, err := parseAndNormalizeURLArg(input)
+			if err != nil || url == "" {
+				return usageError("Each input must be an HTTP or HTTPS download URL.")
 			}
+			if len(byteRanges) > 0 && len(mirrors) > 1 {
+				return usageError("--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.")
+			}
+			request, err := validateDownloadRequest(DownloadRequest{URL: url, Mirrors: mirrors, Path: output, Filename: filename, SkipApproval: true, SkipDuplicateWarning: true, IsExplicitCategory: true, Artifact: types.ArtifactPolicy{OnExists: onExists, ExpectedSHA256: digest}, ByteRanges: byteRanges})
+			if err != nil {
+				return usageError("Invalid filename, destination policy, or expected SHA-256.")
+			}
+			requests = append(requests, request)
+		}
 			return runFetch(cmd, requests, opts)
 		}}
 	command.Flags().StringP("output", "o", "", "Destination directory (default: current directory)")
@@ -94,6 +115,7 @@ func newFetchCommand() *cobra.Command {
 	command.Flags().String("sha256", "", "Expected SHA-256, for one URL; verify before publication")
 	command.Flags().String("on-exists", "fail", "Destination policy: fail or rename")
 	command.Flags().String("resume", "", "Resume a saved local fetch session by full ID")
+	command.Flags().String("byte-ranges", "", "Comma-separated start:length source windows; write a compact file in list order (one local URL, no mirrors)")
 	command.Flags().Duration("timeout", 0, "Observation limit; embedded work checkpoints, daemon jobs continue")
 	command.Flags().String("on-interrupt", "", "Remote-only override: detach (default), pause, or cancel created jobs")
 	command.Flags().Bool("json", false, "Write one version 1 artifact result")
@@ -257,7 +279,7 @@ func applyFinalFetchResults(items []fetchItem, positions map[string]int, statuse
 }
 
 func downloadRequestForEngine(request DownloadRequest, path string) *orchestrator.DownloadRequest {
-	return &orchestrator.DownloadRequest{URL: request.URL, Path: path, Filename: request.Filename, Mirrors: request.Mirrors, Headers: request.Headers, IsExplicitCategory: true, SkipApproval: true, Workers: request.Workers, MinChunkSize: request.MinChunkSize, Artifact: request.Artifact}
+	return &orchestrator.DownloadRequest{URL: request.URL, Path: path, Filename: request.Filename, Mirrors: request.Mirrors, Headers: request.Headers, IsExplicitCategory: true, SkipApproval: true, Workers: request.Workers, MinChunkSize: request.MinChunkSize, Artifact: request.Artifact, ByteRanges: request.ByteRanges}
 }
 func fetchFailure(err error) clioutput.Failure {
 	if errors.Is(err, service.ErrArtifactUnavailable) {

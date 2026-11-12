@@ -1,0 +1,2054 @@
+diff --git a/cmd/byte_ranges.go b/cmd/byte_ranges.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed510db7feccd015f0f029e20298576b9e2be716
+--- /dev/null
++++ b/cmd/byte_ranges.go
+@@ -0,0 +1,57 @@
++package cmd
++
++import (
++	"fmt"
++	"math"
++	"strconv"
++	"strings"
++
++	"github.com/SurgeDM/Surge/internal/types"
++)
++
++// parseByteRanges parses a --byte-ranges specification: a comma-separated
++// list of start:length windows. start is a zero-based source byte offset and
++// length is a positive byte count. Both are decimal signed 64-bit integers,
++// so ParseInt rejects malformed tokens and out-of-range values. The summed
++// output length is checked for int64 overflow up front.
++func parseByteRanges(spec string) ([]types.ByteRange, error) {
++	trimmed := strings.TrimSpace(spec)
++	if trimmed == "" {
++		return nil, fmt.Errorf("--byte-ranges requires a non-empty comma-separated start:length list")
++	}
++	parts := strings.Split(trimmed, ",")
++	ranges := make([]types.ByteRange, 0, len(parts))
++	var total int64
++	for _, part := range parts {
++		item := strings.TrimSpace(part)
++		if item == "" {
++			return nil, fmt.Errorf("empty entry in --byte-ranges: %q", spec)
++		}
++		fields := strings.Split(item, ":")
++		if len(fields) != 2 || strings.TrimSpace(fields[0]) == "" || strings.TrimSpace(fields[1]) == "" {
++			return nil, fmt.Errorf("each --byte-ranges entry must be start:length: %q", item)
++		}
++		startText := strings.TrimSpace(fields[0])
++		lengthText := strings.TrimSpace(fields[1])
++		start, err := strconv.ParseInt(startText, 10, 64)
++		if err != nil {
++			return nil, fmt.Errorf("invalid byte-range start %q: %w", startText, err)
++		}
++		length, err := strconv.ParseInt(lengthText, 10, 64)
++		if err != nil {
++			return nil, fmt.Errorf("invalid byte-range length %q: %w", lengthText, err)
++		}
++		if start < 0 {
++			return nil, fmt.Errorf("byte-range start must not be negative: %d:%d", start, length)
++		}
++		if length <= 0 {
++			return nil, fmt.Errorf("byte-range length must be positive: %d:%d", start, length)
++		}
++		if total > math.MaxInt64-length {
++			return nil, fmt.Errorf("compact output length overflows int64 at byte range %d:%d", start, length)
++		}
++		total += length
++		ranges = append(ranges, types.ByteRange{Start: start, Length: length})
++	}
++	return ranges, nil
++}
+diff --git a/cmd/byte_ranges_test.go b/cmd/byte_ranges_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..4ef84ac6cb8165a0051b6df24dbec21e3628468b
+--- /dev/null
++++ b/cmd/byte_ranges_test.go
+@@ -0,0 +1,90 @@
++package cmd
++
++import (
++	"math"
++	"testing"
++
++	"github.com/SurgeDM/Surge/internal/types"
++)
++
++func TestParseByteRanges(t *testing.T) {
++	t.Run("ordered windows with overlap and repeat", func(t *testing.T) {
++		ranges, err := parseByteRanges("8:4,0:2,8:4")
++		if err != nil {
++			t.Fatalf("unexpected error: %v", err)
++		}
++		expected := []types.ByteRange{{Start: 8, Length: 4}, {Start: 0, Length: 2}, {Start: 8, Length: 4}}
++		if len(ranges) != len(expected) {
++			t.Fatalf("got %d ranges, want %d", len(ranges), len(expected))
++		}
++		for i := range expected {
++			if ranges[i] != expected[i] {
++				t.Fatalf("range %d = %+v, want %+v", i, ranges[i], expected[i])
++			}
++		}
++		total, err := types.CompactByteRanges(ranges)
++		if err != nil || total != 10 {
++			t.Fatalf("compact total = %d, %v; want 10", total, err)
++		}
++	})
++
++	t.Run("whitespace is tolerated", func(t *testing.T) {
++		ranges, err := parseByteRanges(" 0 : 2 , 8:4 ")
++		if err != nil {
++			t.Fatalf("unexpected error: %v", err)
++		}
++		if len(ranges) != 2 || ranges[0].Start != 0 || ranges[1].Start != 8 {
++			t.Fatalf("unexpected ranges: %+v", ranges)
++		}
++	})
++
++	t.Run("maximum int64 window", func(t *testing.T) {
++		ranges, err := parseByteRanges("0:9223372036854775807")
++		if err != nil {
++			t.Fatalf("unexpected error: %v", err)
++		}
++		if ranges[0].Length != math.MaxInt64 {
++			t.Fatalf("length = %d, want MaxInt64", ranges[0].Length)
++		}
++	})
++}
++
++func TestParseByteRangesRejects(t *testing.T) {
++	cases := map[string]string{
++		"empty spec":            "",
++		"whitespace only":       "   ",
++		"trailing comma":        "0:4,",
++		"empty entry":           ",0:4",
++		"missing colon":         "0",
++		"missing length":        "0:",
++		"missing start":         ":4",
++		"too many colons":       "0:4:8",
++		"non-numeric start":     "a:4",
++		"non-numeric length":    "0:b",
++		"negative start":        "-1:4",
++		"zero length":           "0:0",
++		"negative length":       "0:-4",
++		"length over int64":     "0:9223372036854775808",
++		"start over int64":      "9223372036854775808:1",
++		"sum overflows int64":   "0:9223372036854775807,0:1",
++		"many windows overflow": "0:9000000000000000000,0:9000000000000000000",
++	}
++	for name, spec := range cases {
++		t.Run(name, func(t *testing.T) {
++			if _, err := parseByteRanges(spec); err == nil {
++				t.Fatalf("parseByteRanges(%q) succeeded, want error", spec)
++			}
++		})
++	}
++}
++
++func TestCompactByteRangesRepeatsCountIndependently(t *testing.T) {
++	ranges := []types.ByteRange{{Start: 8, Length: 4}, {Start: 8, Length: 4}, {Start: 8, Length: 4}}
++	total, err := types.CompactByteRanges(ranges)
++	if err != nil {
++		t.Fatalf("unexpected error: %v", err)
++	}
++	if total != 12 {
++		t.Fatalf("total = %d, want 12 (each occurrence counts)", total)
++	}
++}
+diff --git a/cmd/fetch.go b/cmd/fetch.go
+index f433fe8aec77acb6fd6196c18274d4293ece8d4f..07e4eb6956073d95bcf968fb2422b3546a84c203 100644
+--- a/cmd/fetch.go
++++ b/cmd/fetch.go
+@@ -59,6 +59,24 @@ func newFetchCommand() *cobra.Command {
+ 			if opts.timeout < 0 {
+ 				return usageError("--timeout must be nonnegative.")
+ 			}
++			var byteRanges []types.ByteRange
++			if cmd.Flags().Changed("byte-ranges") {
++				spec, _ := cmd.Flags().GetString("byte-ranges")
++				parsed, parseErr := parseByteRanges(spec)
++				if parseErr != nil {
++					return usageError(parseErr.Error())
++				}
++				byteRanges = parsed
++				if opts.resume != "" {
++					return usageError("--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.")
++				}
++				if resolveHostTarget() != "" {
++					return usageError("--byte-ranges only supports an embedded local fetch; remove the explicit remote host.")
++				}
++				if len(args) != 1 {
++					return usageError("--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.")
++				}
++			}
+ 			if opts.resume != "" {
+ 				if len(args) > 0 || resolveHostTarget() != "" || filename != "" || digest != "" || cmd.Flags().Changed("output") || cmd.Flags().Changed("on-exists") {
+ 					return usageError("--resume accepts only a local session ID and observation/output options.")
+@@ -76,17 +94,20 @@ func newFetchCommand() *cobra.Command {
+ 				return usageError("Embedded fetch pauses on interruption; detach/cancel overrides require an explicit remote host.")
+ 			}
+ 			requests := make([]DownloadRequest, 0, len(args))
+-			for _, input := range args {
+-				url, mirrors, err := parseAndNormalizeURLArg(input)
+-				if err != nil || url == "" {
+-					return usageError("Each input must be an HTTP or HTTPS download URL.")
+-				}
+-				request, err := validateDownloadRequest(DownloadRequest{URL: url, Mirrors: mirrors, Path: output, Filename: filename, SkipApproval: true, SkipDuplicateWarning: true, IsExplicitCategory: true, Artifact: types.ArtifactPolicy{OnExists: onExists, ExpectedSHA256: digest}})
+-				if err != nil {
+-					return usageError("Invalid filename, destination policy, or expected SHA-256.")
+-				}
+-				requests = append(requests, request)
++		for _, input := range args {
++			url, mirrors, err := parseAndNormalizeURLArg(input)
++			if err != nil || url == "" {
++				return usageError("Each input must be an HTTP or HTTPS download URL.")
++			}
++			if len(byteRanges) > 0 && len(mirrors) > 1 {
++				return usageError("--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.")
+ 			}
++			request, err := validateDownloadRequest(DownloadRequest{URL: url, Mirrors: mirrors, Path: output, Filename: filename, SkipApproval: true, SkipDuplicateWarning: true, IsExplicitCategory: true, Artifact: types.ArtifactPolicy{OnExists: onExists, ExpectedSHA256: digest}, ByteRanges: byteRanges})
++			if err != nil {
++				return usageError("Invalid filename, destination policy, or expected SHA-256.")
++			}
++			requests = append(requests, request)
++		}
+ 			return runFetch(cmd, requests, opts)
+ 		}}
+ 	command.Flags().StringP("output", "o", "", "Destination directory (default: current directory)")
+@@ -94,6 +115,7 @@ func newFetchCommand() *cobra.Command {
+ 	command.Flags().String("sha256", "", "Expected SHA-256, for one URL; verify before publication")
+ 	command.Flags().String("on-exists", "fail", "Destination policy: fail or rename")
+ 	command.Flags().String("resume", "", "Resume a saved local fetch session by full ID")
++	command.Flags().String("byte-ranges", "", "Comma-separated start:length source windows; write a compact file in list order (one local URL, no mirrors)")
+ 	command.Flags().Duration("timeout", 0, "Observation limit; embedded work checkpoints, daemon jobs continue")
+ 	command.Flags().String("on-interrupt", "", "Remote-only override: detach (default), pause, or cancel created jobs")
+ 	command.Flags().Bool("json", false, "Write one version 1 artifact result")
+@@ -257,7 +279,7 @@ func applyFinalFetchResults(items []fetchItem, positions map[string]int, statuse
+ }
+ 
+ func downloadRequestForEngine(request DownloadRequest, path string) *orchestrator.DownloadRequest {
+-	return &orchestrator.DownloadRequest{URL: request.URL, Path: path, Filename: request.Filename, Mirrors: request.Mirrors, Headers: request.Headers, IsExplicitCategory: true, SkipApproval: true, Workers: request.Workers, MinChunkSize: request.MinChunkSize, Artifact: request.Artifact}
++	return &orchestrator.DownloadRequest{URL: request.URL, Path: path, Filename: request.Filename, Mirrors: request.Mirrors, Headers: request.Headers, IsExplicitCategory: true, SkipApproval: true, Workers: request.Workers, MinChunkSize: request.MinChunkSize, Artifact: request.Artifact, ByteRanges: request.ByteRanges}
+ }
+ func fetchFailure(err error) clioutput.Failure {
+ 	if errors.Is(err, service.ErrArtifactUnavailable) {
+diff --git a/cmd/fetch_byte_ranges_test.go b/cmd/fetch_byte_ranges_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..65ec766f1be7d0adc6107c20f193f274d273957a
+--- /dev/null
++++ b/cmd/fetch_byte_ranges_test.go
+@@ -0,0 +1,388 @@
++package cmd
++
++import (
++	"bytes"
++	"context"
++	"fmt"
++	"net/http"
++	"net/http/httptest"
++	"os"
++	"path/filepath"
++	"strconv"
++	"strings"
++	"sync"
++	"sync/atomic"
++	"testing"
++	"time"
++
++	"github.com/SurgeDM/Surge/internal/testutil"
++	"github.com/SurgeDM/Surge/internal/types"
++)
++
++// rangeTestServer implements a strict range server with configurable failure
++// modes for compact byte-range fetch integration tests.
++type rangeTestServer struct {
++	*httptest.Server
++	payload []byte
++
++	rangeRequests atomic.Int64
++	fullRequests  atomic.Int64
++
++	mu                sync.Mutex
++	ignoreRangeOnData bool // 200 instead of 206 for non-probe GETs
++	badContentRange   bool // 206 with a wrong total for non-probe GETs
++	earlyEOFOnce      bool // cut the first data response short
++	blockUntilRelease bool // hold data responses until releaseCh
++	releaseCh         chan struct{}
++	releaseOnce       sync.Once
++}
++
++func newRangeTestServer(t *testing.T, payload []byte) *rangeTestServer {
++	t.Helper()
++	s := &rangeTestServer{payload: payload, releaseCh: make(chan struct{})}
++	s.Server = testutil.NewHTTPServerT(t, http.HandlerFunc(s.handle))
++	return s
++}
++
++func (s *rangeTestServer) handle(w http.ResponseWriter, r *http.Request) {
++	if r.Method == http.MethodHead {
++		w.Header().Set("Accept-Ranges", "bytes")
++		w.Header().Set("Content-Length", strconv.Itoa(len(s.payload)))
++		w.WriteHeader(http.StatusOK)
++		return
++	}
++	rangeHeader := r.Header.Get("Range")
++	if rangeHeader == "" {
++		s.fullRequests.Add(1)
++		w.Header().Set("Content-Length", strconv.Itoa(len(s.payload)))
++		w.WriteHeader(http.StatusOK)
++		_, _ = w.Write(s.payload)
++		return
++	}
++	s.rangeRequests.Add(1)
++	start, end, ok := parseTestRange(rangeHeader, int64(len(s.payload)))
++	if !ok {
++		http.Error(w, "invalid range", http.StatusRequestedRangeNotSatisfiable)
++		return
++	}
++	isProbe := start == 0 && end == 0
++
++	s.mu.Lock()
++	ignore := s.ignoreRangeOnData
++	badRange := s.badContentRange
++	cutEarly := s.earlyEOFOnce
++	block := s.blockUntilRelease
++	if s.earlyEOFOnce {
++		s.earlyEOFOnce = false
++	}
++	s.mu.Unlock()
++
++	if !isProbe && ignore {
++		s.fullRequests.Add(1)
++		w.Header().Set("Content-Length", strconv.Itoa(len(s.payload)))
++		w.WriteHeader(http.StatusOK)
++		_, _ = w.Write(s.payload)
++		return
++	}
++
++	total := int64(len(s.payload))
++	if !isProbe && badRange {
++		total = int64(len(s.payload)) + 1
++	}
++	w.Header().Set("Content-Range", fmt.Sprintf("bytes %d-%d/%d", start, end, total))
++	w.Header().Set("Content-Length", strconv.FormatInt(end-start+1, 10))
++	w.WriteHeader(http.StatusPartialContent)
++
++	if !isProbe && block {
++		// Write the first slab, flush, then park until the test releases us so
++		// a timeout can checkpoint a partially completed window.
++		first := end - start + 1
++		if first > 4096 {
++			first = 4096
++		}
++		_, _ = w.Write(s.payload[start : start+first])
++		if f, ok := w.(http.Flusher); ok {
++			f.Flush()
++		}
++		select {
++		case <-s.releaseCh:
++		case <-r.Context().Done():
++			return
++		}
++		_, _ = w.Write(s.payload[start+first : end+1])
++		return
++	}
++
++	if !isProbe && cutEarly {
++		cut := end - start + 1
++		if cut > 64 {
++			cut = 64
++		}
++		_, _ = w.Write(s.payload[start : start+cut])
++		if f, ok := w.(http.Flusher); ok {
++			f.Flush()
++		}
++		return // early EOF: client must retry the remainder
++	}
++	_, _ = w.Write(s.payload[start : end+1])
++}
++
++func (s *rangeTestServer) release() {
++	s.releaseOnce.Do(func() { close(s.releaseCh) })
++}
++
++func parseTestRange(header string, size int64) (start, end int64, ok bool) {
++	spec := strings.TrimPrefix(header, "bytes=")
++	parts := strings.Split(spec, "-")
++	if len(parts) != 2 {
++		return 0, 0, false
++	}
++	start, err := strconv.ParseInt(parts[0], 10, 64)
++	if err != nil {
++		return 0, 0, false
++	}
++	if parts[1] == "" {
++		end = size - 1
++	} else {
++		end, err = strconv.ParseInt(parts[1], 10, 64)
++		if err != nil {
++			return 0, 0, false
++		}
++	}
++	if start < 0 || end >= size || start > end {
++		return 0, 0, false
++	}
++	return start, end, true
++}
++
++func compactExpectation(payload []byte, ranges []types.ByteRange) []byte {
++	var out bytes.Buffer
++	for _, r := range ranges {
++		out.Write(payload[r.Start : r.Start+r.Length])
++	}
++	return out.Bytes()
++}
++
++func TestFetchByteRangesCompactContentAndOrder(t *testing.T) {
++	setupIsolatedCmdState(t)
++	resetCommandConnectionState(t)
++	payload := []byte("0123456789ABCDEF") // 16 source bytes
++	srv := newRangeTestServer(t, payload)
++	directory := t.TempDir()
++
++	code, result, _ := executeFetchTest(t, context.Background(),
++		"--output", directory, "--filename", "compact.bin",
++		"--byte-ranges", "8:4,0:2,8:4", srv.URL+"/file")
++	if code != 0 || !result.OK || len(result.Items) != 1 {
++		t.Fatalf("fetch failed: code=%d result=%+v", code, result)
++	}
++	item := result.Items[0]
++	if item.Artifact == nil || item.Artifact.SizeBytes != "10" {
++		t.Fatalf("artifact receipt = %+v, want 10 compact bytes", item.Artifact)
++	}
++	if item.DownloadedBytes != "10" || item.TotalBytes == nil || *item.TotalBytes != "10" {
++		t.Fatalf("progress totals not compact-based: downloaded=%q total=%v", item.DownloadedBytes, item.TotalBytes)
++	}
++	want := compactExpectation(payload, []types.ByteRange{{Start: 8, Length: 4}, {Start: 0, Length: 2}, {Start: 8, Length: 4}})
++	data, err := os.ReadFile(filepath.Join(directory, "compact.bin"))
++	if err != nil || !bytes.Equal(data, want) {
++		t.Fatalf("compact content = %q, want %q (err=%v)", data, want, err)
++	}
++	if _, err := os.Stat(filepath.Join(directory, "compact.bin.surge")); !os.IsNotExist(err) {
++		t.Fatal("working file was not removed after publication")
++	}
++	if srv.fullRequests.Load() != 0 {
++		t.Fatalf("server observed %d non-range requests; only selected windows may be fetched", srv.fullRequests.Load())
++	}
++	if srv.rangeRequests.Load() < 2 {
++		t.Fatalf("expected ranged probe plus data requests, got %d range requests", srv.rangeRequests.Load())
++	}
++}
++
++func TestFetchByteRangesArgumentValidation(t *testing.T) {
++	setupIsolatedCmdState(t)
++	resetCommandConnectionState(t)
++	payload := []byte("0123456789ABCDEF")
++	srv := newRangeTestServer(t, payload)
++	second := testutil.NewHTTPServerT(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		w.Header().Set("Content-Length", strconv.Itoa(len(payload)))
++		if r.Method != http.MethodHead {
++			_, _ = w.Write(payload)
++		}
++	}))
++	defer second.Close()
++
++	cases := []struct {
++		name string
++		args []string
++	}{
++		{"empty list", []string{"--byte-ranges", "", srv.URL}},
++		{"malformed token", []string{"--byte-ranges", "x:3", srv.URL}},
++		{"negative start", []string{"--byte-ranges", "-1:2", srv.URL}},
++		{"zero length", []string{"--byte-ranges", "0:0", srv.URL}},
++		{"negative length", []string{"--byte-ranges", "0:-2", srv.URL}},
++		{"numeric overflow", []string{"--byte-ranges", "0:9223372036854775808", srv.URL}},
++		{"sum overflow", []string{"--byte-ranges", "9223372036854775807:1,0:1", srv.URL}},
++		{"multiple urls", []string{"--byte-ranges", "0:1", srv.URL, second.URL}},
++		{"mirror list", []string{"--byte-ranges", "0:1", srv.URL + "," + second.URL}},
++		{"resume conflict", []string{"--byte-ranges", "0:1", "--resume", "12345678-1234-1234-1234-123456789012", srv.URL}},
++	}
++	for _, tc := range cases {
++		t.Run(tc.name, func(t *testing.T) {
++			directory := t.TempDir()
++			args := append([]string{"--output", directory, "--filename", "reject.bin"}, tc.args...)
++			code, result, _ := executeFetchTest(t, context.Background(), args...)
++			if code != 2 || result.OK {
++				t.Fatalf("expected invalid-arguments exit 2, got code=%d result=%+v", code, result)
++			}
++			entries, _ := os.ReadDir(directory)
++			if len(entries) != 0 {
++				t.Fatalf("rejected fetch left files behind: %v", entries)
++			}
++		})
++	}
++}
++
++func TestFetchByteRangesWindowExceedsSourceLeavesNoWork(t *testing.T) {
++	setupIsolatedCmdState(t)
++	resetCommandConnectionState(t)
++	payload := []byte("0123456789ABCDEF") // 16 bytes
++	srv := newRangeTestServer(t, payload)
++	directory := t.TempDir()
++
++	code, result, _ := executeFetchTest(t, context.Background(),
++		"--output", directory, "--filename", "too-far.bin",
++		"--byte-ranges", "0:4,12:8", srv.URL+"/file")
++	if code == 0 || result.OK {
++		t.Fatalf("out-of-bounds window accepted: %+v", result)
++	}
++	if result.Items[0].Artifact != nil {
++		t.Fatal("rejected window produced an artifact receipt")
++	}
++	for _, name := range []string{"too-far.bin", "too-far.bin.surge"} {
++		if _, err := os.Stat(filepath.Join(directory, name)); !os.IsNotExist(err) {
++			t.Fatalf("rejected window left %s behind", name)
++		}
++	}
++}
++
++func TestFetchByteRangesRejects200AndBadContentRange(t *testing.T) {
++	payload := bytes.Repeat([]byte("0123456789ABCDEF"), 256) // 4 KiB
++
++	t.Run("server ignores range on data requests", func(t *testing.T) {
++		setupIsolatedCmdState(t)
++		resetCommandConnectionState(t)
++		srv := newRangeTestServer(t, payload)
++		srv.mu.Lock()
++		srv.ignoreRangeOnData = true
++		srv.mu.Unlock()
++		directory := t.TempDir()
++
++		code, result, _ := executeFetchTest(t, context.Background(),
++			"--output", directory, "--filename", "two-hundred.bin",
++			"--byte-ranges", "0:16,8:16", srv.URL+"/file")
++		if code == 0 || result.OK || result.Items[0].Artifact != nil {
++			t.Fatalf("200 response was accepted: code=%d %+v", code, result)
++		}
++		if _, err := os.Stat(filepath.Join(directory, "two-hundred.bin")); !os.IsNotExist(err) {
++			t.Fatal("unpublished 200 failure promoted an artifact")
++		}
++		if _, err := os.Stat(filepath.Join(directory, "two-hundred.bin.surge")); os.IsNotExist(err) {
++			t.Fatal("working file should be retained for an unpublished failure")
++		}
++	})
++
++	t.Run("content-range total does not match source", func(t *testing.T) {
++		setupIsolatedCmdState(t)
++		resetCommandConnectionState(t)
++		srv := newRangeTestServer(t, payload)
++		srv.mu.Lock()
++		srv.badContentRange = true
++		srv.mu.Unlock()
++		directory := t.TempDir()
++
++		code, result, _ := executeFetchTest(t, context.Background(),
++			"--output", directory, "--filename", "bad-range.bin",
++			"--byte-ranges", "0:16", srv.URL+"/file")
++		if code == 0 || result.OK || result.Items[0].Artifact != nil {
++			t.Fatalf("mismatched Content-Range accepted: code=%d %+v", code, result)
++		}
++		if _, err := os.Stat(filepath.Join(directory, "bad-range.bin")); !os.IsNotExist(err) {
++			t.Fatal("unpublished Content-Range failure promoted an artifact")
++		}
++	})
++}
++
++func TestFetchByteRangesEarlyEOFRetriesWithinWindow(t *testing.T) {
++	setupIsolatedCmdState(t)
++	resetCommandConnectionState(t)
++	payload := bytes.Repeat([]byte("0123456789ABCDEF"), 1024) // 16 KiB
++	srv := newRangeTestServer(t, payload)
++	srv.mu.Lock()
++	srv.earlyEOFOnce = true
++	srv.mu.Unlock()
++	directory := t.TempDir()
++
++	ranges := []types.ByteRange{{Start: 16, Length: 4096}, {Start: 0, Length: 32}, {Start: 4096, Length: 4096}}
++	code, result, _ := executeFetchTest(t, context.Background(),
++		"--output", directory, "--filename", "retried.bin",
++		"--byte-ranges", "16:4096,0:32,4096:4096", srv.URL+"/file")
++	if code != 0 || !result.OK {
++		t.Fatalf("retry after early EOF failed: code=%d %+v", code, result)
++	}
++	want := compactExpectation(payload, ranges)
++	data, err := os.ReadFile(filepath.Join(directory, "retried.bin"))
++	if err != nil || !bytes.Equal(data, want) {
++		t.Fatalf("retried compact content mismatch: %v", err)
++	}
++	if result.Items[0].DownloadedBytes != strconv.Itoa(len(want)) {
++		t.Fatalf("retried output double-counted bytes: %q want %d", result.Items[0].DownloadedBytes, len(want))
++	}
++}
++
++func TestFetchByteRangesCheckpointAndResume(t *testing.T) {
++	setupIsolatedCmdState(t)
++	resetCommandConnectionState(t)
++	payload := bytes.Repeat([]byte("0123456789ABCDEF"), 8*1024) // 128 KiB
++	ranges := []types.ByteRange{{Start: 1024, Length: 32 * 1024}, {Start: 0, Length: 1024}, {Start: 64 * 1024, Length: 32 * 1024}}
++	compactSize := 32*1024 + 1024 + 32*1024
++	want := compactExpectation(payload, ranges)
++
++	srv := newRangeTestServer(t, payload)
++	srv.mu.Lock()
++	srv.blockUntilRelease = true
++	srv.mu.Unlock()
++	directory := t.TempDir()
++
++	first, firstResult, _ := func() (int, fetchResult, string) {
++		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
++		defer cancel()
++		return executeFetchTest(t, ctx,
++			"--output", directory, "--filename", "paused.bin",
++			"--timeout", "800ms",
++			"--byte-ranges", "1024:32768,0:1024,65536:32768", srv.URL+"/file")
++	}()
++	if firstResult.CheckpointConfirmed == nil || !*firstResult.CheckpointConfirmed || firstResult.SessionID == "" {
++		t.Fatalf("timeout did not checkpoint compact fetch: code=%d %+v", first, firstResult)
++	}
++	if firstResult.Items[0].TotalBytes == nil || *firstResult.Items[0].TotalBytes != strconv.Itoa(compactSize) {
++		t.Fatalf("checkpoint total not compact size: %+v", firstResult.Items[0])
++	}
++	srv.release()
++
++	// Resume in a fresh process: no --byte-ranges, only the session ID.
++	code, resumed, _ := executeFetchTest(t, context.Background(), "--resume", firstResult.SessionID)
++	if code != 0 || !resumed.OK || resumed.Items[0].Artifact == nil {
++		t.Fatalf("compact resume failed: code=%d %+v", code, resumed)
++	}
++	if resumed.Items[0].Artifact.SizeBytes != strconv.Itoa(compactSize) {
++		t.Fatalf("resumed artifact size = %s, want %d", resumed.Items[0].Artifact.SizeBytes, compactSize)
++	}
++	data, err := os.ReadFile(filepath.Join(directory, "paused.bin"))
++	if err != nil || !bytes.Equal(data, want) {
++		t.Fatalf("resumed compact content mismatch: %v", err)
++	}
++	if srv.fullRequests.Load() != 0 {
++		t.Fatalf("resume issued non-range requests: %d", srv.fullRequests.Load())
++	}
++}
+diff --git a/cmd/root_downloads.go b/cmd/root_downloads.go
+index 158c2e154e4596f1de9050e61d812d032c7c27d2..cb22130b918a8a17d5f28576468a78f486cfaf36 100644
+--- a/cmd/root_downloads.go
++++ b/cmd/root_downloads.go
+@@ -34,6 +34,7 @@ type DownloadRequest struct {
+ 	IsExplicitCategory   bool                 `json:"is_explicit_category,omitempty"`
+ 	Workers              int                  `json:"workers,omitempty"`        // Per-task worker count override (bypasses √size heuristic when >0)
+ 	MinChunkSize         int64                `json:"min_chunk_size,omitempty"` // Per-task minimum chunk size override
++	ByteRanges           []types.ByteRange    `json:"byte_ranges,omitempty"`   // Compact byte-range fetch windows (foreground fetch only)
+ }
+ 
+ type BatchDownloadRequest struct {
+@@ -228,6 +229,7 @@ func validateDownloadRequest(req DownloadRequest) (DownloadRequest, error) {
+ 		IsExplicitCategory:   req.IsExplicitCategory,
+ 		Workers:              req.Workers,
+ 		MinChunkSize:         req.MinChunkSize,
++		ByteRanges:           req.ByteRanges,
+ 	}, nil
+ }
+ 
+diff --git a/docs/reference/commands/fetch.md b/docs/reference/commands/fetch.md
+index 7641b08a381fbe750a5728ab28c4a899df4ee8d5..57fbe357c9cc73392b796a6812ac8e03c2fb75ee 100644
+--- a/docs/reference/commands/fetch.md
++++ b/docs/reference/commands/fetch.md
+@@ -42,6 +42,35 @@ promptly. `checkpoint_confirmed: false` means the final checkpoint could not be
+ confirmed; recovery uses the last committed state. SIGINT exits 130; SIGTERM exits
+ 143 where supported. A hard kill provides no final checkpoint guarantee.
+ 
++## Compact byte-range fetches
++
++`--byte-ranges "start:length,start:length"` downloads selected source windows
++into one compact file, written in list order with no gaps. `start` is a
++zero-based source byte offset and `length` is a positive byte count; both are
++decimal signed 64-bit integers. Windows may be unordered, overlapping, or
++repeated, and every occurrence occupies its own output position, e.g.
++`8:4,0:2,8:4` writes source bytes 8-11, then 0-1, then 8-11 again.
++
++The option requires exactly one local HTTP(S) URL and cannot be combined with
++mirror lists, multiple URLs, an explicit remote `--host`, or `--resume`. The
++source must confirm its total length and prove range support during probing;
++empty lists, malformed entries, negative starts, non-positive lengths,
++overflowing totals, and windows past the source length are rejected before any
++working file or download record exists. Data requests only cover the selected
++windows — the full source is never downloaded and trimmed. A server that
++ignores `Range` (200) or returns a 206 `Content-Range` inconsistent with the
++requested interval or the confirmed source length fails the job without
++publishing an artifact or falling back to a whole-file stream.
++
++Progress totals and the final receipt size describe the compact file:
++repeated source bytes count at each output position, retried positions are not
++counted twice, and completion is never announced while output gaps remain.
++A `--timeout` checkpoint stores the selection plan and per-window remainder;
++a later `surge fetch --resume SESSION_ID` in a new process restores the same
++selection order and reuses confirmed bytes without passing `--byte-ranges`
++again. Ordinary fetches and older sessions keep their whole-file semantics,
++including the single-stream fallback when range support is absent.
++
+ An explicit remote host creates daemon-owned jobs. Timeout and interruption detach
+ by default and leave them running. `--on-interrupt pause|cancel` sends requests
+ only for IDs with confirmed acceptance from this invocation and reports their
+diff --git a/internal/orchestrator/events.go b/internal/orchestrator/events.go
+index 82d78bd2a31a4f6a89b36bff623b4738624e4b0f..5250aa85d24ef14b91dc47b87846634b2a7ddde9 100644
+--- a/internal/orchestrator/events.go
++++ b/internal/orchestrator/events.go
+@@ -55,6 +55,22 @@ func isTaskBackedResumeSnapshot(rec types.DownloadRecord) bool {
+ 	if len(rec.Tasks) == 0 || rec.TotalSize <= 0 {
+ 		return false
+ 	}
++	// Compact byte-range snapshots key HTTP requests at source offsets but
++	// write at independent output offsets, which are validated separately.
++	if len(rec.ByteRanges) > 0 {
++		for _, task := range rec.Tasks {
++			if task.Offset < 0 || task.DstOffset < 0 || task.Length <= 0 {
++				return false
++			}
++			if task.Length > rec.SourceSize || task.Offset > rec.SourceSize-task.Length {
++				return false
++			}
++			if task.Length > rec.TotalSize || task.DstOffset > rec.TotalSize-task.Length {
++				return false
++			}
++		}
++		return true
++	}
+ 	for _, task := range rec.Tasks {
+ 		if task.Offset < 0 || task.Length <= 0 {
+ 			return false
+diff --git a/internal/orchestrator/manager.go b/internal/orchestrator/manager.go
+index 56e1a20e7b5ecb7a334eb85da34c49631ab1daaf..d348b34df37dcd5d4febbbe794cc52334c7790e1 100644
+--- a/internal/orchestrator/manager.go
++++ b/internal/orchestrator/manager.go
+@@ -213,6 +213,9 @@ type DownloadRequest struct {
+ 	SkipApproval       bool
+ 	Workers            int
+ 	MinChunkSize       int64
++	// ByteRanges selects compact byte-range mode when non-empty: the output
++	// file contains only the selected windows in list order.
++	ByteRanges []types.ByteRange
+ }
+ 
+ // Enqueue probes and reserves a stable destination before dispatching to the queue layer.
+@@ -312,6 +315,10 @@ func enqueueCoalescingKey(req *DownloadRequest) string {
+ 	}
+ 
+ 	fmt.Fprintf(&key, "%t:%t:%d:%d", req.IsExplicitCategory, req.SkipApproval, req.Workers, req.MinChunkSize)
++	fmt.Fprintf(&key, "ranges:%d:", len(req.ByteRanges))
++	for _, r := range req.ByteRanges {
++		fmt.Fprintf(&key, "%d:%d,", r.Start, r.Length)
++	}
+ 	return key.String()
+ }
+ 
+@@ -335,7 +342,14 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
+ 	}
+ 
+ 	probeResult, probeErr := probing.ProbeServerWithProxy(ctx, req.URL, req.Filename, req.Headers, settings.ToRuntimeConfig())
++	compactMode := len(req.ByteRanges) > 0
+ 	if probeErr != nil {
++		// Compact byte-range fetches cannot start without confirmed metadata:
++		// the selection must be validated against a known source length and
++		// every data request relies on a proven range contract.
++		if compactMode {
++			return "", "", fmt.Errorf("byte-range fetch requires a reachable source with confirmed metadata: %w", probeErr)
++		}
+ 		// Distinguish between terminal client errors (invalid scheme, etc.) and
+ 		// server-side rejections or timeouts that we can optimistically ignore.
+ 		var urlErr *neturl.Error
+@@ -362,6 +376,29 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
+ 		}
+ 	}
+ 
++	// Compact mode requires a confirmed source length and proven range support.
++	// Everything below fails before any working file or download record exists.
++	var compactTotal int64
++	if compactMode {
++		if probeResult == nil || !probeResult.SupportsRange || probeResult.FileSize <= 0 {
++			return "", "", fmt.Errorf("byte-range fetch requires a source that reports its total length and supports byte ranges")
++		}
++		for _, selected := range req.ByteRanges {
++			if selected.Start < 0 || selected.Length <= 0 {
++				return "", "", fmt.Errorf("invalid byte range %d:%d", selected.Start, selected.Length)
++			}
++			// Overflow-safe window bound: Start+Length <= FileSize.
++			if selected.Length > probeResult.FileSize || selected.Start > probeResult.FileSize-selected.Length {
++				return "", "", fmt.Errorf("byte range %d:%d exceeds confirmed source length %d", selected.Start, selected.Length, probeResult.FileSize)
++			}
++		}
++		total, compactErr := types.CompactByteRanges(req.ByteRanges)
++		if compactErr != nil {
++			return "", "", compactErr
++		}
++		compactTotal = total
++	}
++
+ 	isNameActive := mgr.buildIsNameActive()
+ 
+ 	for attempt := 0; attempt < maxWorkingFileReservationAttempts; attempt++ {
+@@ -386,13 +423,18 @@ func (mgr *LifecycleManager) enqueueNew(ctx context.Context, req *DownloadReques
+ 		// Known-size disk precheck before reservation so a reject leaves no
+ 		// exclusive .surge orphan. Resume bypasses enqueueResolved by design.
+ 		if probeResult != nil && probeResult.FileSize > 0 {
++			requiredSize := probeResult.FileSize
++			if compactMode {
++				// The compact artifact only holds the selected windows.
++				requiredSize = compactTotal
++			}
+ 			free, freeErr := freeDiskBytes(finalPath)
+ 			if freeErr != nil {
+ 				utils.Debug("Lifecycle: free-space query failed for %s: %v (fail-open)", finalPath, freeErr)
+ 			} else {
+ 				buffer := settings.ToRuntimeConfig().GetPrecheckSafetyBuffer()
+-				if !utils.HasSufficientDiskSpace(probeResult.FileSize, free, buffer) {
+-					utils.Debug("Lifecycle: insufficient disk for %s (size=%d free=%d buffer=%d)", finalPath, probeResult.FileSize, free, buffer)
++				if !utils.HasSufficientDiskSpace(requiredSize, free, buffer) {
++					utils.Debug("Lifecycle: insufficient disk for %s (size=%d free=%d buffer=%d)", finalPath, requiredSize, free, buffer)
+ 					return "", "", types.ErrInsufficientDiskSpace
+ 				}
+ 			}
+@@ -549,6 +591,19 @@ func (mgr *LifecycleManager) buildDownloadRecord(req *DownloadRequest, requestID
+ 		}
+ 	}
+ 
++	compactTotal, compactErr := types.CompactByteRanges(req.ByteRanges)
++	if compactErr != nil {
++		return nil, compactErr
++	}
++	totalSize := probeResult.FileSize
++	sourceSize := int64(0)
++	if len(req.ByteRanges) > 0 {
++		// In compact mode TotalSize tracks the dense output length; the
++		// confirmed source length is retained for response validation.
++		totalSize = compactTotal
++		sourceSize = probeResult.FileSize
++	}
++
+ 	cfg := types.DownloadRecord{Artifact: req.Artifact,
+ 		URL:                req.URL,
+ 		Mirrors:            req.Mirrors,
+@@ -559,7 +614,9 @@ func (mgr *LifecycleManager) buildDownloadRecord(req *DownloadRequest, requestID
+ 		Runtime:            runtime,
+ 		Headers:            req.Headers,
+ 		IsExplicitCategory: req.IsExplicitCategory,
+-		TotalSize:          probeResult.FileSize,
++		TotalSize:          totalSize,
++		SourceSize:         sourceSize,
++		ByteRanges:         append([]types.ByteRange(nil), req.ByteRanges...),
+ 		SupportsRange:      probeResult.SupportsRange,
+ 		RateLimit:          rateLimit,
+ 		RateLimitSet:       rateLimitSet,
+diff --git a/internal/orchestrator/pause_resume.go b/internal/orchestrator/pause_resume.go
+index 56bde793ec264cd0f13858e3d233e4444a184431..c6d137d1f21141373cf3330ad047f9b7fbee32bc 100644
+--- a/internal/orchestrator/pause_resume.go
++++ b/internal/orchestrator/pause_resume.go
+@@ -72,6 +72,11 @@ func hydrateConfigFromDisk(cfg *types.DownloadRecord) {
+ 	if saved.TotalSize > 0 {
+ 		cfg.TotalSize = saved.TotalSize
+ 	}
++	if len(saved.ByteRanges) > 0 {
++		cfg.ByteRanges = append([]types.ByteRange(nil), saved.ByteRanges...)
++		cfg.SourceSize = saved.SourceSize
++		cfg.SupportsRange = true
++	}
+ 	if len(saved.Tasks) > 0 {
+ 		cfg.SupportsRange = true
+ 		cfg.Tasks = saved.Tasks
+@@ -485,6 +490,12 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
+ 	if entry != nil && entry.Artifact != (types.ArtifactPolicy{}) {
+ 		artifact = entry.Artifact
+ 	}
++	var byteRanges []types.ByteRange
++	var sourceSize int64
++	if savedState != nil && len(savedState.ByteRanges) > 0 {
++		byteRanges = append([]types.ByteRange(nil), savedState.ByteRanges...)
++		sourceSize = savedState.SourceSize
++	}
+ 	return types.DownloadRecord{Artifact: artifact,
+ 		URL:             url,
+ 		OutputPath:      outputPath,
+@@ -492,7 +503,7 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
+ 		ID:              id,
+ 		Filename:        filename,
+ 		TotalSize:       totalSize,
+-		SupportsRange:   savedState != nil && len(savedState.Tasks) > 0,
++		SupportsRange:   (savedState != nil && (len(savedState.Tasks) > 0 || len(savedState.ByteRanges) > 0)),
+ 		IsResume:        true,
+ 		ProgressState:   dmState,
+ 		Runtime:         runtime,
+@@ -503,5 +514,7 @@ func buildResumeConfig(id, outputPath string, entry *types.DownloadRecord, saved
+ 		Tasks:           tasks,
+ 		ChunkBitmap:     chunkBitmap,
+ 		ActualChunkSize: actualChunkSize,
++		ByteRanges:      byteRanges,
++		SourceSize:      sourceSize,
+ 	}
+ }
+diff --git a/internal/scheduler/manager.go b/internal/scheduler/manager.go
+index 9f8d1e10e33bb3427db2b6e2852cf636a4f059af..020ce3ac427de56ec4f5e2de2f28517b65be7723 100644
+--- a/internal/scheduler/manager.go
++++ b/internal/scheduler/manager.go
+@@ -13,6 +13,7 @@ import (
+ 	"github.com/SurgeDM/Surge/internal/probe"
+ 	"github.com/SurgeDM/Surge/internal/progress"
+ 	"github.com/SurgeDM/Surge/internal/store"
++	"github.com/SurgeDM/Surge/internal/strategy/compact"
+ 	"github.com/SurgeDM/Surge/internal/strategy/concurrent"
+ 	"github.com/SurgeDM/Surge/internal/strategy/single"
+ 	"github.com/SurgeDM/Surge/internal/types"
+@@ -191,9 +192,22 @@ func RunDownload(ctx context.Context, cfg *types.DownloadRecord) error {
+ 	// Choose downloader based on probe results. Range-capable transfers stay in
+ 	// the range pipeline even with one worker so fresh downloads remain resumable.
+ 	var downloadErr error
++	compactMode := len(cfg.ByteRanges) > 0
+ 	useConcurrent := cfg.SupportsRange
+ 
+-	if useConcurrent {
++	if compactMode {
++		// Compact byte-range fetch: strict partial-response contract, dense
++		// output file, no whole-file fallback and no single-stream restart.
++		utils.Debug("Using compact byte-range downloader")
++		d := compact.NewDownloader(cfg.ID, cfg.ProgressCh, progState, cfg.Runtime)
++		d.Headers = cfg.Headers
++		d.Limiter = cfg.Limiter
++		downloadErr = d.Download(ctx, cfg.URL, finalDestPath, cfg.ByteRanges, cfg.SourceSize, effectiveTotalSize,
++			cfg.Tasks, cfg.ChunkBitmap, cfg.ActualChunkSize, isResume)
++		if progState != nil {
++			effectiveTotalSize = cfg.TotalSize
++		}
++	} else if useConcurrent {
+ 		utils.Debug("Using concurrent downloader")
+ 
+ 		// We probe all candidate mirrors (mirrors) to filter out invalid ones
+@@ -281,7 +295,7 @@ func RunDownload(ctx context.Context, cfg *types.DownloadRecord) error {
+ 		}
+ 	}
+ 
+-	if !useConcurrent {
++	if !useConcurrent && !compactMode {
+ 		// Fallback to single-threaded downloader
+ 		utils.Debug("Using single-threaded downloader")
+ 		d := single.NewSingleDownloader(cfg.ID, cfg.ProgressCh, progState, cfg.Runtime)
+diff --git a/internal/store/state.go b/internal/store/state.go
+index 3db405a5be88bdb62fe496cc9c359360bcf88582..5415a74bba942a3a17f19886ca5e57a5f6a71d8c 100644
+--- a/internal/store/state.go
++++ b/internal/store/state.go
+@@ -68,6 +68,8 @@ type persistedDetailRecord struct {
+ 	Workers         int
+ 	MinChunkSize    int64
+ 	Headers         map[string]string
++	ByteRanges      []types.ByteRange
++	SourceSize      int64
+ }
+ 
+ func toPersistedDetail(state *types.DownloadRecord) *persistedDetailRecord {
+@@ -103,6 +105,8 @@ func toPersistedDetail(state *types.DownloadRecord) *persistedDetailRecord {
+ 		Workers:         state.Workers,
+ 		MinChunkSize:    state.MinChunkSize,
+ 		Headers:         maps.Clone(state.Headers),
++		ByteRanges:      append([]types.ByteRange(nil), state.ByteRanges...),
++		SourceSize:      state.SourceSize,
+ 	}
+ }
+ 
+@@ -139,6 +143,8 @@ func fromPersistedDetail(state *persistedDetailRecord) *types.DownloadRecord {
+ 		Workers:         state.Workers,
+ 		MinChunkSize:    state.MinChunkSize,
+ 		Headers:         maps.Clone(state.Headers),
++		ByteRanges:      append([]types.ByteRange(nil), state.ByteRanges...),
++		SourceSize:      state.SourceSize,
+ 	}
+ }
+ 
+diff --git a/internal/strategy/compact/downloader.go b/internal/strategy/compact/downloader.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..810c34a82cd177fc5e53b0ce8e558064c90850b2
+--- /dev/null
++++ b/internal/strategy/compact/downloader.go
+@@ -0,0 +1,760 @@
++// Package compact implements the compact byte-range fetch strategy.
++//
++// A compact download copies several source windows into one dense output file
++// in the caller's selection order. Windows may be unordered, overlapping or
++// repeated; every occurrence occupies its own output position. Each task
++// therefore carries both a source offset (used for the HTTP Range request)
++// and a destination offset (used for the local write and progress tracking).
++//
++// The strategy is strictly range-based: a server that ignores Range, or a
++// 206 response whose Content-Range does not match the requested interval or
++// the confirmed source length, is a terminal contract error. There is no
++// whole-file fallback and no trim-after-download path.
++package compact
++
++import (
++	"context"
++	"errors"
++	"fmt"
++	"io"
++	"maps"
++	"net/http"
++	"os"
++	"path/filepath"
++	"strconv"
++	"strings"
++	"sync"
++	"time"
++
++	"github.com/SurgeDM/Surge/internal/progress"
++	"github.com/SurgeDM/Surge/internal/store"
++	"github.com/SurgeDM/Surge/internal/strategy/concurrent"
++	"github.com/SurgeDM/Surge/internal/transport"
++	"github.com/SurgeDM/Surge/internal/types"
++	"github.com/SurgeDM/Surge/internal/utils"
++)
++
++// ErrRangeContract is returned when a partial response cannot be trusted:
++// either the server ignored Range (200), or a 206 Content-Range does not
++// match the requested interval / confirmed source length. It is terminal so
++// the scheduler never burns retries against a broken contract.
++var ErrRangeContract = errors.New("byte-range response contract violated")
++
++// activeRange tracks the in-flight task cursors so a pause snapshot can
++// reconstruct the unfinished part of a window.
++type activeRange struct {
++	mu        sync.Mutex
++	srcOffset int64
++	dstOffset int64
++	remaining int64
++}
++
++func (a *activeRange) snapshot() types.Task {
++	a.mu.Lock()
++	defer a.mu.Unlock()
++	return types.Task{Offset: a.srcOffset, DstOffset: a.dstOffset, Length: a.remaining}
++}
++
++func (a *activeRange) advance(n int64) {
++	a.mu.Lock()
++	a.srcOffset += n
++	a.dstOffset += n
++	a.remaining -= n
++	a.mu.Unlock()
++}
++
++// Downloader runs compact byte-range transfers with the shared concurrency
++// configuration and retry knobs carried by RuntimeConfig.
++type Downloader struct {
++	ID           string
++	ProgressChan chan<- types.DownloadEvent
++	State        *progress.DownloadProgress
++	Runtime      *types.RuntimeConfig
++	Limiter      types.ByteLimiter
++	Headers      map[string]string
++
++	activeMu sync.Mutex
++	active   map[int]*activeRange
++}
++
++// NewDownloader constructs a compact-strategy downloader.
++func NewDownloader(id string, progressCh chan<- types.DownloadEvent, state *progress.DownloadProgress, runtime *types.RuntimeConfig) *Downloader {
++	if runtime == nil {
++		runtime = types.DefaultRuntimeConfig()
++	}
++	return &Downloader{
++		ID:           id,
++		ProgressChan: progressCh,
++		State:        state,
++		Runtime:      runtime,
++		active:       make(map[int]*activeRange),
++	}
++}
++
++// Download executes the compact transfer. destPath is the final path; the
++// reserved working file lives at destPath+IncompleteSuffix. savedTasks (from
++// a pause checkpoint) drive resume; otherwise the plan windows are split.
++func (d *Downloader) Download(ctx context.Context, rawurl, destPath string, plan []types.ByteRange, sourceSize, compactSize int64, savedTasks []types.Task, savedBitmap []byte, savedChunkSize int64, isResume bool) error {
++	if len(plan) == 0 {
++		return fmt.Errorf("compact download requires at least one byte range")
++	}
++	if sourceSize <= 0 || compactSize <= 0 {
++		return fmt.Errorf("compact download requires confirmed source and output lengths")
++	}
++	if d.State != nil {
++		d.State.SetURL(rawurl)
++		d.State.SetDestPath(destPath)
++		d.State.SetTotalSize(compactSize)
++		d.State.SetCancelFunc(nil)
++	}
++
++	downloadCtx, cancel := context.WithCancel(ctx)
++	defer cancel()
++	if d.State != nil {
++		d.State.SetCancelFunc(cancel)
++	}
++
++	httpTransport := transport.DefaultNetworkPool.AcquireTransport(d.Runtime.ProxyURL, d.Runtime.CustomDNS, 0)
++	defer transport.DefaultNetworkPool.ReleaseTransport(httpTransport)
++	client := &http.Client{Transport: httpTransport}
++	client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
++		if len(via) >= 10 {
++			return types.ErrMaxRedirects
++		}
++		if len(via) > 0 {
++			utils.CopyRedirectHeaders(req, via[0])
++		}
++		return nil
++	}
++
++	workingPath := destPath + types.IncompleteSuffix
++	outFile, err := os.OpenFile(workingPath, os.O_RDWR, 0)
++	if err != nil {
++		return fmt.Errorf("failed to open working file: %w", err)
++	}
++	defer func() { _ = outFile.Close() }()
++
++	effectiveSize := compactSize
++	if isResume && d.State != nil {
++		if downloaded := d.State.Bytes.VerifiedProgress.Load(); downloaded > 0 {
++			effectiveSize = compactSize - downloaded
++			if effectiveSize < 0 {
++				effectiveSize = 0
++			}
++		}
++	}
++	numConns := concurrent.InitialConnectionCount(d.Runtime, effectiveSize)
++	chunkSize := d.chunkSize(compactSize, numConns)
++
++	if d.State != nil {
++		d.State.InitBitmap(compactSize, chunkSize)
++	}
++
++	// Scheduler-level retries re-enter with a fresh config rather than an
++	// explicit resume flag; adopt any durable compact checkpoint exactly like
++	// the concurrent strategy does, so confirmed output bytes are never redone.
++	if !isResume || len(savedTasks) == 0 {
++		if saved, loadErr := store.LoadState(rawurl, destPath); loadErr == nil && saved != nil &&
++			len(saved.ByteRanges) > 0 && len(saved.Tasks) > 0 && saved.TotalSize == compactSize {
++			isResume = true
++			savedTasks = saved.Tasks
++			savedBitmap = saved.ChunkBitmap
++			savedChunkSize = saved.ActualChunkSize
++			if d.State != nil && saved.Downloaded > 0 {
++				d.State.Bytes.Downloaded.Store(saved.Downloaded)
++				d.State.Bytes.VerifiedProgress.Store(saved.Downloaded)
++			}
++		}
++	}
++
++	var tasks []types.Task
++	if isResume && len(savedTasks) > 0 {
++		tasks = append(tasks, savedTasks...)
++		if d.State != nil && len(savedBitmap) > 0 && savedChunkSize > 0 {
++			d.State.RestoreBitmap(savedBitmap, savedChunkSize)
++		}
++		d.restoreProgress(savedTasks)
++	} else {
++		if err := outFile.Truncate(compactSize); err != nil {
++			return fmt.Errorf("failed to preallocate compact working file: %w", err)
++		}
++		tasks = d.buildPlanTasks(plan, chunkSize)
++		if d.State != nil {
++			d.State.Bytes.Downloaded.Store(0)
++			d.State.SyncSessionStart()
++		}
++	}
++
++	queue := concurrent.NewTaskQueue()
++	queue.PushMultiple(tasks)
++
++	// Mirrors the concurrent strategy's completion monitor: parked workers
++	// block in Pop without context awareness, so completion or cancellation
++	// must close the queue to release them.
++	go func() {
++		ticker := time.NewTicker(50 * time.Millisecond)
++		defer ticker.Stop()
++		for {
++			select {
++			case <-downloadCtx.Done():
++				queue.Close()
++				return
++			case <-ticker.C:
++				if d.State != nil && d.State.Bytes.VerifiedProgress.Load() >= compactSize {
++					queue.Close()
++					return
++				}
++			}
++		}
++	}()
++
++	var wg sync.WaitGroup
++	workerErrors := make(chan error, numConns)
++	for i := 0; i < numConns; i++ {
++		wg.Add(1)
++		go func(workerID int) {
++			defer wg.Done()
++			if err := d.worker(downloadCtx, workerID, rawurl, outFile, queue, sourceSize, compactSize, client); err != nil {
++				if !errors.Is(err, context.Canceled) {
++					workerErrors <- err
++				}
++				cancel()
++			}
++		}(i)
++	}
++	wg.Wait()
++	close(workerErrors)
++
++	var downloadErr error
++	seen := make(map[string]bool)
++	for err := range workerErrors {
++		if err == nil || seen[err.Error()] {
++			continue
++		}
++		seen[err.Error()] = true
++		downloadErr = errors.Join(downloadErr, err)
++	}
++
++	if d.State != nil && d.State.IsPaused() {
++		return d.saveSnapshot(destPath, rawurl, plan, sourceSize, compactSize, chunkSize, queue, true)
++	}
++	if downloadErr != nil {
++		// Persist whatever remains even when peer cancellation joined the
++		// error: a scheduler-level retry can then reuse confirmed output bytes.
++		if saveErr := d.saveSnapshot(destPath, rawurl, plan, sourceSize, compactSize, chunkSize, queue, false); saveErr != nil {
++			return errors.Join(downloadErr, fmt.Errorf("save resume state: %w", saveErr))
++		}
++		return downloadErr
++	}
++	if downloadCtx.Err() != nil {
++		return downloadCtx.Err()
++	}
++
++	// A compact file is complete only when every output position is filled.
++	if d.State != nil && d.State.Bytes.VerifiedProgress.Load() != compactSize {
++		return fmt.Errorf("compact download finished with %d of %d output bytes", d.State.Bytes.VerifiedProgress.Load(), compactSize)
++	}
++	if err := outFile.Sync(); err != nil {
++		return fmt.Errorf("failed to sync compact working file: %w", err)
++	}
++	return nil
++}
++
++// chunkSize mirrors the concurrent strategy's chunk selection so existing
++// worker and minimum-chunk configuration keeps applying.
++func (d *Downloader) chunkSize(compactSize int64, numConns int) int64 {
++	minChunk := d.Runtime.GetMinChunkSize()
++	chunk := minChunk
++	if !d.Runtime.SequentialDownload {
++		chunk = compactSize / int64(numConns)
++		if chunk < minChunk {
++			chunk = minChunk
++		}
++	}
++	chunk = (chunk / types.AlignSize) * types.AlignSize
++	if chunk == 0 {
++		chunk = types.AlignSize
++	}
++	return chunk
++}
++
++// buildPlanTasks splits each window into chunk-aligned tasks. Tasks never
++// cross a window boundary, so every task has one constant source->destination
++// offset delta.
++func (d *Downloader) buildPlanTasks(plan []types.ByteRange, chunkSize int64) []types.Task {
++	var tasks []types.Task
++	var dstCursor int64
++	for _, window := range plan {
++		for pos := int64(0); pos < window.Length; pos += chunkSize {
++			length := chunkSize
++			if pos+length > window.Length {
++				length = window.Length - pos
++			}
++			tasks = append(tasks, types.Task{
++				Offset:    window.Start + pos,
++				DstOffset: dstCursor + pos,
++				Length:    length,
++			})
++		}
++		dstCursor += window.Length
++	}
++	return tasks
++}
++
++// restoreProgress rebuilds verified output bytes from the checkpoint bitmap
++// and the remaining dual-offset tasks.
++func (d *Downloader) restoreProgress(remaining []types.Task) {
++	if d.State == nil {
++		return
++	}
++	bitmapTasks := make([]types.Task, len(remaining))
++	for i, task := range remaining {
++		// The bitmap is keyed by output positions, not source offsets.
++		bitmapTasks[i] = types.Task{Offset: task.DstOffset, Length: task.Length}
++	}
++	d.State.RecalculateProgress(bitmapTasks)
++	downloaded := d.State.Bytes.VerifiedProgress.Load()
++	d.State.Bytes.Downloaded.Store(downloaded)
++	d.State.SyncSessionStart()
++}
++
++func (d *Downloader) worker(ctx context.Context, id int, rawurl string, file *os.File, queue *concurrent.TaskQueue, sourceSize, compactSize int64, client *http.Client) error {
++	buf := make([]byte, d.Runtime.GetWorkerBufferSize())
++	maxRetries := d.Runtime.GetMaxTaskRetries()
++
++	for {
++		task, ok := queue.Pop()
++		if !ok {
++			return nil
++		}
++		if d.State != nil && d.State.Bytes.VerifiedProgress.Load() >= compactSize {
++			return nil
++		}
++		if d.State != nil {
++			d.State.ActiveWorkers.Add(1)
++			d.State.UpdateChunkStatus(task.DstOffset, task.Length, types.ChunkDownloading)
++		}
++
++		active := &activeRange{srcOffset: task.Offset, dstOffset: task.DstOffset, remaining: task.Length}
++		d.activeMu.Lock()
++		d.active[id] = active
++		d.activeMu.Unlock()
++
++		var lastErr error
++		attempts := 0
++		for active.remaining > 0 {
++			if ctx.Err() != nil {
++				lastErr = ctx.Err()
++				break
++			}
++			lastErr = d.fetchRange(ctx, rawurl, file, client, active, sourceSize, buf)
++			if lastErr == nil {
++				break
++			}
++			if errors.Is(lastErr, context.Canceled) || errors.Is(lastErr, context.DeadlineExceeded) {
++				break
++			}
++			if errors.Is(lastErr, ErrRangeContract) || types.IsPermanentHTTPError(lastErr) {
++				break
++			}
++			attempts++
++			if attempts >= maxRetries {
++				break
++			}
++			if !sleepWithContext(ctx, time.Duration(1<<attempts)*types.RetryBaseDelay) {
++				lastErr = ctx.Err()
++				break
++			}
++		}
++
++		d.activeMu.Lock()
++		delete(d.active, id)
++		d.activeMu.Unlock()
++		if d.State != nil {
++			d.State.ActiveWorkers.Add(-1)
++		}
++
++		if d.State != nil && d.State.IsPaused() {
++			if active.remaining > 0 {
++				queue.Push(active.snapshot())
++			}
++			return nil
++		}
++		if ctx.Err() != nil {
++			if active.remaining > 0 {
++				queue.Push(active.snapshot())
++			}
++			return ctx.Err()
++		}
++		if lastErr != nil {
++			// Keep the unfinished part of this window available for another
++			// worker or a scheduler-level retry. Other windows are never
++			// touched because each task carries its own destination offset.
++			if active.remaining > 0 {
++				queue.Push(active.snapshot())
++			}
++			return lastErr
++		}
++	}
++}
++
++// fetchRange performs one strictly-validated partial request and streams it
++// to the task's destination offset. Cursors in active advance only after a
++// successful write, so retries continue exactly where the transfer stopped
++// without recounting or overwriting confirmed output bytes.
++func (d *Downloader) fetchRange(ctx context.Context, rawurl string, file *os.File, client *http.Client, active *activeRange, sourceSize int64, buf []byte) error {
++	requested := active.snapshot()
++	reqSrc := requested.Offset
++	reqLen := requested.Length
++
++	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawurl, nil)
++	if err != nil {
++		return err
++	}
++	for key, val := range d.Headers {
++		if !strings.EqualFold(key, "Range") && !strings.EqualFold(key, "Accept-Encoding") {
++			req.Header.Set(key, val)
++		}
++	}
++	if req.Header.Get("User-Agent") == "" {
++		req.Header.Set("User-Agent", d.Runtime.GetUserAgent())
++	}
++	req.Header.Set("Range", fmt.Sprintf("bytes=%d-%d", reqSrc, reqSrc+reqLen-1))
++	req.Header.Set("Accept-Encoding", "identity")
++
++	resp, err := client.Do(req)
++	if err != nil {
++		return err
++	}
++	defer func() { _ = resp.Body.Close() }()
++
++	if resp.StatusCode == http.StatusOK {
++		return fmt.Errorf("server ignored Range and returned 200 for bytes=%d-%d: %w", reqSrc, reqSrc+reqLen-1, ErrRangeContract)
++	}
++	if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
++		return fmt.Errorf("server returned %d for byte range bytes=%d-%d", resp.StatusCode, reqSrc, reqSrc+reqLen-1)
++	}
++	if resp.StatusCode != http.StatusPartialContent {
++		if types.IsPermanentHTTPStatus(resp.StatusCode) {
++			return fmt.Errorf("unexpected status %d for byte range bytes=%d-%d: %w", resp.StatusCode, reqSrc, reqSrc+reqLen-1, types.ErrPermanentHTTP)
++		}
++		return fmt.Errorf("unexpected status %d for byte range bytes=%d-%d", resp.StatusCode, reqSrc, reqSrc+reqLen-1)
++	}
++
++	rangeStart, rangeEnd, rangeTotal, err := parseContentRange(resp.Header.Get("Content-Range"))
++	if err != nil {
++		return fmt.Errorf("%w: %v", ErrRangeContract, err)
++	}
++	if rangeStart != reqSrc || rangeEnd != reqSrc+reqLen-1 || rangeTotal != sourceSize {
++		return fmt.Errorf("%w: Content-Range bytes=%d-%d/%d does not match request bytes=%d-%d and source length %d",
++			ErrRangeContract, rangeStart, rangeEnd, rangeTotal, reqSrc, reqSrc+reqLen-1, sourceSize)
++	}
++
++	for active.remaining > 0 {
++		readSize := int64(len(buf))
++		if readSize > active.remaining {
++			readSize = active.remaining
++		}
++		readSoFar, readErr := readFull(resp.Body, buf[:readSize])
++		if readSoFar > 0 {
++			if d.Limiter != nil {
++				if err := d.Limiter.WaitN(ctx, int64(readSoFar)); err != nil {
++					return err
++				}
++			}
++			current := active.snapshot()
++			if _, writeErr := file.WriteAt(buf[:readSoFar], current.DstOffset); writeErr != nil {
++				return fmt.Errorf("write error: %w", writeErr)
++			}
++			if d.State != nil {
++				d.State.UpdateChunkStatus(current.DstOffset, int64(readSoFar), types.ChunkCompleted)
++				d.State.Bytes.Downloaded.Add(int64(readSoFar))
++			}
++			active.advance(int64(readSoFar))
++		}
++		if readErr == nil {
++			continue
++		}
++		if errors.Is(readErr, io.EOF) || errors.Is(readErr, io.ErrUnexpectedEOF) {
++			if active.remaining > 0 {
++				cursor := active.snapshot()
++				return fmt.Errorf("early EOF: %d bytes remain starting at source %d output %d", cursor.Length, cursor.Offset, cursor.DstOffset)
++			}
++			return nil
++		}
++		return fmt.Errorf("read error: %w", readErr)
++	}
++	return nil
++}
++
++// saveSnapshot persists the remaining dual-offset tasks and the selection
++// plan so a later process can resume without the original --byte-ranges input.
++func (d *Downloader) saveSnapshot(destPath, rawurl string, plan []types.ByteRange, sourceSize, compactSize, chunkSize int64, queue *concurrent.TaskQueue, emitPauseEvent bool) error {
++	d.activeMu.Lock()
++	remaining := make([]types.Task, 0, len(d.active)+queue.Len())
++	for _, active := range d.active {
++		if task := active.snapshot(); task.Length > 0 {
++			remaining = append(remaining, task)
++		}
++	}
++	d.activeMu.Unlock()
++	remaining = append(remaining, queue.DrainRemaining()...)
++
++	var remainingBytes int64
++	for _, task := range remaining {
++		remainingBytes += task.Length
++	}
++
++	var bitmap []byte
++	var actualChunkSize int64
++	if d.State != nil {
++		bitmap, _, actualChunkSize, _, _ = d.State.GetBitmapSnapshot(false)
++	}
++
++	// Defensive safety net: if no remaining task survived but the compact file
++	// still has gaps, rebuild the unfinished output runs from the bitmap and
++	// map them back to source offsets through the selection plan.
++	if remainingBytes == 0 && d.State != nil && d.State.Bytes.VerifiedProgress.Load() < compactSize &&
++		len(bitmap) > 0 && actualChunkSize > 0 {
++		if rebuilt := unverifiedOutputTasksFromBitmap(bitmap, compactSize, actualChunkSize); len(rebuilt) > 0 {
++			remaining = d.attachSourceOffsets(plan, rebuilt)
++			remainingBytes = 0
++			for _, task := range remaining {
++				remainingBytes += task.Length
++			}
++		}
++	}
++
++	downloaded := compactSize - remainingBytes
++	if d.State != nil {
++		verified := d.State.Bytes.VerifiedProgress.Load()
++		if remainingBytes > 0 && verified > downloaded {
++			// Never report less than the bytes physically verified on disk.
++			downloaded = verified
++		}
++		if remainingBytes == 0 && verified < downloaded {
++			// No remaining tasks but gaps remain: trust the verified counter
++			// rather than claiming a fully completed compact file.
++			downloaded = verified
++		}
++	}
++
++	var elapsed time.Duration
++	if d.State != nil {
++		elapsed = d.State.FinalizePauseSession(downloaded)
++	}
++
++	var rateLimit int64
++	var rateLimitSet bool
++	if d.State != nil {
++		rateLimit, rateLimitSet = d.State.GetRateLimit()
++	}
++
++	snapshot := &types.DownloadRecord{
++		URL:             rawurl,
++		ID:              d.ID,
++		DestPath:        destPath,
++		Filename:        filepath.Base(destPath),
++		TotalSize:       compactSize,
++		Downloaded:      downloaded,
++		Tasks:           remaining,
++		ChunkBitmap:     bitmap,
++		ActualChunkSize: actualChunkSizeOr(actualChunkSize, chunkSize),
++		Elapsed:         elapsed.Nanoseconds(),
++		ByteRanges:      append([]types.ByteRange(nil), plan...),
++		SourceSize:      sourceSize,
++		RateLimit:       rateLimit,
++		RateLimitSet:    rateLimitSet,
++		Workers:         d.Runtime.GetWorkers(),
++		MinChunkSize:    d.Runtime.GetMinChunkSize(),
++		Headers:         maps.Clone(d.Headers),
++	}
++	if d.State != nil {
++		d.State.SetPendingResumeState(snapshot)
++	}
++	if err := store.SaveStateWithOptions(rawurl, destPath, snapshot, store.SaveStateOptions{SkipFileHash: true}); err != nil {
++		return fmt.Errorf("save compact state snapshot: %w", err)
++	}
++
++	if emitPauseEvent && d.ProgressChan != nil {
++		event := types.DownloadEvent{
++			Type:         types.EventPaused,
++			DownloadID:   d.ID,
++			Filename:     snapshot.Filename,
++			Downloaded:   downloaded,
++			State:        snapshot,
++			RateLimit:    rateLimit,
++			RateLimitSet: rateLimitSet,
++			Workers:      snapshot.Workers,
++			MinChunkSize: snapshot.MinChunkSize,
++		}
++		select {
++		case d.ProgressChan <- event:
++			if d.State != nil {
++				d.State.TakePendingResumeState()
++			}
++		default:
++			utils.Debug("Compact pause event queue full; scheduler will deliver saved state")
++		}
++		return types.ErrPaused
++	}
++	return nil
++}
++
++func actualChunkSizeOr(saved, fallback int64) int64 {
++	if saved > 0 {
++		return saved
++	}
++	return fallback
++}
++
++// unverifiedOutputTasksFromBitmap rebuilds output-space runs whose bitmap
++// chunks are not marked complete. Offsets are compact file positions, not
++// source positions.
++func unverifiedOutputTasksFromBitmap(bitmap []byte, compactSize, chunkSize int64) []types.Task {
++	if compactSize <= 0 || chunkSize <= 0 {
++		return nil
++	}
++	numChunks := (compactSize + chunkSize - 1) / chunkSize
++	var tasks []types.Task
++	var start int64 = -1
++	for i := int64(0); i < numChunks; i++ {
++		status := types.ChunkPending
++		if byteIndex := i / 4; byteIndex < int64(len(bitmap)) {
++			status = types.ChunkStatus((bitmap[byteIndex] >> ((i % 4) * 2)) & 3)
++		}
++		if status != types.ChunkCompleted {
++			if start < 0 {
++				start = i * chunkSize
++			}
++			continue
++		}
++		if start >= 0 {
++			tasks = append(tasks, types.Task{Offset: start, DstOffset: start, Length: i*chunkSize - start})
++			start = -1
++		}
++	}
++	if start >= 0 {
++		tasks = append(tasks, types.Task{Offset: start, DstOffset: start, Length: compactSize - start})
++	}
++	return tasks
++}
++
++// attachSourceOffsets converts output-space runs into dual-offset tasks by
++// intersecting them with the selection plan, splitting at window boundaries so
++// every produced task keeps one constant source->destination delta.
++func (d *Downloader) attachSourceOffsets(plan []types.ByteRange, outputTasks []types.Task) []types.Task {
++	var windowStarts = make([]int64, 0, len(plan))
++	var cursor int64
++	for _, window := range plan {
++		windowStarts = append(windowStarts, cursor)
++		cursor += window.Length
++	}
++
++	var result []types.Task
++	for _, outputTask := range outputTasks {
++		dstStart := outputTask.DstOffset
++		dstEnd := dstStart + outputTask.Length
++		for i, window := range plan {
++			windowStart := windowStarts[i]
++			windowEnd := windowStart + window.Length
++			overlapStart := max64(dstStart, windowStart)
++			overlapEnd := min64(dstEnd, windowEnd)
++			if overlapStart >= overlapEnd {
++				continue
++			}
++			result = append(result, types.Task{
++				Offset:    window.Start + (overlapStart - windowStart),
++				DstOffset: overlapStart,
++				Length:    overlapEnd - overlapStart,
++			})
++		}
++	}
++	return result
++}
++
++func min64(a, b int64) int64 {
++	if a < b {
++		return a
++	}
++	return b
++}
++
++func max64(a, b int64) int64 {
++	if a > b {
++		return a
++	}
++	return b
++}
++
++// parseContentRange parses "bytes start-end/total" and rejects unknown sizes.
++func parseContentRange(value string) (start, end, total int64, err error) {
++	if value == "" {
++		return 0, 0, 0, fmt.Errorf("missing Content-Range header")
++	}
++	if !strings.HasPrefix(value, "bytes ") {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range header %q", value)
++	}
++	spec := strings.TrimPrefix(value, "bytes ")
++	slash := strings.LastIndex(spec, "/")
++	if slash < 0 || slash+1 >= len(spec) {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range header %q", value)
++	}
++	totalText := spec[slash+1:]
++	if totalText == "*" {
++		return 0, 0, 0, fmt.Errorf("Content-Range carries unknown source length %q", value)
++	}
++	total, err = strconv.ParseInt(totalText, 10, 64)
++	if err != nil || total <= 0 {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range total %q", totalText)
++	}
++	span := spec[:slash]
++	dash := strings.Index(span, "-")
++	if dash < 0 {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range span %q", value)
++	}
++	start, err = strconv.ParseInt(span[:dash], 10, 64)
++	if err != nil {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range start %q", span[:dash])
++	}
++	end, err = strconv.ParseInt(span[dash+1:], 10, 64)
++	if err != nil {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range end %q", span[dash+1:])
++	}
++	if start < 0 || end < start {
++		return 0, 0, 0, fmt.Errorf("invalid Content-Range bounds %q", value)
++	}
++	return start, end, total, nil
++}
++
++// readFull reads until the buffer is filled or the body ends. io.EOF with a
++// partial buffer is reported as io.ErrUnexpectedEOF so callers distinguish a
++// truncated response from a clean boundary.
++func readFull(body io.Reader, buf []byte) (int, error) {
++	total := 0
++	for total < len(buf) {
++		n, err := body.Read(buf[total:])
++		total += n
++		if err != nil {
++			if errors.Is(err, io.EOF) && total > 0 && total < len(buf) {
++				return total, io.ErrUnexpectedEOF
++			}
++			return total, err
++		}
++		if n == 0 {
++			return total, io.ErrUnexpectedEOF
++		}
++	}
++	return total, nil
++}
++
++func sleepWithContext(ctx context.Context, d time.Duration) bool {
++	timer := time.NewTimer(d)
++	defer timer.Stop()
++	select {
++	case <-ctx.Done():
++		return false
++	case <-timer.C:
++		return true
++	}
++}
+diff --git a/internal/strategy/compact/downloader_test.go b/internal/strategy/compact/downloader_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a57cbcd8a4e039d965f0d12e623774d4699ea28
+--- /dev/null
++++ b/internal/strategy/compact/downloader_test.go
+@@ -0,0 +1,164 @@
++package compact
++
++import (
++	"errors"
++	"testing"
++
++	"github.com/SurgeDM/Surge/internal/types"
++)
++
++func TestBuildPlanTasksPreservesSelectionOrderAndOffsets(t *testing.T) {
++	d := NewDownloader("id", nil, nil, nil)
++	plan := []types.ByteRange{
++		{Start: 8, Length: 4},
++		{Start: 0, Length: 2},
++		{Start: 8, Length: 4},
++	}
++	// Chunk size larger than every window: one task per window.
++	tasks := d.buildPlanTasks(plan, 1<<20)
++	want := []types.Task{
++		{Offset: 8, DstOffset: 0, Length: 4},
++		{Offset: 0, DstOffset: 4, Length: 2},
++		{Offset: 8, DstOffset: 6, Length: 4},
++	}
++	if len(tasks) != len(want) {
++		t.Fatalf("got %d tasks %+v, want %d", len(tasks), tasks, len(want))
++	}
++	for i := range want {
++		if tasks[i] != want[i] {
++			t.Fatalf("task %d = %+v, want %+v", i, tasks[i], want[i])
++		}
++	}
++
++	// The dense output space must be fully covered with no gaps.
++	var covered int64
++	for _, task := range tasks {
++		if task.DstOffset != covered {
++			t.Fatalf("gap or overlap at output offset %d, expected %d", task.DstOffset, covered)
++		}
++		covered += task.Length
++	}
++	if covered != 10 {
++		t.Fatalf("covered %d output bytes, want 10", covered)
++	}
++}
++
++func TestBuildPlanTasksSplitsWindowsWithoutCrossingBoundaries(t *testing.T) {
++	d := NewDownloader("id", nil, nil, nil)
++	plan := []types.ByteRange{{Start: 100, Length: 10}, {Start: 0, Length: 5}}
++	tasks := d.buildPlanTasks(plan, 4) // 4-byte chunks
++	want := []types.Task{
++		{Offset: 100, DstOffset: 0, Length: 4},
++		{Offset: 104, DstOffset: 4, Length: 4},
++		{Offset: 108, DstOffset: 8, Length: 2},
++		{Offset: 0, DstOffset: 10, Length: 4},
++		{Offset: 4, DstOffset: 14, Length: 1},
++	}
++	if len(tasks) != len(want) {
++		t.Fatalf("got %d tasks %+v, want %d", len(tasks), tasks, len(want))
++	}
++	for i := range want {
++		if tasks[i] != want[i] {
++			t.Fatalf("task %d = %+v, want %+v", i, tasks[i], want[i])
++		}
++	}
++	// Every task keeps a constant source->destination delta inside its window.
++	for _, task := range tasks {
++		if task.Offset < 0 || task.DstOffset < 0 || task.Length <= 0 {
++			t.Fatalf("invalid task %+v", task)
++		}
++	}
++}
++
++func TestParseContentRange(t *testing.T) {
++	good := []struct {
++		header            string
++		start, end, total int64
++	}{
++		{"bytes 0-0/16", 0, 0, 16},
++		{"bytes 8-11/16", 8, 11, 16},
++		{"bytes 100-200/9999", 100, 200, 9999},
++	}
++	for _, tc := range good {
++		start, end, total, err := parseContentRange(tc.header)
++		if err != nil || start != tc.start || end != tc.end || total != tc.total {
++			t.Fatalf("parseContentRange(%q) = %d-%d/%d, %v", tc.header, start, end, total, err)
++		}
++	}
++
++	bad := []string{
++		"",
++		"bytes 0-0/*",
++		"bytes 0-0",
++		"0-0/16",
++		"bytes a-0/16",
++		"bytes 0-b/16",
++		"bytes 0-0/x",
++		"bytes 5-2/16",
++	}
++	for _, header := range bad {
++		if _, _, _, err := parseContentRange(header); err == nil {
++			t.Fatalf("parseContentRange(%q) succeeded, want error", header)
++		}
++	}
++}
++
++func TestRangeContractErrorIsDistinct(t *testing.T) {
++	if errors.Is(ErrRangeContract, types.ErrPermanentHTTP) {
++		t.Fatal("range contract error must not be classified as a generic HTTP error")
++	}
++}
++
++func TestChunkSizeAlignment(t *testing.T) {
++	d := NewDownloader("id", nil, nil, types.DefaultRuntimeConfig())
++	chunk := d.chunkSize(10, 1)
++	if chunk <= 0 || chunk%types.AlignSize != 0 {
++		t.Fatalf("chunk size %d must be positive and aligned to %d", chunk, types.AlignSize)
++	}
++	large := d.chunkSize(64*1024*1024, 4)
++	if large <= 0 || large%types.AlignSize != 0 {
++		t.Fatalf("large chunk size %d must be positive and aligned to %d", large, types.AlignSize)
++	}
++}
++
++func TestUnverifiedOutputTasksFromBitmap(t *testing.T) {
++	chunkSize := int64(4)
++	compactSize := int64(16) // four chunks
++	// Only chunk index 1 (output bytes 4-7) is complete.
++	bitmap := make([]byte, 1)
++	bitmap[0] = byte(types.ChunkCompleted) << 2
++	tasks := unverifiedOutputTasksFromBitmap(bitmap, compactSize, chunkSize)
++	want := []types.Task{
++		{Offset: 0, DstOffset: 0, Length: 4},
++		{Offset: 8, DstOffset: 8, Length: 8},
++	}
++	if len(tasks) != len(want) {
++		t.Fatalf("got %+v, want %+v", tasks, want)
++	}
++	for i := range want {
++		if tasks[i] != want[i] {
++			t.Fatalf("task %d = %+v, want %+v", i, tasks[i], want[i])
++		}
++	}
++}
++
++func TestAttachSourceOffsetsMapsThroughPlan(t *testing.T) {
++	d := NewDownloader("id", nil, nil, nil)
++	// Plan: src[8:12] -> dst[0:4], src[0:2] -> dst[4:6], src[8:12] -> dst[6:10].
++	plan := []types.ByteRange{{Start: 8, Length: 4}, {Start: 0, Length: 2}, {Start: 8, Length: 4}}
++	// One output run spanning the boundary between window 0 and window 1.
++	outputTasks := []types.Task{{Offset: 2, DstOffset: 2, Length: 4}}
++	got := d.attachSourceOffsets(plan, outputTasks)
++	want := []types.Task{
++		{Offset: 10, DstOffset: 2, Length: 2}, // window 0 tail
++		{Offset: 0, DstOffset: 4, Length: 2},  // window 1 head
++	}
++	if len(got) != len(want) {
++		t.Fatalf("got %+v, want %+v", got, want)
++	}
++	for i := range want {
++		if got[i] != want[i] {
++			t.Fatalf("task %d = %+v, want %+v", i, got[i], want[i])
++		}
++	}
++}
+diff --git a/internal/types/models.go b/internal/types/models.go
+index 9a29f36218cb0bd4484bcfe5537d787325f6af7a..f8380be702f2fcfcda6df9ab14d437979bd0752a 100644
+--- a/internal/types/models.go
++++ b/internal/types/models.go
+@@ -3,6 +3,7 @@ package types
+ import (
+ 	"encoding/binary"
+ 	"fmt"
++	"math"
+ 	"time"
+ )
+ 
+@@ -10,12 +11,20 @@ import (
+ type Task struct {
+ 	Offset int64 `json:"offset"`
+ 	Length int64 `json:"length"`
++	// DstOffset is the write position in the local output file. It is zero
++	// for whole-file downloads, where Offset and DstOffset coincide. Compact
++	// byte-range fetches carry an explicit destination offset so overlapping
++	// or repeated source windows keep independent output positions.
++	DstOffset int64 `json:"dst_offset,omitempty"`
+ }
+ 
++// GobEncode preserves the historical 16-byte layout for whole-file tasks and
++// appends DstOffset as a third little-endian uint64. GobDecode accepts both.
+ func (t *Task) GobEncode() ([]byte, error) {
+-	b := make([]byte, 16)
++	b := make([]byte, 24)
+ 	binary.LittleEndian.PutUint64(b[0:8], uint64(t.Offset))
+ 	binary.LittleEndian.PutUint64(b[8:16], uint64(t.Length))
++	binary.LittleEndian.PutUint64(b[16:24], uint64(t.DstOffset))
+ 	return b, nil
+ }
+ 
+@@ -24,13 +33,43 @@ func (t *Task) GobDecode(data []byte) error {
+ 		return nil
+ 	}
+ 	if len(data) < 16 {
+-		return fmt.Errorf("corrupt task data: expected 16 bytes, got %d", len(data))
++		return fmt.Errorf("corrupt task data: expected at least 16 bytes, got %d", len(data))
+ 	}
+ 	t.Offset = int64(binary.LittleEndian.Uint64(data[0:8]))
+ 	t.Length = int64(binary.LittleEndian.Uint64(data[8:16]))
++	if len(data) >= 24 {
++		t.DstOffset = int64(binary.LittleEndian.Uint64(data[16:24]))
++	}
+ 	return nil
+ }
+ 
++// ByteRange selects one source window for a compact byte-range fetch. Start
++// is a zero-based source byte offset and Length is the number of bytes to copy.
++type ByteRange struct {
++	Start  int64 `json:"start"`
++	Length int64 `json:"length"`
++}
++
++// CompactByteRanges returns the total compact output length of the selected
++// windows, rejecting sums that overflow a signed 64-bit integer. Each window
++// occurrence contributes its full Length, including repeated selections.
++func CompactByteRanges(ranges []ByteRange) (int64, error) {
++	var total int64
++	for _, r := range ranges {
++		if r.Length <= 0 {
++			return 0, fmt.Errorf("byte range length must be positive: %d:%d", r.Start, r.Length)
++		}
++		if r.Start < 0 {
++			return 0, fmt.Errorf("byte range start must not be negative: %d:%d", r.Start, r.Length)
++		}
++		if total > math.MaxInt64-r.Length {
++			return 0, fmt.Errorf("compact output length overflows int64 for byte range %d:%d", r.Start, r.Length)
++		}
++		total += r.Length
++	}
++	return total, nil
++}
++
+ // DownloadRecord is the canonical representation of a download's static configuration,
+ // persistent state, and runtime options. It replaces DownloadState, DownloadEntry, and DownloadConfig.
+ type DownloadRecord struct {
+@@ -50,6 +89,12 @@ type DownloadRecord struct {
+ 	TotalSize  int64  `json:"total_size"`
+ 	Downloaded int64  `json:"downloaded"`
+ 
++	// ByteRanges non-empty selects compact byte-range fetch mode: TotalSize is
++	// then the compact output length and SourceSize is the confirmed source
++	// length used to validate every partial response.
++	ByteRanges []ByteRange `json:"byte_ranges,omitempty"`
++	SourceSize int64       `json:"source_size,omitempty"`
++
+ 	// Status
+ 	Status string `json:"status"`
+ 	Error  string `json:"error,omitempty"`
+diff --git a/internal/types/task_test.go b/internal/types/task_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a81ebfba274dbc50d2a638b63c4964a59a7c7f5
+--- /dev/null
++++ b/internal/types/task_test.go
+@@ -0,0 +1,59 @@
++package types
++
++import (
++	"encoding/binary"
++	"math"
++	"testing"
++)
++
++func TestTaskGobRoundTripIncludesDstOffset(t *testing.T) {
++	original := Task{Offset: 100, Length: 24, DstOffset: 16}
++	data, err := original.GobEncode()
++	if err != nil {
++		t.Fatalf("GobEncode: %v", err)
++	}
++	if len(data) != 24 {
++		t.Fatalf("encoded length = %d, want 24", len(data))
++	}
++	var decoded Task
++	if err := decoded.GobDecode(data); err != nil {
++		t.Fatalf("GobDecode: %v", err)
++	}
++	if decoded != original {
++		t.Fatalf("round trip = %+v, want %+v", decoded, original)
++	}
++}
++
++func TestTaskGobDecodeLegacy16ByteLayout(t *testing.T) {
++	// Checkpoints written before DstOffset existed carry exactly 16 bytes.
++	legacy := make([]byte, 16)
++	binary.LittleEndian.PutUint64(legacy[0:8], 42)
++	binary.LittleEndian.PutUint64(legacy[8:16], 7)
++
++	var task Task
++	if err := task.GobDecode(legacy); err != nil {
++		t.Fatalf("GobDecode legacy: %v", err)
++	}
++	if task.Offset != 42 || task.Length != 7 || task.DstOffset != 0 {
++		t.Fatalf("legacy decode = %+v, want Offset=42 Length=7 DstOffset=0", task)
++	}
++}
++
++func TestCompactByteRangesValidation(t *testing.T) {
++	if total, err := CompactByteRanges(nil); err != nil || total != 0 {
++		t.Fatalf("empty ranges = %d, %v; want 0, nil", total, err)
++	}
++	if _, err := CompactByteRanges([]ByteRange{{Start: -1, Length: 1}}); err == nil {
++		t.Fatal("negative start accepted")
++	}
++	if _, err := CompactByteRanges([]ByteRange{{Start: 0, Length: 0}}); err == nil {
++		t.Fatal("zero length accepted")
++	}
++	if _, err := CompactByteRanges([]ByteRange{{Start: 0, Length: math.MaxInt64}, {Start: 0, Length: 1}}); err == nil {
++		t.Fatal("overflowing sum accepted")
++	}
++	total, err := CompactByteRanges([]ByteRange{{Start: 8, Length: 4}, {Start: 0, Length: 2}, {Start: 8, Length: 4}})
++	if err != nil || total != 10 {
++		t.Fatalf("compact total = %d, %v; want 10", total, err)
++	}
++}

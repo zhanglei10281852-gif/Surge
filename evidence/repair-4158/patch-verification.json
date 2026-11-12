@@ -1,0 +1,101 @@
+{
+  "createdAt": "2026-11-12T04:25:12.987Z",
+  "base": "9ac5b74603d0a9451305c52bd5cde99b4d93b77a",
+  "final": "b3fcf12cbf2ed71c341dca50e9ec253f4bafcc29",
+  "firstImplementation": "0830c1c785e33d0c6adf13d07eda1dab171515e9",
+  "originalModelFilesChecked": 546,
+  "originalModelMismatches": 0,
+  "patch": {
+    "bytes": 75752,
+    "sha256": "217a292e9313f472c4a4062505d24317ac2d198a242920b0f3ef678a8d2d88fa",
+    "files": 15,
+    "evidencePaths": 0,
+    "binaryChanges": 0
+  },
+  "gitApplyCheck": true,
+  "replayComparedTrackedFiles": 546,
+  "replayMatchesFinalTree": true,
+  "changedFiles": [
+    {
+      "path": "cmd/byte_ranges.go",
+      "sha256": "9910ab5886cd718a5502ad4bb107e4cf416fb7a558eafb6eb7c599d43347d8a9"
+    },
+    {
+      "path": "cmd/byte_ranges_test.go",
+      "sha256": "b5fa41f6c4b556fcba730e4a8d8a65391605859e7fd54998b4ffc3afe807b09e"
+    },
+    {
+      "path": "cmd/fetch.go",
+      "sha256": "e25c6873586b67030a29fddf3124e7c00feeb05b8b01f7d362b00b8622de07ad"
+    },
+    {
+      "path": "cmd/fetch_byte_ranges_test.go",
+      "sha256": "51147473953b346767e94eb79a44475f67b37af341187cb4dc070cffa8dad8e3"
+    },
+    {
+      "path": "cmd/root_downloads.go",
+      "sha256": "90825ea8ffbedd85aef51e6ae7e39ee7bf281b95c723dc6504c0ba2baab7f1d7"
+    },
+    {
+      "path": "docs/reference/commands/fetch.md",
+      "sha256": "44b8a2d14e1db942d7ea56e5ae9fcacc3c596d8351e31fa216c3bfc0d65c51ad"
+    },
+    {
+      "path": "internal/orchestrator/events.go",
+      "sha256": "33c9ed2c0362a66c854e1066dfd0e378deec7dbed566b859619ee06580dd763f"
+    },
+    {
+      "path": "internal/orchestrator/manager.go",
+      "sha256": "ab4261d29c793337627c553df185831f03f622dc091565927510a76f419a7c1d"
+    },
+    {
+      "path": "internal/orchestrator/pause_resume.go",
+      "sha256": "ddbc1b702be0dd3553eac4d7a30ba61f6d417faaf76b1d03fe61cd8d728bce1b"
+    },
+    {
+      "path": "internal/scheduler/manager.go",
+      "sha256": "6824db2f93ab4ac293a5b32710fd6b148e2246a69582959e04ef3e36c95c291f"
+    },
+    {
+      "path": "internal/store/state.go",
+      "sha256": "503a0f76ff16e5848a531f83ca193a8c392b8e35f3eb617b087dc0b6f1204590"
+    },
+    {
+      "path": "internal/strategy/compact/downloader.go",
+      "sha256": "dcdcef625cae35df6fb0c5aa62e6c5e14624bf5d01a2fff5a7d4dcbfde96fa82"
+    },
+    {
+      "path": "internal/strategy/compact/downloader_test.go",
+      "sha256": "c0e4b38e6d86c231ded821425b6c775b9ac9e5e072d197b48f2fe584a8f9c9f2"
+    },
+    {
+      "path": "internal/types/models.go",
+      "sha256": "ce3d3955e5a1018bd2d830f1ef02a8de10d7f949c061fd69cc39bb24005c8036"
+    },
+    {
+      "path": "internal/types/task_test.go",
+      "sha256": "2228a4113cbfff63dd37758cbcebbf6c82cd7596ea84898afb35b944afba00d4"
+    }
+  ],
+  "finalCommitDelta": [
+    "evidence/model.patch",
+    "evidence/qc/README.md",
+    "evidence/qc/fork-check.json",
+    "evidence/qc/go-tests-final.jsonl",
+    "evidence/qc/go-tests.jsonl",
+    "evidence/qc/materials-manifest.json",
+    "evidence/qc/model-build-info.txt",
+    "evidence/qc/network-contract.json",
+    "evidence/qc/network-restriction.json",
+    "evidence/qc/precheck-refresh.json",
+    "evidence/qc/session-duration.json",
+    "evidence/qc/static-gates.json",
+    "evidence/qc/verification-once.json",
+    "evidence/qc/verification-summary.json",
+    "evidence/qc/verification-summary.txt",
+    "evidence/qc/verification.json",
+    "evidence/qc/verify-once.mjs",
+    "evidence/qc/verify-rubric.yaml",
+    "evidence/qc/verify.mjs"
+  ]
+}

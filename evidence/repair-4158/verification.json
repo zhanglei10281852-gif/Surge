@@ -1,0 +1,2777 @@
+{
+  "sourceSize": 16777216,
+  "sourceSha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3",
+  "spec": "8388625:3145751,1024:2097159,8388625:3145751",
+  "compactSize": 8388661,
+  "compactSha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db",
+  "results": [
+    {
+      "name": "deny-public-http",
+      "args": [
+        "fetch",
+        "http://example.com/qc-public-denial",
+        "--json",
+        "--byte-ranges",
+        "0:2",
+        "--timeout",
+        "2s"
+      ],
+      "pid": 20160,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"c5e5a26c-381b-48d5-8203-6eb4da471281\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0087524,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"2b2b7e8b-78b8-485d-bed4-fc52c2d1a0bf\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "c5e5a26c-381b-48d5-8203-6eb4da471281",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0087524,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "2b2b7e8b-78b8-485d-bed4-fc52c2d1a0bf",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:02.755Z",
+      "ended": "2026-11-12T04:26:03.107Z",
+      "requests": [],
+      "checks": {
+        "realChildPublicDenied": {
+          "ok": true,
+          "detail": "[{\"method\":\"GET\",\"url\":\"http://example.com/qc-public-denial\",\"status\":403},{\"method\":\"GET\",\"url\":\"http://example.com/qc-public-denial\",\"status\":403}]"
+        }
+      }
+    },
+    {
+      "name": "deny-public-https",
+      "args": [
+        "fetch",
+        "https://example.com/qc-public-denial",
+        "--json",
+        "--byte-ranges",
+        "0:2",
+        "--timeout",
+        "2s"
+      ],
+      "pid": 18800,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"22654093-8690-448a-90c3-87d938a32a21\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.9983024999999999,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"4925460a-bf41-4537-bc7f-8735e1e808e9\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "22654093-8690-448a-90c3-87d938a32a21",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.9983024999999999,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "4925460a-bf41-4537-bc7f-8735e1e808e9",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:03.107Z",
+      "ended": "2026-11-12T04:26:05.207Z",
+      "requests": [],
+      "checks": {
+        "realChildPublicDenied": {
+          "ok": true,
+          "detail": "[{\"method\":\"CONNECT\",\"url\":\"example.com:443\",\"status\":403},{\"method\":\"CONNECT\",\"url\":\"example.com:443\",\"status\":403}]"
+        }
+      }
+    },
+    {
+      "name": "ordered",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/ordered/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751"
+      ],
+      "pid": 33196,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"08f65e17-4839-43d8-9b42-978976908df2\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\ordered\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 10.2756258,\n      \"average_bytes_per_second\": 816364.9750655575\n    }\n  ],\n  \"session_id\": \"99a69e73-029d-4a95-b1a0-c0449ce0e22b\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\nresult.bin  downloading  54.2%  4.34 MiB / 8.00 MiB  846.35 KiB/s  ETA ~4s  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "08f65e17-4839-43d8-9b42-978976908df2",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\ordered\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 10.2756258,
+            "average_bytes_per_second": 816364.9750655575
+          }
+        ],
+        "session_id": "99a69e73-029d-4a95-b1a0-c0449ce0e22b",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:05.209Z",
+      "ended": "2026-11-12T04:26:15.601Z",
+      "requests": [
+        {
+          "seq": 1,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:05.322Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 2,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:05.343Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:14.612Z"
+        },
+        {
+          "seq": 3,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:05.346Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 2097159,
+          "closed": "2026-11-12T04:26:12.463Z"
+        },
+        {
+          "seq": 4,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:05.347Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:06.640Z"
+        },
+        {
+          "seq": 5,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:06.427Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:15.599Z"
+        },
+        {
+          "seq": 6,
+          "mode": "slow",
+          "at": "2026-11-12T04:26:12.251Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:13.531Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "concurrent": {
+          "ok": true,
+          "detail": ""
+        },
+        "liveProgress": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "maxConcurrentDataRequests": 4
+    },
+    {
+      "name": "short",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/short/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751"
+      ],
+      "pid": 10504,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"8c947183-2e7c-444a-a7eb-5a19bdbfe6a1\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\short\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.7633887,\n      \"average_bytes_per_second\": 10988715.18533088\n    }\n  ],\n  \"session_id\": \"2bf85c2d-46ea-4b39-81e7-f3a1e2593f2a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  67.5%  5.40 MiB / 8.00 MiB  22.76 MiB/s  ETA ~0s  connections 1/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "8c947183-2e7c-444a-a7eb-5a19bdbfe6a1",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\short\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.7633887,
+            "average_bytes_per_second": 10988715.18533088
+          }
+        ],
+        "session_id": "2bf85c2d-46ea-4b39-81e7-f3a1e2593f2a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:15.612Z",
+      "ended": "2026-11-12T04:26:16.464Z",
+      "requests": [
+        {
+          "seq": 7,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.697Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 8,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.719Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 70001,
+          "short": true,
+          "closed": "2026-11-12T04:26:15.774Z"
+        },
+        {
+          "seq": 9,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.720Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:15.720Z"
+        },
+        {
+          "seq": 10,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.721Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 2097159,
+          "closed": "2026-11-12T04:26:15.721Z"
+        },
+        {
+          "seq": 11,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.722Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:15.723Z"
+        },
+        {
+          "seq": 12,
+          "mode": "short",
+          "at": "2026-11-12T04:26:15.723Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:15.724Z"
+        },
+        {
+          "seq": 13,
+          "mode": "short",
+          "at": "2026-11-12T04:26:16.174Z",
+          "range": "bytes=8458626-11182096",
+          "a": 8458626,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2723471,
+          "closed": "2026-11-12T04:26:16.175Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "shortActuallyTriggered": {
+          "ok": true,
+          "detail": ""
+        },
+        "retryOnlyRemaining": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume1-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/resume1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 13844,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"27cc8ebe-0f97-42ce-820f-8d057f2743aa\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3039833,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"8d436993-f411-42f1-8701-7fd7a6c949a1\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "27cc8ebe-0f97-42ce-820f-8d057f2743aa",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3039833,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "8d436993-f411-42f1-8701-7fd7a6c949a1",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:16.475Z",
+      "ended": "2026-11-12T04:26:17.881Z",
+      "requests": [
+        {
+          "seq": 14,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:16.570Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 15,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:16.586Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:17.766Z"
+        },
+        {
+          "seq": 16,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:16.587Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:17.766Z"
+        },
+        {
+          "seq": 17,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:16.587Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:17.767Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume1-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "8d436993-f411-42f1-8701-7fd7a6c949a1",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 20372,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"27cc8ebe-0f97-42ce-820f-8d057f2743aa\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\resume1\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.2553518,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"8d436993-f411-42f1-8701-7fd7a6c949a1\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "27cc8ebe-0f97-42ce-820f-8d057f2743aa",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\resume1\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.2553518,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "8d436993-f411-42f1-8701-7fd7a6c949a1",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:17.882Z",
+      "ended": "2026-11-12T04:26:18.215Z",
+      "requests": [
+        {
+          "seq": 18,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:17.961Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:17.962Z"
+        },
+        {
+          "seq": 19,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:17.962Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:17.963Z"
+        },
+        {
+          "seq": 20,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:17.963Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-12T04:26:17.964Z"
+        },
+        {
+          "seq": 21,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:17.964Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-12T04:26:17.965Z"
+        },
+        {
+          "seq": 22,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:17.967Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-12T04:26:17.967Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "resume2-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/resume2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 19172,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"25394da0-b0a2-47f3-a7b6-70d5c29580ec\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3086541,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"bf2ecc5a-7bda-41ce-9596-a67ba797bc23\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "25394da0-b0a2-47f3-a7b6-70d5c29580ec",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3086541,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "bf2ecc5a-7bda-41ce-9596-a67ba797bc23",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:18.224Z",
+      "ended": "2026-11-12T04:26:19.620Z",
+      "requests": [
+        {
+          "seq": 23,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:18.303Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 24,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:18.322Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:19.499Z"
+        },
+        {
+          "seq": 25,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:18.323Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:19.500Z"
+        },
+        {
+          "seq": 26,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:18.323Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:19.500Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume2-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "bf2ecc5a-7bda-41ce-9596-a67ba797bc23",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 34220,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"25394da0-b0a2-47f3-a7b6-70d5c29580ec\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\resume2\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.2592923,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"bf2ecc5a-7bda-41ce-9596-a67ba797bc23\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "25394da0-b0a2-47f3-a7b6-70d5c29580ec",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\resume2\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.2592923,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "bf2ecc5a-7bda-41ce-9596-a67ba797bc23",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:19.620Z",
+      "ended": "2026-11-12T04:26:19.977Z",
+      "requests": [
+        {
+          "seq": 27,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:19.720Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:19.720Z"
+        },
+        {
+          "seq": 28,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:19.720Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-12T04:26:19.721Z"
+        },
+        {
+          "seq": 29,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:19.721Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:19.722Z"
+        },
+        {
+          "seq": 30,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:19.725Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-12T04:26:19.725Z"
+        },
+        {
+          "seq": 31,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:19.726Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-12T04:26:19.726Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "resume3-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/resume3/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "8388625:3145751,1024:2097159,8388625:3145751",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 33552,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"c51de136-21e5-4c3c-85cb-2e1a3753025b\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"393216\",\n      \"total_bytes\": \"8388661\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3040526,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"d3ce7057-3fee-48cd-9ed8-2511a7cfedc8\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\nresult.bin  downloading  0.0%  0 B / 8.00 MiB  0 B/s  ETA --  connections 3/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "c51de136-21e5-4c3c-85cb-2e1a3753025b",
+            "status": "paused",
+            "downloaded_bytes": "393216",
+            "total_bytes": "8388661",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3040526,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "d3ce7057-3fee-48cd-9ed8-2511a7cfedc8",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:19.990Z",
+      "ended": "2026-11-12T04:26:21.412Z",
+      "requests": [
+        {
+          "seq": 32,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:20.099Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 33,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:20.124Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:21.293Z"
+        },
+        {
+          "seq": 34,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:20.125Z",
+          "range": "bytes=1024-2098182",
+          "a": 1024,
+          "b": 2098182,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:21.293Z"
+        },
+        {
+          "seq": 35,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:20.125Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:21.293Z"
+        }
+      ],
+      "checks": {
+        "confirmedCheckpoint": {
+          "ok": true,
+          "detail": ""
+        },
+        "unpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "resume3-new-process",
+      "args": [
+        "fetch",
+        "--resume",
+        "d3ce7057-3fee-48cd-9ed8-2511a7cfedc8",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 10332,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"393216\",\n      \"id\": \"c51de136-21e5-4c3c-85cb-2e1a3753025b\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"8388661\",\n      \"total_bytes\": \"8388661\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\resume3\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"8388661\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"393216\",\n      \"duration_seconds\": 0.255564,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"d3ce7057-3fee-48cd-9ed8-2511a7cfedc8\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "393216",
+            "id": "c51de136-21e5-4c3c-85cb-2e1a3753025b",
+            "status": "completed",
+            "downloaded_bytes": "8388661",
+            "total_bytes": "8388661",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\resume3\\downloads\\result.bin",
+              "size_bytes": "8388661",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "393216",
+            "duration_seconds": 0.255564,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "d3ce7057-3fee-48cd-9ed8-2511a7cfedc8",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:21.412Z",
+      "ended": "2026-11-12T04:26:21.778Z",
+      "requests": [
+        {
+          "seq": 36,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:21.521Z",
+          "range": "bytes=8388625-11182096",
+          "a": 8388625,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2793472,
+          "closed": "2026-11-12T04:26:21.521Z"
+        },
+        {
+          "seq": 37,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:21.521Z",
+          "range": "bytes=132096-2098182",
+          "a": 132096,
+          "b": 2098182,
+          "probe": false,
+          "sent": 1966087,
+          "closed": "2026-11-12T04:26:21.522Z"
+        },
+        {
+          "seq": 38,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:21.522Z",
+          "range": "bytes=11182097-11534375",
+          "a": 11182097,
+          "b": 11534375,
+          "probe": false,
+          "sent": 352279,
+          "closed": "2026-11-12T04:26:21.522Z"
+        },
+        {
+          "seq": 39,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:21.524Z",
+          "range": "bytes=8519697-11182096",
+          "a": 8519697,
+          "b": 11182096,
+          "probe": false,
+          "sent": 2662400,
+          "closed": "2026-11-12T04:26:21.525Z"
+        },
+        {
+          "seq": 40,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:21.525Z",
+          "range": "bytes=11313169-11534375",
+          "a": 11313169,
+          "b": 11534375,
+          "probe": false,
+          "sent": 221207,
+          "closed": "2026-11-12T04:26:21.525Z"
+        }
+      ],
+      "artifact": {
+        "size": 8388661,
+        "sha256": "b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":8388661,\"sha256\":\"b79133a2c7b5a917f12b1b3cb70e7cd827448e45ecef802730f044f1c38709db\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "requestsWithinSelectedWindows": {
+          "ok": true,
+          "detail": ""
+        },
+        "independentProcess": {
+          "ok": true,
+          "detail": ""
+        },
+        "reusesExactlyConfirmedBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      },
+      "previousDownloaded": 393216,
+      "transferred": 7995445
+    },
+    {
+      "name": "invalid0",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid0/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        ""
+      ],
+      "pid": 5752,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges requires a non-empty comma-separated start:length list\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges requires a non-empty comma-separated start:length list",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:21.789Z",
+      "ended": "2026-11-12T04:26:21.992Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid1",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "x:2"
+      ],
+      "pid": 6492,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range start \\\"x\\\": strconv.ParseInt: parsing \\\"x\\\": invalid syntax\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range start \"x\": strconv.ParseInt: parsing \"x\": invalid syntax",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:21.993Z",
+      "ended": "2026-11-12T04:26:22.144Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid2",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "-1:2"
+      ],
+      "pid": 27700,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range start must not be negative: -1:2\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range start must not be negative: -1:2",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.145Z",
+      "ended": "2026-11-12T04:26:22.246Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid3",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid3/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:0"
+      ],
+      "pid": 27896,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range length must be positive: 0:0\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range length must be positive: 0:0",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.247Z",
+      "ended": "2026-11-12T04:26:22.332Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid4",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid4/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:-1"
+      ],
+      "pid": 21484,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"byte-range length must be positive: 0:-1\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "byte-range length must be positive: 0:-1",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.332Z",
+      "ended": "2026-11-12T04:26:22.412Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid5",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid5/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:9223372036854775808"
+      ],
+      "pid": 30536,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range length \\\"9223372036854775808\\\": strconv.ParseInt: parsing \\\"9223372036854775808\\\": value out of range\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range length \"9223372036854775808\": strconv.ParseInt: parsing \"9223372036854775808\": value out of range",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.413Z",
+      "ended": "2026-11-12T04:26:22.492Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid6",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid6/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "9223372036854775808:1"
+      ],
+      "pid": 16836,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"invalid byte-range start \\\"9223372036854775808\\\": strconv.ParseInt: parsing \\\"9223372036854775808\\\": value out of range\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "invalid byte-range start \"9223372036854775808\": strconv.ParseInt: parsing \"9223372036854775808\": value out of range",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.493Z",
+      "ended": "2026-11-12T04:26:22.614Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid7",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid7/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:9223372036854775807,0:1"
+      ],
+      "pid": 1492,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"compact output length overflows int64 at byte range 0:1\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "compact output length overflows int64 at byte range 0:1",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.614Z",
+      "ended": "2026-11-12T04:26:22.704Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid8",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid8/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:1,"
+      ],
+      "pid": 4156,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"empty entry in --byte-ranges: \\\"0:1,\\\"\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "empty entry in --byte-ranges: \"0:1,\"",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.704Z",
+      "ended": "2026-11-12T04:26:22.789Z",
+      "requests": [],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        },
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "invalid9",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/invalid9/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "16777215:2"
+      ],
+      "pid": 6384,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"23148754-484b-4684-823c-b3a2b91cd396\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.002589,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"d9401139-c624-4e6a-b07e-046ed4b723c4\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "23148754-484b-4684-823c-b3a2b91cd396",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.002589,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "d9401139-c624-4e6a-b07e-046ed4b723c4",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:22.789Z",
+      "ended": "2026-11-12T04:26:22.877Z",
+      "requests": [
+        {
+          "seq": 41,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:22.871Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "rejected": {
+          "ok": true,
+          "detail": ""
+        },
+        "noWorkFile": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination0",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/combination0/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "--host",
+        "http://127.0.0.1:1"
+      ],
+      "pid": 25416,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges only supports an embedded local fetch; remove the explicit remote host.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges only supports an embedded local fetch; remove the explicit remote host.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.877Z",
+      "ended": "2026-11-12T04:26:22.958Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination1",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/combination1/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "http://127.0.0.1:55117/source.bin"
+      ],
+      "pid": 31788,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges requires exactly one HTTP(S) URL and does not accept multiple URLs.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:22.958Z",
+      "ended": "2026-11-12T04:26:23.049Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "combination2",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/combination2/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "0:2",
+        "--resume",
+        "12345678-1234-1234-1234-123456789012"
+      ],
+      "pid": 33512,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges cannot be combined with --resume; the saved session already keeps its selection.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:23.049Z",
+      "ended": "2026-11-12T04:26:23.132Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "mirrors",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin,http://127.0.0.1:55117/source.bin",
+        "--byte-ranges",
+        "0:2",
+        "--json"
+      ],
+      "pid": 5144,
+      "code": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [],\n  \"error\": {\n    \"code\": \"invalid_arguments\",\n    \"message\": \"--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [],
+        "error": {
+          "code": "invalid_arguments",
+          "message": "--byte-ranges accepts one HTTP(S) URL and does not support mirror lists.",
+          "retryable": false
+        }
+      },
+      "started": "2026-11-12T04:26:23.132Z",
+      "ended": "2026-11-12T04:26:23.219Z",
+      "requests": [],
+      "checks": {
+        "preNetworkRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "norange",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/norange/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "4:8"
+      ],
+      "pid": 2944,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"e01b9b8b-64a4-4ab0-ace1-fbd2e8e65236\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0051528,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"f86f3a37-7a5b-40ec-adf0-0699812b3e84\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "e01b9b8b-64a4-4ab0-ace1-fbd2e8e65236",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0051528,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "f86f3a37-7a5b-40ec-adf0-0699812b3e84",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:23.219Z",
+      "ended": "2026-11-12T04:26:23.307Z",
+      "requests": [
+        {
+          "seq": 42,
+          "mode": "norange",
+          "at": "2026-11-12T04:26:23.299Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 16777216
+        }
+      ],
+      "checks": {
+        "probeRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "unknown",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/unknown/downloads",
+        "--filename",
+        "result.bin",
+        "--byte-ranges",
+        "4:8"
+      ],
+      "pid": 30244,
+      "code": 1,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"29df399d-660d-4adc-bd79-60ac658dd814\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"operation_failed\",\n        \"message\": \"The operation failed.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0031941,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"operation_failed\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"4d200235-a1e6-4d62-88ce-5469b9909b1f\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "29df399d-660d-4adc-bd79-60ac658dd814",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "operation_failed",
+              "message": "The operation failed.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0031941,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "operation_failed",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "4d200235-a1e6-4d62-88ce-5469b9909b1f",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:23.308Z",
+      "ended": "2026-11-12T04:26:23.393Z",
+      "requests": [
+        {
+          "seq": 43,
+          "mode": "unknown",
+          "at": "2026-11-12T04:26:23.388Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "probeRejection": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "whole",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/whole/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 33244,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"508e3242-228e-4dfe-a708-a5980d34e3fe\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\whole\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2590377,\n      \"average_bytes_per_second\": 64767468.210225776\n    }\n  ],\n  \"session_id\": \"07b70bef-913a-459e-8139-60c05dc8aeb7\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  downloading  0 B  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "508e3242-228e-4dfe-a708-a5980d34e3fe",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\whole\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2590377,
+            "average_bytes_per_second": 64767468.210225776
+          }
+        ],
+        "session_id": "07b70bef-913a-459e-8139-60c05dc8aeb7",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:23.394Z",
+      "ended": "2026-11-12T04:26:23.744Z",
+      "requests": [
+        {
+          "seq": 44,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.471Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 45,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.477Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 46,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.490Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:23.492Z"
+        },
+        {
+          "seq": 47,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.492Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:23.494Z"
+        },
+        {
+          "seq": 48,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.494Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:23.496Z"
+        },
+        {
+          "seq": 49,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:23.496Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:23.498Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "fallback",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/fallback/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 22464,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"3ac419ca-c405-4b31-85c1-8a72c379aeec\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\fallback\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2661096,\n      \"average_bytes_per_second\": 63046263.64475389\n    }\n  ],\n  \"session_id\": \"f19a7318-b302-4f3f-a864-1c674e5d3eac\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "3ac419ca-c405-4b31-85c1-8a72c379aeec",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\fallback\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2661096,
+            "average_bytes_per_second": 63046263.64475389
+          }
+        ],
+        "session_id": "f19a7318-b302-4f3f-a864-1c674e5d3eac",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:23.765Z",
+      "ended": "2026-11-12T04:26:24.154Z",
+      "requests": [
+        {
+          "seq": 50,
+          "mode": "norange",
+          "at": "2026-11-12T04:26:23.886Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 16777216
+        },
+        {
+          "seq": 51,
+          "mode": "norange",
+          "at": "2026-11-12T04:26:23.897Z",
+          "range": null,
+          "a": 0,
+          "b": 16777215,
+          "probe": null,
+          "sent": 16777216,
+          "closed": "2026-11-12T04:26:23.901Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "singleStreamFallback": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "sha-correct",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/sha-correct/downloads",
+        "--filename",
+        "result.bin",
+        "--sha256",
+        "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      ],
+      "pid": 30128,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"4dda8996-5818-4203-aa5d-153b3a011ce9\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\sha-correct\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"verified\",\n        \"sha256\": \"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2658332,\n      \"average_bytes_per_second\": 63111815.98084814\n    }\n  ],\n  \"session_id\": \"a79f8372-6dd7-46d7-84b4-fa0f3343a8b9\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  downloading  0.0%  0 B / 16.00 MiB  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "4dda8996-5818-4203-aa5d-153b3a011ce9",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\sha-correct\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "verified",
+              "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2658332,
+            "average_bytes_per_second": 63111815.98084814
+          }
+        ],
+        "session_id": "a79f8372-6dd7-46d7-84b4-fa0f3343a8b9",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:24.186Z",
+      "ended": "2026-11-12T04:26:24.591Z",
+      "requests": [
+        {
+          "seq": 52,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.324Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 53,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.333Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 54,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.348Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.349Z"
+        },
+        {
+          "seq": 55,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.351Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.352Z"
+        },
+        {
+          "seq": 56,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.352Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.353Z"
+        },
+        {
+          "seq": 57,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.353Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.354Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "sha-wrong",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/sha-wrong/downloads",
+        "--filename",
+        "result.bin",
+        "--sha256",
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "pid": 7564,
+      "code": 7,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"7fb30960-6536-427d-b7bd-26dacb689f47\",\n      \"status\": \"error\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"error\": {\n        \"code\": \"conflict\",\n        \"message\": \"Artifact verification failed; working data was retained for inspection.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.2613863,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"conflict\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"7d66dbde-e446-4937-a853-ba771c910c30\",\n  \"checkpoint_confirmed\": false\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "7fb30960-6536-427d-b7bd-26dacb689f47",
+            "status": "error",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "error": {
+              "code": "conflict",
+              "message": "Artifact verification failed; working data was retained for inspection.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.2613863,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "conflict",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "7d66dbde-e446-4937-a853-ba771c910c30",
+        "checkpoint_confirmed": false
+      },
+      "started": "2026-11-12T04:26:24.612Z",
+      "ended": "2026-11-12T04:26:24.979Z",
+      "requests": [
+        {
+          "seq": 58,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.715Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 59,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.722Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 60,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.736Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.737Z"
+        },
+        {
+          "seq": 61,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.738Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.739Z"
+        },
+        {
+          "seq": 62,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.739Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.741Z"
+        },
+        {
+          "seq": 63,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:24.741Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4194304,
+          "closed": "2026-11-12T04:26:24.742Z"
+        }
+      ],
+      "checks": {
+        "hashFailureUnpublished": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "protect",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/protect/downloads",
+        "--filename",
+        "result.bin"
+      ],
+      "pid": 20920,
+      "code": 7,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"56575ed2-df76-4279-8d45-bf3e32b333c9\",\n      \"status\": \"failed\",\n      \"downloaded_bytes\": \"0\",\n      \"total_bytes\": null,\n      \"error\": {\n        \"code\": \"conflict\",\n        \"message\": \"failed to resolve destination: destination already exists; choose a new destination or resume the saved session\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 0.0026564,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"conflict\",\n    \"message\": \"Some selected downloads did not complete; inspect the per-job results.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"21ef9cf3-5de2-4072-8bce-9468675d1cca\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "56575ed2-df76-4279-8d45-bf3e32b333c9",
+            "status": "failed",
+            "downloaded_bytes": "0",
+            "total_bytes": null,
+            "error": {
+              "code": "conflict",
+              "message": "failed to resolve destination: destination already exists; choose a new destination or resume the saved session",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 0.0026564,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "conflict",
+          "message": "Some selected downloads did not complete; inspect the per-job results.",
+          "retryable": false
+        },
+        "session_id": "21ef9cf3-5de2-4072-8bce-9468675d1cca",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:24.982Z",
+      "ended": "2026-11-12T04:26:25.078Z",
+      "requests": [
+        {
+          "seq": 64,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:25.072Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        }
+      ],
+      "checks": {
+        "sentinelPreserved": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "baseline-pause",
+      "args": [
+        "fetch",
+        "http://127.0.0.1:55117/source.bin",
+        "--json",
+        "--progress",
+        "plain",
+        "--color",
+        "never",
+        "--output",
+        "F:/swe/repairs/4158/cli-normal/qc-fixtures-v1/old-checkpoint/downloads",
+        "--filename",
+        "result.bin",
+        "--timeout",
+        "1200ms"
+      ],
+      "pid": 29312,
+      "code": 8,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": false,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"0\",\n      \"id\": \"9fecb925-cb3d-4f18-9a6f-acb0749ba288\",\n      \"status\": \"paused\",\n      \"downloaded_bytes\": \"524288\",\n      \"total_bytes\": \"16777216\",\n      \"error\": {\n        \"code\": \"timeout\",\n        \"message\": \"The operation timed out.\",\n        \"retryable\": false\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": true,\n      \"reused_bytes\": \"0\",\n      \"duration_seconds\": 1.3020644,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"error\": {\n    \"code\": \"timeout\",\n    \"message\": \"The operation timed out.\",\n    \"retryable\": false\n  },\n  \"session_id\": \"90361329-e3b0-463d-88bc-c09a957acd8a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  downloading  0 B  0 B/s  ETA --  connections 0/16\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": false,
+        "items": [
+          {
+            "checkpoint_bytes": "0",
+            "id": "9fecb925-cb3d-4f18-9a6f-acb0749ba288",
+            "status": "paused",
+            "downloaded_bytes": "524288",
+            "total_bytes": "16777216",
+            "error": {
+              "code": "timeout",
+              "message": "The operation timed out.",
+              "retryable": false
+            },
+            "input_index": 1,
+            "reused_bytes_exact": true,
+            "reused_bytes": "0",
+            "duration_seconds": 1.3020644,
+            "average_bytes_per_second": null
+          }
+        ],
+        "error": {
+          "code": "timeout",
+          "message": "The operation timed out.",
+          "retryable": false
+        },
+        "session_id": "90361329-e3b0-463d-88bc-c09a957acd8a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:25.079Z",
+      "ended": "2026-11-12T04:26:26.633Z",
+      "requests": [
+        {
+          "seq": 65,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.322Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 66,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.328Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 67,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.342Z",
+          "range": "bytes=4194304-8388607",
+          "a": 4194304,
+          "b": 8388607,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:26.519Z"
+        },
+        {
+          "seq": 68,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.342Z",
+          "range": "bytes=0-4194303",
+          "a": 0,
+          "b": 4194303,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:26.519Z"
+        },
+        {
+          "seq": 69,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.343Z",
+          "range": "bytes=8388608-12582911",
+          "a": 8388608,
+          "b": 12582911,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:26.519Z"
+        },
+        {
+          "seq": 70,
+          "mode": "blocked",
+          "at": "2026-11-12T04:26:25.343Z",
+          "range": "bytes=12582912-16777215",
+          "a": 12582912,
+          "b": 16777215,
+          "probe": false,
+          "sent": 131072,
+          "closed": "2026-11-12T04:26:26.519Z"
+        }
+      ],
+      "checks": {
+        "oldCheckpoint": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "name": "current-resumes-old",
+      "args": [
+        "fetch",
+        "--resume",
+        "90361329-e3b0-463d-88bc-c09a957acd8a",
+        "--json",
+        "--progress",
+        "plain"
+      ],
+      "pid": 22020,
+      "code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"operation\": \"fetch\",\n  \"ok\": true,\n  \"items\": [\n    {\n      \"checkpoint_bytes\": \"524288\",\n      \"id\": \"9fecb925-cb3d-4f18-9a6f-acb0749ba288\",\n      \"status\": \"completed\",\n      \"downloaded_bytes\": \"16777216\",\n      \"total_bytes\": \"16777216\",\n      \"artifact\": {\n        \"location\": \"local\",\n        \"path\": \"F:\\\\swe\\\\repairs\\\\4158\\\\cli-normal\\\\qc-fixtures-v1\\\\old-checkpoint\\\\downloads\\\\result.bin\",\n        \"size_bytes\": \"16777216\",\n        \"verification\": \"not_requested\"\n      },\n      \"input_index\": 1,\n      \"reused_bytes_exact\": false,\n      \"reused_bytes\": \"524288\",\n      \"duration_seconds\": 0.256181,\n      \"average_bytes_per_second\": null\n    }\n  ],\n  \"session_id\": \"90361329-e3b0-463d-88bc-c09a957acd8a\",\n  \"checkpoint_confirmed\": true\n}\n",
+      "stderr": "result.bin  queued  0 B\n",
+      "receipt": {
+        "schema_version": 1,
+        "operation": "fetch",
+        "ok": true,
+        "items": [
+          {
+            "checkpoint_bytes": "524288",
+            "id": "9fecb925-cb3d-4f18-9a6f-acb0749ba288",
+            "status": "completed",
+            "downloaded_bytes": "16777216",
+            "total_bytes": "16777216",
+            "artifact": {
+              "location": "local",
+              "path": "F:\\swe\\repairs\\4158\\cli-normal\\qc-fixtures-v1\\old-checkpoint\\downloads\\result.bin",
+              "size_bytes": "16777216",
+              "verification": "not_requested"
+            },
+            "input_index": 1,
+            "reused_bytes_exact": false,
+            "reused_bytes": "524288",
+            "duration_seconds": 0.256181,
+            "average_bytes_per_second": null
+          }
+        ],
+        "session_id": "90361329-e3b0-463d-88bc-c09a957acd8a",
+        "checkpoint_confirmed": true
+      },
+      "started": "2026-11-12T04:26:26.633Z",
+      "ended": "2026-11-12T04:26:26.976Z",
+      "requests": [
+        {
+          "seq": 71,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:26.720Z",
+          "range": "bytes=0-0",
+          "a": 0,
+          "b": 0,
+          "probe": true,
+          "sent": 1
+        },
+        {
+          "seq": 72,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:26.731Z",
+          "range": "bytes=8519680-12582911",
+          "a": 8519680,
+          "b": 12582911,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-12T04:26:26.732Z"
+        },
+        {
+          "seq": 73,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:26.733Z",
+          "range": "bytes=131072-4194303",
+          "a": 131072,
+          "b": 4194303,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-12T04:26:26.734Z"
+        },
+        {
+          "seq": 74,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:26.734Z",
+          "range": "bytes=4325376-8388607",
+          "a": 4325376,
+          "b": 8388607,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-12T04:26:26.735Z"
+        },
+        {
+          "seq": 75,
+          "mode": "normal",
+          "at": "2026-11-12T04:26:26.735Z",
+          "range": "bytes=12713984-16777215",
+          "a": 12713984,
+          "b": 16777215,
+          "probe": false,
+          "sent": 4063232,
+          "closed": "2026-11-12T04:26:26.736Z"
+        }
+      ],
+      "artifact": {
+        "size": 16777216,
+        "sha256": "becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3"
+      },
+      "checks": {
+        "exactArtifact": {
+          "ok": true,
+          "detail": "{\"size\":16777216,\"sha256\":\"becde1e1676ad40d4265f010fd5ff8a3a21f7c75558989b16ce7cd676b9debb3\"}"
+        },
+        "compactReceipt": {
+          "ok": true,
+          "detail": ""
+        },
+        "legacyReusesBytes": {
+          "ok": true,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}
